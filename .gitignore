@@ -4,3 +4,30 @@ out
 *.jar
 lib/
 *.zip
+
+# IntelliJ
+.idea/
+*.iml
+out/
+
+# IntelliJ plugin sandbox + cache
+.intellijPlatform/
+
+# Gradle
+.gradle/
+build/
+
+# OS
+.DS_Store
+
+# Logs
+*.log
+
+# Gradle wrapper cache (keep wrapper scripts though)
+gradle-app.setting
+
+# Local run configs
+run/
+
+# Plugin sandbox used by runIde
+.idea-sandbox/
