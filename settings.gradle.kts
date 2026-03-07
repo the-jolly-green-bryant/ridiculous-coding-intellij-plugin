@@ -1,0 +1,1 @@
+rootProject.name = "power-mode-3-intellij-plugin"

@@ -4,10 +4,7 @@ import com.intellij.openapi.editor.ScrollingModel;
 import com.intellij.openapi.editor.impl.EditorImpl;
 import com.nmeylan.powermode.Direction;
 import com.nmeylan.powermode.Power;
-import com.nmeylan.powermode.element.ElementOfPower;
-import com.nmeylan.powermode.element.PowerBam;
-import com.nmeylan.powermode.element.PowerFlame;
-import com.nmeylan.powermode.element.PowerSpark;
+import com.nmeylan.powermode.element.*;
 import com.nmeylan.powermode.listeners.MyCaretListener;
 import com.nmeylan.powermode.util.Pair;
 import com.nmeylan.powermode.util.Util;
@@ -82,8 +79,14 @@ public class ElementOfPowerContainer extends JComponent implements ComponentList
     }
   }
 
-  public void initializeAnimation(Point point) {
+  public void initializeAnimation(char c, Point point) {
     this.setBounds(getMyBounds());
+
+    // Add our character falling.
+    System.out.println("spawn char: [" + c + "]");
+    if (c != '\0') {
+      addCharacter(point, c);
+    }
 
     if (powerMode().isSparksEnabled()) {
       addSparks(point);
@@ -150,6 +153,40 @@ public class ElementOfPowerContainer extends JComponent implements ComponentList
             getScrollPosition()));
       }
     }
+  }
+
+  private void addCharacter(Point point, char c) {
+    if (c == '\0' || Character.isWhitespace(c)) {
+      return;
+    }
+
+    for (int i = 0; i < (int) (powerMode().getSparkCount() * powerMode().valueFactor()); i++) {
+      addCharacter(point.x, point.y, c);
+    }
+  }
+
+  private void addCharacter(int x, int y, char c) {
+    float dx = (float) ((Math.random() * 2) * (Math.random() > 0.5 ? -1 : 1) * powerMode().getSparkVelocityFactor());
+    float dy = (float) (((Math.random() * -3) - 1) * powerMode().getSparkVelocityFactor());
+    int size = (int) ((Math.random() * powerMode().getSparkSize()) + 10);
+    int life = (int) (Math.random() * powerMode().getSparkLife() * powerMode().valueFactor());
+
+    elementsOfPower.add(
+      Pair.with(
+        new PowerCharacter(
+          x,
+          y,
+          dx,
+          dy,
+          size,
+          life,
+          genNextColor(),
+          (float) powerMode().getGravityFactor(),
+          c
+        ),
+        getScrollPosition()
+      )
+    );
   }
 
   private void addSparks(Point point) {

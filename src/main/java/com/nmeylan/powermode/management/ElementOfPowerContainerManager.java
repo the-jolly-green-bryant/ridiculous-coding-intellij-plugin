@@ -8,6 +8,7 @@ import com.nmeylan.powermode.Power;
 import com.nmeylan.powermode.PowerMode;
 import com.nmeylan.powermode.util.Util;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.SwingUtilities;
 import java.awt.Point;
@@ -59,14 +60,14 @@ public class ElementOfPowerContainerManager implements EditorFactoryListener, Po
     elementsOfPowerContainers.remove(event.getEditor());
   }
 
-  public void initializeAnimation(Editor editor, Point position) {
+  public void initializeAnimation(Editor editor, char c, Point position) {
     if (powerMode().isEnabled()) {
-      SwingUtilities.invokeLater(() -> initializeInUI(editor, position));
+      SwingUtilities.invokeLater(() -> initializeInUI(editor, c, position));
     }
   }
 
-  public void initializeInUI(Editor editor, Point position) {
-    elementsOfPowerContainers.get(editor).initializeAnimation(position);
+  public void initializeInUI(Editor editor, char c, Point position) {
+    elementsOfPowerContainers.get(editor).initializeAnimation(c, position);
   }
 
   public void dispose() {

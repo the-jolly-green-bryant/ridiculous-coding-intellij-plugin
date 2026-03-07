@@ -28,19 +28,19 @@ public class MyTypedActionHandler implements TypedActionHandler, Power {
       .collect(Collectors.toSet());
   }
 
-  public void initializeAnimationByTypedAction(Editor editor) {
+  public void initializeAnimationByTypedAction(Editor editor, char c) {
     boolean isActualEditor = Util.isActualEditor(editor);
     if (isActualEditor) {
       Set<Point> positions = getEditorCaretPositions(editor);
       positions.stream().forEach(pos -> {
-        powerMode().getMaybeElementOfPowerContainerManager().ifPresent(e -> e.initializeAnimation(editor, pos));
+        powerMode().getMaybeElementOfPowerContainerManager().ifPresent(e -> e.initializeAnimation(editor, c, pos));
       });
     }
   }
 
   @Override
   public void execute(@NotNull Editor editor, char c, @NotNull DataContext dataContext) {
-    powerType(editor, dataContext);
+    powerType(editor, c, dataContext);
     try {
       typedActionHandler.execute(editor, c, dataContext);
     } catch (IllegalStateException x) {
@@ -50,12 +50,10 @@ public class MyTypedActionHandler implements TypedActionHandler, Power {
     }
   }
 
-  public void powerType(@NotNull Editor editor, @NotNull DataContext dataContext) {
+  public void powerType(@NotNull Editor editor, char c, @NotNull DataContext dataContext) {
     if (powerMode().isEnabled()) {
       powerMode().increaseHeatup(Optional.of(dataContext), null);
-      if (!powerMode().isCaretActionEnabled()) {
-        initializeAnimationByTypedAction(editor);
-      }
+      initializeAnimationByTypedAction(editor, c);
     }
   }
 }
