@@ -87,6 +87,11 @@ public class ElementOfPowerContainer extends JComponent implements ComponentList
       addCharacter(point, c);
     }
 
+    if (c == '\n') {
+      System.out.println("Adding Bam!");
+      addBam(point);
+    }
+
     if (powerMode().isSparksEnabled()) {
       addSparks(point);
     }
