@@ -61,7 +61,7 @@ public class ImageUtil {
               return null;
             }
           })
-          .filter(image -> image != null)
+          .filter(Objects::nonNull)
           .collect(Collectors.toList());
       }
     }

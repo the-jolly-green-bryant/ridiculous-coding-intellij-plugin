@@ -11,7 +11,7 @@ public class PowerModeConfigurable extends ConfigurableBase {
   private PowerMode settings;
 
   public PowerModeConfigurable() {
-    super("Power Mode 3", "Power Mode 3", "Power Mode 3");
+    super("Ridiculous Coding", "Ridiculous Coding", "Ridiculous Coding");
     settings = PowerMode.getInstance();
   }
 

@@ -1,11 +1,11 @@
 <idea-plugin>
     <id>com.nmeylan.powermode</id>
-    <name>Power Mode 3</name>
+    <name>Ridiculous Coding</name>
     <version>97.68</version>
     <vendor email="nmeylan@gmail.com" url="https://github.com/nmeylan/power-mode-3-intellij-plugin">Nicolas Meylan
     </vendor>
     <description><![CDATA[
-        <h1>Power Mode 3</h1>
+        <h1>Ridiculous Coding</h1>
         <div>Forked from axaluss on Github. Credits to https://github.com/axaluss/power-mode-intellij-plugin.</div>
         <div>Source available here: https://github.com/nmeylan/power-mode-3-intellij-plugin</div>
         ]]></description>
@@ -24,20 +24,20 @@
     </application-components>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationConfigurable groupId="appearance" groupWeight="20" id="power.mode.ii" displayName="Power Mode III"
+        <applicationConfigurable groupId="appearance" groupWeight="20" id="power.mode.ii" displayName="Ridiculous Coding"
                                  instance="com.nmeylan.powermode.PowerModeConfigurable"/>
         <enterHandlerDelegate implementation="com.nmeylan.powermode.listeners.MyEnterHandler"/>
     </extensions>
 
     <actions>
 
-        <action id="togglePowerModeIII" class="com.nmeylan.powermode.listeners.TogglePowerMode" text="Toggle Power Mode III"
+        <action id="togglePowerModeIII" class="com.nmeylan.powermode.listeners.TogglePowerMode" text="Toggle Ridiculous Coding"
                 description="Toggle Power Mode">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt O"/>
         </action>
         <action id="toggleCaretPowerModeIII" class="com.nmeylan.powermode.listeners.ToggleCaretPowerMode" text="Toggle Caret Power Mode"
-                description="Toggle Caret Power Mode III">
+                description="Toggle Caret Ridiculous Coding">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
         </action>
     </actions>

@@ -234,7 +234,7 @@ public class ElementOfPowerContainer extends JComponent implements ComponentList
   private void doShake(List<JComponent> myShakeComponents) {
     if (Util.editorOk(editor, 100)) {
       int x, y;
-      if (shakeData.size() >= 1) {
+      if (!shakeData.isEmpty()) {
         x = shakeData.get(0).x;
         y = shakeData.get(0).y;
         shakeData.clear();
@@ -246,7 +246,7 @@ public class ElementOfPowerContainer extends JComponent implements ComponentList
         shakeData.add(new Point(x, y));
         shakeData.add(new Point(scrollX, scrollY));
       }
-      myShakeComponents.stream().forEach(component -> {
+      myShakeComponents.forEach(component -> {
         Rectangle bounds = component.getBounds();
         component.setBounds(
           bounds.x + x,
@@ -297,7 +297,7 @@ public class ElementOfPowerContainer extends JComponent implements ComponentList
       if (shakeData != null && shakeData.size() >= 2 &&
         System.currentTimeMillis() - lastShake > 100 &&
         Math.abs(shakeData.get(0).x) < 50 && Math.abs(shakeData.get(1).y) < 50) {
-        doShake(Arrays.asList(editor.getComponent()));
+        doShake(List.of(editor.getComponent()));
       }
       renderElementsOfPower(g);
     }
@@ -307,7 +307,7 @@ public class ElementOfPowerContainer extends JComponent implements ComponentList
     ScrollingModel scrollingModel = editor.getScrollingModel();
     Point newElementPosition = new Point(scrollingModel.getHorizontalScrollOffset(), scrollingModel.getVerticalScrollOffset());
 
-    elementsOfPower.stream().forEach(elementOfPowerPointPair -> {
+    elementsOfPower.forEach(elementOfPowerPointPair -> {
       int x = elementOfPowerPointPair.last().x - newElementPosition.x;
       int y = elementOfPowerPointPair.last().y - newElementPosition.y;
       elementOfPowerPointPair.first().render(g, x, y);

@@ -27,9 +27,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 
-@State(name = "PowerModeII", storages = {@Storage(file = "$APP_CONFIG$/power.mode.ii.xml")})
+@State(name = "RidiculousCoding", storages = @Storage("ridiculous.coding.xml"))
 public class PowerMode implements PersistentStateComponent<PowerMode>, ApplicationComponent {
-  private static List<Integer> HOT_INPUTS = Arrays.asList(InputEvent.CTRL_DOWN_MASK, InputEvent.ALT_DOWN_MASK, InputEvent.SHIFT_DOWN_MASK);
+  private static final List<Integer> HOT_INPUTS = Arrays.asList(InputEvent.CTRL_DOWN_MASK, InputEvent.ALT_DOWN_MASK, InputEvent.SHIFT_DOWN_MASK);
   private boolean hotkeyHeatup = true;
   private long bamLife = 1000;
   private double gravityFactor = 21.21;
@@ -278,7 +278,7 @@ public class PowerMode implements PersistentStateComponent<PowerMode>, Applicati
   }
 
   public void setHeatup(int heatup) {
-    setHeatupFactor(heatup / 100);
+    setHeatupFactor((double) heatup / 100);
   }
 
   public void setHeatupFactor(double heatupFactor) {
