@@ -17,8 +17,8 @@ import java.util.Map;
 
 public class ElementOfPowerContainerManager implements EditorFactoryListener, Power {
 
-  private static Map<Editor, ElementOfPowerContainer> elementsOfPowerContainers = new HashMap<>();
-  private Thread elementsOfPowerUpdateThread;
+  private static final Map<Editor, ElementOfPowerContainer> elementsOfPowerContainers = new HashMap<>();
+  private final Thread elementsOfPowerUpdateThread;
 
   public ElementOfPowerContainerManager() {
     elementsOfPowerUpdateThread = new Thread(() -> {

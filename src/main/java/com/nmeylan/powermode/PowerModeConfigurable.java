@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class PowerModeConfigurable extends ConfigurableBase {
 
-  private PowerMode settings;
+  private final PowerMode settings;
 
   public PowerModeConfigurable() {
     super("Ridiculous Coding", "Ridiculous Coding", "Ridiculous Coding");

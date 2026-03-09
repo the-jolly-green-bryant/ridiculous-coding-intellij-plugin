@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 public class MyTypedActionHandler implements TypedActionHandler, Power {
 
-  private TypedActionHandler typedActionHandler;
+  private final TypedActionHandler typedActionHandler;
 
   public MyTypedActionHandler(TypedActionHandler typedActionHandler) {
     this.typedActionHandler = typedActionHandler;

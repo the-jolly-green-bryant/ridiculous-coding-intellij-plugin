@@ -24,13 +24,13 @@ import java.util.stream.Collectors;
 
 public class ElementOfPowerContainer extends JComponent implements ComponentListener, Power {
 
-  private EditorImpl editor;
+  private final EditorImpl editor;
 
-  private List<JComponent> shakeComponents;
-  private List<Pair<ElementOfPower, Point>> elementsOfPower;
+  private final List<JComponent> shakeComponents;
+  private final List<Pair<ElementOfPower, Point>> elementsOfPower;
   private long lastShake;
   private long lastUpdate;
-  private List<Point> shakeData;
+  private final List<Point> shakeData;
 
   public ElementOfPowerContainer(EditorImpl editor) {
     super();
@@ -66,15 +66,10 @@ public class ElementOfPowerContainer extends JComponent implements ComponentList
     double db = 1000.0 / 16;
     long deltaa = delta;
     if (!elementsOfPower.isEmpty()) {
-      elementsOfPower =
-        elementsOfPower.stream().filter(p -> {
-          long start = System.nanoTime();
-          p.first().update((deltaa / db));
-
-          long diff = (System.nanoTime() - start);
-//          System.out.println(diff / 1000.0 + " ms");
-          return p.first().alive();
-        }).collect(Collectors.toList());
+      elementsOfPower.removeIf(p -> {
+        p.first().update((deltaa / db));
+        return !p.first().alive();
+      });
       repaint();
     }
   }
