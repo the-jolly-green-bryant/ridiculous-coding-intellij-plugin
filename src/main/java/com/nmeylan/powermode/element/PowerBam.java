@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class PowerBam implements ElementOfPower {
 
@@ -42,15 +43,15 @@ public class PowerBam implements ElementOfPower {
   }
 
   private Image findBamImage() {
-    Image bamImage = bamImages.get(powerMode().bamImageFolder().get().getAbsolutePath());
+    Image bamImage = bamImages.get(powerMode().bamImageFolder().getAbsolutePath());
     if (bamImage != null) {
       return bamImage;
     }
-    File bamImageFolder = powerMode().bamImageFolder().orElse(null);
+    File bamImageFolder = powerMode().bamImageFolder();
     if (bamImageFolder != null) {
       bamImages.clear();
       BufferedImage bam = ImageUtil.imagesForPath(powerMode().bamImageFolder()).get(0);
-      bamImages.put(powerMode().bamImageFolder().get().getAbsolutePath(), bam);
+      bamImages.put(powerMode().bamImageFolder().getAbsolutePath(), bam);
       return bam;
     }
     return null;

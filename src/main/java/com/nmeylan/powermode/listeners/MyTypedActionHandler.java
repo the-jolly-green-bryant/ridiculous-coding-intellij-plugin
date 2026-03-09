@@ -30,10 +30,10 @@ public class MyTypedActionHandler implements TypedActionHandler, Power {
 
   public void initializeAnimationByTypedAction(Editor editor, char c) {
     boolean isActualEditor = Util.isActualEditor(editor);
-    if (isActualEditor) {
+    if (isActualEditor && powerMode().getMaybeElementOfPowerContainerManager() != null) {
       Set<Point> positions = getEditorCaretPositions(editor);
-      positions.stream().forEach(pos -> {
-        powerMode().getMaybeElementOfPowerContainerManager().ifPresent(e -> e.initializeAnimation(editor, c, pos));
+      positions.forEach(pos -> {
+        powerMode().getMaybeElementOfPowerContainerManager().initializeAnimation(editor, c, pos);
       });
     }
   }

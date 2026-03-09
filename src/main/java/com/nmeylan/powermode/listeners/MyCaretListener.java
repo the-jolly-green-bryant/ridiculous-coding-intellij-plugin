@@ -31,9 +31,9 @@ public class MyCaretListener implements CaretListener, Power {
   }
 
   private void initializeAnimationByCaretEvent(Caret caret) {
-    if (Util.isActualEditor(caret.getEditor())) {
+    if (Util.isActualEditor(caret.getEditor()) && powerMode().getMaybeElementOfPowerContainerManager() != null) {
       Point position = Util.getCaretPosition(caret);
-      powerMode().getMaybeElementOfPowerContainerManager().ifPresent(e -> e.initializeAnimation(caret.getEditor(), '\0', position));
+      powerMode().getMaybeElementOfPowerContainerManager().initializeAnimation(caret.getEditor(), '\0', position);
     }
   }
 }

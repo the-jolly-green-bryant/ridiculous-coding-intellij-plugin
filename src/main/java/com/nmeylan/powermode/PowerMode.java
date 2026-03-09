@@ -12,7 +12,8 @@ import com.intellij.util.xmlb.XmlSerializerUtil;
 import com.nmeylan.powermode.color.ColorEdges;
 import com.nmeylan.powermode.listeners.MyTypedActionHandler;
 import com.nmeylan.powermode.management.ElementOfPowerContainerManager;
-import org.apache.log4j.Logger;
+import com.intellij.openapi.diagnostic.Logger;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.KeyStroke;
@@ -63,15 +64,15 @@ public class PowerMode implements PersistentStateComponent<PowerMode>, Applicati
   private int blueTo = 103;
   private int colorAlpha = 164;
   private double heatupThreshold = 0.0;
-  private double hotkeyWeight = keyStrokesPerMinute * 0.05;
+  private final double hotkeyWeight = keyStrokesPerMinute * 0.05;
 
-  private Optional<ElementOfPowerContainerManager> maybeElementOfPowerContainerManager = Optional.empty();
+  private ElementOfPowerContainerManager maybeElementOfPowerContainerManager;
 
-  private Optional<File> customFlameImageFolder = Optional.empty();
-  private Optional<File> customBamImageFolder = Optional.empty();
+  private File customFlameImageFolder;
+  private File customBamImageFolder;
 
   public static Logger logger() {
-    return Logger.getLogger(PowerMode.class);
+    return Logger.getInstance(PowerMode.class);
   }
 
   @Nullable
@@ -96,12 +97,12 @@ public class PowerMode implements PersistentStateComponent<PowerMode>, Applicati
     return edges;
   }
 
-  public Optional<File> flameImageFolder() {
-    return isCustomFlameImages ? customFlameImageFolder : Optional.of(new File("fire/animated/256"));
+  public File flameImageFolder() {
+    return isCustomFlameImages ? customFlameImageFolder : new File("fire/animated/256");
   }
 
-  public Optional<File> bamImageFolder() {
-    return isCustomBamImages ? customBamImageFolder : Optional.of(new File("bam"));
+  public File bamImageFolder() {
+    return isCustomBamImages ? customBamImageFolder : new File("bam");
   }
 
   public void increaseHeatup(Optional<DataContext> dataContext, KeyStroke keyStroke) {
@@ -137,7 +138,7 @@ public class PowerMode implements PersistentStateComponent<PowerMode>, Applicati
   private double timeFactor(boolean isRaw) {
     if (heatupTime < 1000) {
       return 1;
-    } else if (!lastKeys.keySet().isEmpty()) {
+    } else if (!lastKeys.isEmpty()) {
       double d = heatupTime / (60000.0 / keyStrokesPerMinute);
       double keysWorth = lastKeys.keySet().stream().filter(keystroke -> HOT_INPUTS.contains(keystroke.getModifiers())).count() * hotkeyWeight;
       if (isRaw) {
@@ -153,9 +154,8 @@ public class PowerMode implements PersistentStateComponent<PowerMode>, Applicati
   public void initComponent() {
     PowerMode.logger().debug("initComponent...");
     EditorFactory editorFactory = EditorFactory.getInstance();
-    maybeElementOfPowerContainerManager = Optional.of(new ElementOfPowerContainerManager());
-    maybeElementOfPowerContainerManager.ifPresent(e -> editorFactory.addEditorFactoryListener(e, () -> {
-    }));
+    maybeElementOfPowerContainerManager = new ElementOfPowerContainerManager();
+    editorFactory.addEditorFactoryListener(maybeElementOfPowerContainerManager, () -> {});
     EditorActionManager editorActionManager = EditorActionManager.getInstance();
     editorActionManager.getTypedAction().setupRawHandler(
       new MyTypedActionHandler(
@@ -166,11 +166,12 @@ public class PowerMode implements PersistentStateComponent<PowerMode>, Applicati
 
   @Override
   public void disposeComponent() {
-    maybeElementOfPowerContainerManager.ifPresent(e -> e.dispose());
+    if (maybeElementOfPowerContainerManager == null) return;
+    maybeElementOfPowerContainerManager.dispose();
   }
 
   @Override
-  public String getComponentName() {
+  public @NotNull String getComponentName() {
     return "PowerModeIII";
   }
 
@@ -180,7 +181,7 @@ public class PowerMode implements PersistentStateComponent<PowerMode>, Applicati
   }
 
   @Override
-  public void loadState(PowerMode state) {
+  public void loadState(@NotNull PowerMode state) {
     XmlSerializerUtil.copyBean(state, this);
   }
 
@@ -437,31 +438,31 @@ public class PowerMode implements PersistentStateComponent<PowerMode>, Applicati
   }
 
   public void setHeatupThreshold(int heatupThreshold) {
-    this.heatupThreshold = heatupThreshold / 100;
+    this.heatupThreshold = (double) heatupThreshold / 100;
   }
 
-  public Optional<ElementOfPowerContainerManager> getMaybeElementOfPowerContainerManager() {
+  public ElementOfPowerContainerManager getMaybeElementOfPowerContainerManager() {
     return maybeElementOfPowerContainerManager;
   }
 
-  public void setMaybeElementOfPowerContainerManager(Optional<ElementOfPowerContainerManager> maybeElementOfPowerContainerManager) {
+  public void setMaybeElementOfPowerContainerManager(ElementOfPowerContainerManager maybeElementOfPowerContainerManager) {
     this.maybeElementOfPowerContainerManager = maybeElementOfPowerContainerManager;
   }
 
   public String getCustomFlameImageFolder() {
-    return customFlameImageFolder.map(f -> f.getAbsolutePath()).orElse("");
+    return customFlameImageFolder != null ? customFlameImageFolder.getAbsolutePath() : "";
   }
 
   public void setCustomFlameImageFolder(String customFlameImageFolder) {
-    this.customFlameImageFolder = Optional.of(new File(customFlameImageFolder));
+    this.customFlameImageFolder = new File(customFlameImageFolder);
   }
 
   public String getCustomBamImageFolder() {
-    return customBamImageFolder.map(f -> f.getAbsolutePath()).orElse("");
+    return customBamImageFolder != null ? customBamImageFolder.getAbsolutePath() : "";
   }
 
   public void setCustomBamImageFolder(String customBamImageFolder) {
-    this.customBamImageFolder = Optional.of(new File(customBamImageFolder));
+    this.customBamImageFolder = new File(customBamImageFolder);
   }
 
   public boolean isCaretActionEnabled() {

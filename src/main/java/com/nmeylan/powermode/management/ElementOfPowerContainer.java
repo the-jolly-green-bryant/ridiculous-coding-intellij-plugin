@@ -83,7 +83,6 @@ public class ElementOfPowerContainer extends JComponent implements ComponentList
     this.setBounds(getMyBounds());
 
     // Add our character falling.
-    System.out.println("spawn char: [" + c + "]");
     if (c != '\0') {
       addCharacter(point, c);
     }

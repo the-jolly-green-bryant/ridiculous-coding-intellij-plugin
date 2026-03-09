@@ -1,6 +1,7 @@
 package com.nmeylan.powermode.element;
 
 import com.nmeylan.powermode.Direction;
+import com.nmeylan.powermode.PowerMode;
 import com.nmeylan.powermode.util.ImageUtil;
 import com.nmeylan.powermode.util.Util;
 
@@ -13,6 +14,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class PowerFlame implements ElementOfPower {
 
@@ -43,7 +45,7 @@ public class PowerFlame implements ElementOfPower {
     this.initLife = initLife;
     this.life = System.currentTimeMillis() + initLife;
     this.direction = direction;
-    this.cacheKey = powerMode().flameImageFolder().get().getAbsolutePath();
+    this.cacheKey = powerMode().flameImageFolder().getAbsolutePath();
     findFlameImages();
   }
 
@@ -52,13 +54,22 @@ public class PowerFlame implements ElementOfPower {
     if (flameImages != null && !flameImages.isEmpty()) {
       return flameImages.get(0);
     }
-    File flameImageFolder = powerMode().flameImageFolder().orElse(null);
+
+    File flameImageFolder = powerMode().flameImageFolder();
     if (flameImageFolder != null) {
       flameImagesCache.clear();
-      List<BufferedImage> flames = ImageUtil.imagesForPath(powerMode().flameImageFolder());
+
+      List<BufferedImage> flames = ImageUtil.imagesForPath(flameImageFolder);
+      if (flames == null || flames.isEmpty()) {
+        PowerMode
+          .logger().warn("No flame images loaded for: " + flameImageFolder);
+        return null;
+      }
+
       flameImagesCache.put(cacheKey, flames);
       return flames.get(0);
     }
+
     return null;
   }
 
