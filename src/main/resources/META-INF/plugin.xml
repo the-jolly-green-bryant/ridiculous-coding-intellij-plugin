@@ -16,29 +16,29 @@
 
     <application-components>
         <component>
-            <implementation-class>com.nmeylan.powermode.PowerMode</implementation-class>
+            <implementation-class>com.bryantjames.ridiculouscoding.PowerMode</implementation-class>
         </component>
         <component>
-            <implementation-class>com.nmeylan.powermode.listeners.HotkeyHeatupListener</implementation-class>
+            <implementation-class>com.bryantjames.ridiculouscoding.listeners.HotkeyHeatupListener</implementation-class>
         </component>
     </application-components>
 
     <extensions defaultExtensionNs="com.intellij">
         <applicationConfigurable groupId="appearance" groupWeight="20" id="power.mode.ii"
                                  displayName="Ridiculous Coding"
-                                 instance="com.nmeylan.powermode.PowerModeConfigurable"/>
-        <enterHandlerDelegate implementation="com.nmeylan.powermode.listeners.MyEnterHandler"/>
+                                 instance="com.bryantjames.ridiculouscoding.PowerModeConfigurable"/>
+        <enterHandlerDelegate implementation="com.bryantjames.ridiculouscoding.listeners.MyEnterHandler"/>
     </extensions>
 
     <actions>
 
-        <action id="togglePowerModeIII" class="com.nmeylan.powermode.listeners.TogglePowerMode"
+        <action id="togglePowerModeIII" class="com.bryantjames.ridiculouscoding.listeners.TogglePowerMode"
                 text="Toggle Ridiculous Coding"
                 description="Toggle Power Mode">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt O"/>
         </action>
-        <action id="toggleCaretPowerModeIII" class="com.nmeylan.powermode.listeners.ToggleCaretPowerMode"
+        <action id="toggleCaretPowerModeIII" class="com.bryantjames.ridiculouscoding.listeners.ToggleCaretPowerMode"
                 text="Toggle Caret Power Mode"
                 description="Toggle Caret Ridiculous Coding">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
