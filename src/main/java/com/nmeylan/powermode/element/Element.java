@@ -2,23 +2,35 @@ package com.nmeylan.powermode.element;
 
 
 import com.nmeylan.powermode.Power;
+import org.apache.commons.lang3.NotImplementedException;
 
 import java.awt.Graphics;
 
-public interface Element extends Power {
+public abstract class Element implements Power {
+  protected long initLife;
+  protected long life;
 
-  boolean update(double delta);
+  public boolean update(double delta) {
+    throw new NotImplementedException("Calling base `update` method on Element.");
+  };
 
-  void render(Graphics g, int dxx, int dyy);
+  public void render(Graphics g, int dxx, int dyy) {
+    throw new NotImplementedException("Calling base `render` method on Element.");
+  };
 
-  long life();
+  protected long life() {
+    return this.life;
+  };
 
-  long initLife();
+  protected long initLife() {
+    return this.initLife;
+  };
 
-  default float lifeFactor() {
+  protected float lifeFactor() {
     return 1 - ((life() - System.currentTimeMillis()) / (float)initLife());
   }
-  default boolean alive() {
+  
+  public boolean isAlive() {
     return life() > System.currentTimeMillis() && powerMode().isEnabled();
   }
 }

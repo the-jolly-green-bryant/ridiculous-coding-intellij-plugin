@@ -68,7 +68,7 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     if (!elements.isEmpty()) {
       elements.removeIf(p -> {
         p.first().update((deltaa / db));
-        return !p.first().alive();
+        return !p.first().isAlive();
       });
       repaint();
     }

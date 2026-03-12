@@ -12,7 +12,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PowerBam implements Element {
+public class PowerBam extends Element {
 
   private static Map<String, Image> bamImages = new HashMap<>();
   private float x;
@@ -23,8 +23,6 @@ public class PowerBam implements Element {
   private int _width;
   private int height;
   private int _height;
-  private long initLife;
-  private long life;
   private Image currentImage;
 
   public PowerBam(float _x, float _y, int _width, int _height, long initLife) {
@@ -42,6 +40,7 @@ public class PowerBam implements Element {
   }
 
   private Image findBamImage() {
+    // TODO - Are we able to support animated bams?
     Image bamImage = bamImages.get(powerMode().bamImageFolder().getAbsolutePath());
     if (bamImage != null) {
       return bamImage;
@@ -59,18 +58,18 @@ public class PowerBam implements Element {
 
   @Override
   public boolean update(double delta) {
-    if (alive()) {
+    if (isAlive()) {
       x = (float) (_x + (0.5 * _width) - (0.5 * _width * lifeFactor()));
       y = (float) (_y + (0.5 * _height) - (0.5 * _height * lifeFactor()));
       width = (int) (_width * lifeFactor());
       height = (int) (_height * lifeFactor());
     }
-    return !alive();
+    return !isAlive();
   }
 
   @Override
   public void render(Graphics g, int dxx, int dyy) {
-    if (alive() && currentImage != null) {
+    if (isAlive() && currentImage != null) {
       Graphics2D g2d = (Graphics2D) g.create();
       g2d.setComposite(
         AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
@@ -79,15 +78,4 @@ public class PowerBam implements Element {
       g2d.dispose();
     }
   }
-
-  @Override
-  public long life() {
-    return this.life;
-  }
-
-  @Override
-  public long initLife() {
-    return this.initLife;
-  }
-
 }

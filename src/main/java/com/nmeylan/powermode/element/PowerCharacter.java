@@ -4,15 +4,13 @@ import com.nmeylan.powermode.util.Util;
 
 import java.awt.*;
 
-public class PowerCharacter implements Element {
+public class PowerCharacter extends Element {
 
   private float x;
   private float y;
   private float dx;
   private float dy;
   private int size;
-  private long initLife;
-  private long life;
   private float[] colors;
   private float gravityFactor;
   private char character;
@@ -35,12 +33,12 @@ public class PowerCharacter implements Element {
     dy += (0.07f * gravityFactor) * delta;
     x += dx * delta;
     y += dy * delta;
-    return !alive();
+    return !isAlive();
   }
 
   @Override
   public void render(Graphics g, int dxx, int dyy) {
-    if (alive()) {
+    if (isAlive()) {
       Graphics2D g2d = (Graphics2D) g.create();
       try {
         g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
@@ -63,15 +61,5 @@ public class PowerCharacter implements Element {
         g2d.dispose();
       }
     }
-  }
-
-  @Override
-  public long life() {
-    return life;
-  }
-
-  @Override
-  public long initLife() {
-    return this.initLife;
   }
 }

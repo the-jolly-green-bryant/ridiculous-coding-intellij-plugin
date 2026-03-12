@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PowerFlame implements Element {
+public class PowerFlame extends Element {
 
   private static Map<String, List<BufferedImage>> flameImagesCache = new HashMap<>();
   private float x;
@@ -74,7 +74,7 @@ public class PowerFlame implements Element {
 
   @Override
   public boolean update(double delta) {
-    if (alive()) {
+    if (isAlive()) {
       i += 1;
       x = _x - (int) (0.5 * _width * lifeFactor());
       if (direction == Direction.UP) {
@@ -89,12 +89,12 @@ public class PowerFlame implements Element {
       width = (int) (_width * lifeFactor());
       height = (int) (_height * lifeFactor());
     }
-    return !alive();
+    return !isAlive();
   }
 
   @Override
   public void render(Graphics g, int dxx, int dyy) {
-    if (alive() && flameImagesCache.get(cacheKey) != null) {
+    if (isAlive() && flameImagesCache.get(cacheKey) != null) {
       int flameImagesCount = flameImagesCache.get(cacheKey).size();
       Graphics2D g2d = (Graphics2D) g.create();
       g2d.setComposite(

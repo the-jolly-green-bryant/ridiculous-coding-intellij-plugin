@@ -6,15 +6,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-public class PowerSpark implements Element {
-
+public class PowerSpark extends Element {
   private float x;
   private float y;
   private float dx;
   private float dy;
   private int size;
-  private long initLife;
-  private long life;
   private float[] colors;
   private float gravityFactor;
 
@@ -35,26 +32,16 @@ public class PowerSpark implements Element {
     dy += (0.07f * gravityFactor) * delta;
     x += dx * delta;
     y += dy * delta;
-    return !alive();
+    return !isAlive();
   }
 
   @Override
   public void render(Graphics g, int dxx, int dyy) {
-    if (alive()) {
+    if (isAlive()) {
       Graphics2D g2d = (Graphics2D) g.create();
       g2d.setColor(new Color(colors[0], colors[1], colors[2], Util.alpha(colors[3])));
       g2d.fillOval((int)(dxx + x - (size / 2)), (int)(dyy + y - (size / 2)), size,size);
       g2d.dispose();
     }
-  }
-
-  @Override
-  public long life() {
-    return life;
-  }
-
-  @Override
-  public long initLife() {
-    return this.initLife;
   }
 }
