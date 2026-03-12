@@ -11,9 +11,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
-public class PowerBam implements ElementOfPower {
+public class PowerBam implements Element {
 
   private static Map<String, Image> bamImages = new HashMap<>();
   private float x;

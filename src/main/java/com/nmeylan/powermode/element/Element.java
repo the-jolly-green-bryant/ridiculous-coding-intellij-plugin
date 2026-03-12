@@ -5,7 +5,7 @@ import com.nmeylan.powermode.Power;
 
 import java.awt.Graphics;
 
-public interface ElementOfPower extends Power {
+public interface Element extends Power {
 
   boolean update(double delta);
 

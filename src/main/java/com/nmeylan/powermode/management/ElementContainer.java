@@ -22,17 +22,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class ElementOfPowerContainer extends JComponent implements ComponentListener, Power {
+public class ElementContainer extends JComponent implements ComponentListener, Power {
 
   private final EditorImpl editor;
 
   private final List<JComponent> shakeComponents;
-  private final List<Pair<ElementOfPower, Point>> elementsOfPower;
+  private final List<Pair<Element, Point>> elementsOfPower;
   private long lastShake;
   private long lastUpdate;
   private final List<Point> shakeData;
 
-  public ElementOfPowerContainer(EditorImpl editor) {
+  public ElementContainer(EditorImpl editor) {
     super();
     this.editor = editor;
     this.shakeComponents = Arrays.asList(editor.getComponent(), editor.getContentComponent());

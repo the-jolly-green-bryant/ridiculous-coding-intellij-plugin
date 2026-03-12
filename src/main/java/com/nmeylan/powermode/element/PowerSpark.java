@@ -6,7 +6,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-public class PowerSpark implements ElementOfPower {
+public class PowerSpark implements Element {
 
   private float x;
   private float y;

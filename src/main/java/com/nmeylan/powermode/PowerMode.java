@@ -11,7 +11,7 @@ import com.intellij.openapi.editor.actionSystem.EditorActionManager;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import com.nmeylan.powermode.color.ColorEdges;
 import com.nmeylan.powermode.listeners.MyTypedActionHandler;
-import com.nmeylan.powermode.management.ElementOfPowerContainerManager;
+import com.nmeylan.powermode.management.ElementContainerManager;
 import com.intellij.openapi.diagnostic.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -66,7 +66,7 @@ public class PowerMode implements PersistentStateComponent<PowerMode>, Applicati
   private double heatupThreshold = 0.0;
   private final double hotkeyWeight = keyStrokesPerMinute * 0.05;
 
-  private ElementOfPowerContainerManager maybeElementOfPowerContainerManager;
+  private ElementContainerManager elementContainerManager;
 
   private File customFlameImageFolder;
   private File customBamImageFolder;
@@ -121,11 +121,6 @@ public class PowerMode implements PersistentStateComponent<PowerMode>, Applicati
     return lastKeys.entrySet().stream().filter(e -> e.getValue() >= ct - heatupTime).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
-  public double rawValueFactor() {
-    double base = heatupFactor + ((1 - heatupFactor) * timeFactor(true));
-    return (base - heatupThreshold) / (1 - heatupThreshold);
-  }
-
   public double valueFactor() {
     double base = heatupFactor + ((1 - heatupFactor) * timeFactor(false));
     double elems = (base - heatupThreshold) / (1 - heatupThreshold);
@@ -154,8 +149,8 @@ public class PowerMode implements PersistentStateComponent<PowerMode>, Applicati
   public void initComponent() {
     PowerMode.logger().debug("initComponent...");
     EditorFactory editorFactory = EditorFactory.getInstance();
-    maybeElementOfPowerContainerManager = new ElementOfPowerContainerManager();
-    editorFactory.addEditorFactoryListener(maybeElementOfPowerContainerManager, () -> {});
+    elementContainerManager = new ElementContainerManager();
+    editorFactory.addEditorFactoryListener(elementContainerManager, () -> {});
     EditorActionManager editorActionManager = EditorActionManager.getInstance();
     editorActionManager.getTypedAction().setupRawHandler(
       new MyTypedActionHandler(
@@ -166,8 +161,8 @@ public class PowerMode implements PersistentStateComponent<PowerMode>, Applicati
 
   @Override
   public void disposeComponent() {
-    if (maybeElementOfPowerContainerManager == null) return;
-    maybeElementOfPowerContainerManager.dispose();
+    if (elementContainerManager == null) return;
+    elementContainerManager.dispose();
   }
 
   @Override
@@ -441,12 +436,12 @@ public class PowerMode implements PersistentStateComponent<PowerMode>, Applicati
     this.heatupThreshold = (double) heatupThreshold / 100;
   }
 
-  public ElementOfPowerContainerManager getMaybeElementOfPowerContainerManager() {
-    return maybeElementOfPowerContainerManager;
+  public ElementContainerManager getMaybeElementContainerManager() {
+    return elementContainerManager;
   }
 
-  public void setMaybeElementOfPowerContainerManager(ElementOfPowerContainerManager maybeElementOfPowerContainerManager) {
-    this.maybeElementOfPowerContainerManager = maybeElementOfPowerContainerManager;
+  public void setMaybeElementContainerManager(ElementContainerManager maybeElementContainerManager) {
+    this.elementContainerManager = maybeElementContainerManager;
   }
 
   public String getCustomFlameImageFolder() {

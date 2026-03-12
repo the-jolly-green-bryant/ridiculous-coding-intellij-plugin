@@ -8,19 +8,18 @@ import com.nmeylan.powermode.Power;
 import com.nmeylan.powermode.PowerMode;
 import com.nmeylan.powermode.util.Util;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import javax.swing.SwingUtilities;
 import java.awt.Point;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ElementOfPowerContainerManager implements EditorFactoryListener, Power {
+public class ElementContainerManager implements EditorFactoryListener, Power {
 
-  private static final Map<Editor, ElementOfPowerContainer> elementsOfPowerContainers = new HashMap<>();
+  private static final Map<Editor, ElementContainer> elementContainers = new HashMap<>();
   private final Thread elementsOfPowerUpdateThread;
 
-  public ElementOfPowerContainerManager() {
+  public ElementContainerManager() {
     elementsOfPowerUpdateThread = new Thread(() -> {
       while (true) {
         try {
@@ -43,7 +42,7 @@ public class ElementOfPowerContainerManager implements EditorFactoryListener, Po
 
 
   void updateContainers() {
-    elementsOfPowerContainers.values().forEach(ElementOfPowerContainer::updateElementsOfPower);
+    elementContainers.values().forEach(ElementContainer::updateElementsOfPower);
   }
 
 
@@ -51,13 +50,13 @@ public class ElementOfPowerContainerManager implements EditorFactoryListener, Po
   public void editorCreated(@NotNull EditorFactoryEvent event) {
     Editor editor = event.getEditor();
     if (Util.isActualEditor(editor)) {
-      elementsOfPowerContainers.put(editor, new ElementOfPowerContainer((EditorImpl) editor));
+      elementContainers.put(editor, new ElementContainer((EditorImpl) editor));
     }
   }
 
   @Override
   public void editorReleased(@NotNull EditorFactoryEvent event) {
-    elementsOfPowerContainers.remove(event.getEditor());
+    elementContainers.remove(event.getEditor());
   }
 
   public void initializeAnimation(Editor editor, char c, Point position) {
@@ -67,11 +66,11 @@ public class ElementOfPowerContainerManager implements EditorFactoryListener, Po
   }
 
   public void initializeInUI(Editor editor, char c, Point position) {
-    elementsOfPowerContainers.get(editor).initializeAnimation(c, position);
+    elementContainers.get(editor).initializeAnimation(c, position);
   }
 
   public void dispose() {
     elementsOfPowerUpdateThread.interrupt();
-    elementsOfPowerContainers.clear();
+    elementContainers.clear();
   }
 }

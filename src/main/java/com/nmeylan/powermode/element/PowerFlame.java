@@ -14,9 +14,8 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
-public class PowerFlame implements ElementOfPower {
+public class PowerFlame implements Element {
 
   private static Map<String, List<BufferedImage>> flameImagesCache = new HashMap<>();
   private float x;

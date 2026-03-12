@@ -4,7 +4,7 @@ import com.nmeylan.powermode.util.Util;
 
 import java.awt.*;
 
-public class PowerCharacter implements ElementOfPower {
+public class PowerCharacter implements Element {
 
   private float x;
   private float y;
