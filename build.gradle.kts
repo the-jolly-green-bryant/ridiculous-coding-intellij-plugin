@@ -31,7 +31,7 @@ java {
 }
 
 configure<CheckstyleExtension> {
-    toolVersion = "10.17.0"
+    toolVersion = "12.1.0"
 }
 
 configure<PmdExtension> {
