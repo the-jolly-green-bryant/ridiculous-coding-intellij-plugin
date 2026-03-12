@@ -28,8 +28,13 @@ import java.util.stream.Collectors;
 
 
 @State(name = "RidiculousCoding", storages = @Storage("ridiculous.coding.xml"))
-public class PowerMode implements PersistentStateComponent<PowerMode>, ApplicationComponent {
-  private static final List<Integer> HOT_INPUTS = Arrays.asList(InputEvent.CTRL_DOWN_MASK, InputEvent.ALT_DOWN_MASK, InputEvent.SHIFT_DOWN_MASK);
+public class PowerMode implements PersistentStateComponent<PowerMode>,
+  ApplicationComponent {
+  private static final List<Integer> HOT_INPUTS = Arrays.asList(
+    InputEvent.CTRL_DOWN_MASK,
+    InputEvent.ALT_DOWN_MASK,
+    InputEvent.SHIFT_DOWN_MASK
+  );
   private boolean hotkeyHeatup = true;
   private long bamLife = 1000;
   private double gravityFactor = 21.21;
@@ -78,14 +83,19 @@ public class PowerMode implements PersistentStateComponent<PowerMode>, Applicati
   @Nullable
   public static PowerMode getInstance() {
     try {
-      return ApplicationManager.getApplication().getComponent(PowerMode.class);
+      return ApplicationManager
+        .getApplication()
+        .getComponent(PowerMode.class);
     } catch (Throwable e) {
-      logger().debug("error getting component: " + e.getMessage(), e);
+      logger().debug(
+        "error getting component: " + e.getMessage(),
+        e
+      );
     }
     return null;
   }
 
-  public ColorEdges obtainColorEdges(){
+  public ColorEdges obtainColorEdges() {
     ColorEdges edges = new ColorEdges();
     edges.setAlpha(getColorAlpha());
     edges.setRedFrom(getRedFrom());
@@ -105,10 +115,16 @@ public class PowerMode implements PersistentStateComponent<PowerMode>, Applicati
     return isCustomBamImages ? customBamImageFolder : new File("bam");
   }
 
-  public void increaseHeatup(Optional<DataContext> dataContext, KeyStroke keyStroke) {
+  public void increaseHeatup(
+    Optional<DataContext> dataContext,
+    KeyStroke keyStroke
+  ) {
     if (keyStroke != null) {
       long ct = System.currentTimeMillis();
-      lastKeys.put(keyStroke, ct);
+      lastKeys.put(
+        keyStroke,
+        ct
+      );
     }
   }
 
@@ -118,13 +134,23 @@ public class PowerMode implements PersistentStateComponent<PowerMode>, Applicati
   }
 
   private Map<KeyStroke, Long> filterLastKeys(Long ct) {
-    return lastKeys.entrySet().stream().filter(e -> e.getValue() >= ct - heatupTime).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    return lastKeys
+      .entrySet()
+      .stream()
+      .filter(e -> e.getValue() >= ct - heatupTime)
+      .collect(Collectors.toMap(
+        Map.Entry::getKey,
+        Map.Entry::getValue
+      ));
   }
 
   public double valueFactor() {
     double base = heatupFactor + ((1 - heatupFactor) * timeFactor(false));
     double elems = (base - heatupThreshold) / (1 - heatupThreshold);
-    double max = Math.max(elems, 0.0);
+    double max = Math.max(
+      elems,
+      0.0
+    );
     assert (max <= 1);
     assert (max >= 0);
     return max;
@@ -135,11 +161,18 @@ public class PowerMode implements PersistentStateComponent<PowerMode>, Applicati
       return 1;
     } else if (!lastKeys.isEmpty()) {
       double d = heatupTime / (60000.0 / keyStrokesPerMinute);
-      double keysWorth = lastKeys.keySet().stream().filter(keystroke -> HOT_INPUTS.contains(keystroke.getModifiers())).count() * hotkeyWeight;
+      double keysWorth = lastKeys
+        .keySet()
+        .stream()
+        .filter(keystroke -> HOT_INPUTS.contains(keystroke.getModifiers()))
+        .count() * hotkeyWeight;
       if (isRaw) {
         return keysWorth / d;
       }
-      return Math.min(keysWorth, d) / d;
+      return Math.min(
+        keysWorth,
+        d
+      ) / d;
     }
     return 0.0;
   }
@@ -147,21 +180,33 @@ public class PowerMode implements PersistentStateComponent<PowerMode>, Applicati
 
   @Override
   public void initComponent() {
-    PowerMode.logger().debug("initComponent...");
+    PowerMode
+      .logger()
+      .debug("initComponent...");
     EditorFactory editorFactory = EditorFactory.getInstance();
     elementContainerManager = new ElementContainerManager();
-    editorFactory.addEditorFactoryListener(elementContainerManager, () -> {});
+    editorFactory.addEditorFactoryListener(
+      elementContainerManager,
+      () -> {
+      }
+    );
     EditorActionManager editorActionManager = EditorActionManager.getInstance();
-    editorActionManager.getTypedAction().setupRawHandler(
-      new MyTypedActionHandler(
-        editorActionManager.getTypedAction().getRawHandler()));
+    editorActionManager
+      .getTypedAction()
+      .setupRawHandler(new MyTypedActionHandler(editorActionManager
+        .getTypedAction()
+        .getRawHandler()));
 
-    PowerMode.logger().debug("initComponent done");
+    PowerMode
+      .logger()
+      .debug("initComponent done");
   }
 
   @Override
   public void disposeComponent() {
-    if (elementContainerManager == null) return;
+    if (elementContainerManager == null) {
+      return;
+    }
     elementContainerManager.dispose();
   }
 
@@ -177,7 +222,10 @@ public class PowerMode implements PersistentStateComponent<PowerMode>, Applicati
 
   @Override
   public void loadState(@NotNull PowerMode state) {
-    XmlSerializerUtil.copyBean(state, this);
+    XmlSerializerUtil.copyBean(
+      state,
+      this
+    );
   }
 
   public boolean isHotkeyHeatup() {
@@ -249,7 +297,10 @@ public class PowerMode implements PersistentStateComponent<PowerMode>, Applicati
   }
 
   public void setHeatupTime(int heatupTime) {
-    this.heatupTime = Math.max(0, heatupTime);
+    this.heatupTime = Math.max(
+      0,
+      heatupTime
+    );
   }
 
   public Map<KeyStroke, Long> getLastKeys() {
@@ -429,23 +480,21 @@ public class PowerMode implements PersistentStateComponent<PowerMode>, Applicati
   }
 
   public int getHeatupThreshold() {
-    return (int)(heatupThreshold * 100);
+    return (int) (heatupThreshold * 100);
   }
 
   public void setHeatupThreshold(int heatupThreshold) {
     this.heatupThreshold = (double) heatupThreshold / 100;
   }
 
-  public ElementContainerManager getMaybeElementContainerManager() {
+  public ElementContainerManager getElementContainerManager() {
     return elementContainerManager;
   }
 
-  public void setMaybeElementContainerManager(ElementContainerManager maybeElementContainerManager) {
-    this.elementContainerManager = maybeElementContainerManager;
-  }
-
   public String getCustomFlameImageFolder() {
-    return customFlameImageFolder != null ? customFlameImageFolder.getAbsolutePath() : "";
+    return customFlameImageFolder != null
+      ? customFlameImageFolder.getAbsolutePath()
+      : "";
   }
 
   public void setCustomFlameImageFolder(String customFlameImageFolder) {

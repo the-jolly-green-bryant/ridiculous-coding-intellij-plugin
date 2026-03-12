@@ -30,10 +30,10 @@ public class MyTypedActionHandler implements TypedActionHandler, Power {
 
   public void initializeAnimationByTypedAction(Editor editor, char c) {
     boolean isActualEditor = Util.isActualEditor(editor);
-    if (isActualEditor && powerMode().getMaybeElementContainerManager() != null) {
+    if (isActualEditor && powerMode().getElementContainerManager() != null) {
       Set<Point> positions = getEditorCaretPositions(editor);
       positions.forEach(pos -> {
-        powerMode().getMaybeElementContainerManager().initializeAnimation(editor, c, pos);
+        powerMode().getElementContainerManager().initializeAnimation(editor, c, pos);
       });
     }
   }
@@ -43,9 +43,7 @@ public class MyTypedActionHandler implements TypedActionHandler, Power {
     powerType(editor, c, dataContext);
     try {
       typedActionHandler.execute(editor, c, dataContext);
-    } catch (IllegalStateException x) {
-      PowerMode.logger().info(x.getMessage(), x);
-    } catch (IndexOutOfBoundsException x) {
+    } catch (IllegalStateException | IndexOutOfBoundsException x) {
       PowerMode.logger().info(x.getMessage(), x);
     }
   }

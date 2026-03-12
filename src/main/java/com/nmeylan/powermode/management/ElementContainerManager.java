@@ -17,10 +17,10 @@ import java.util.Map;
 public class ElementContainerManager implements EditorFactoryListener, Power {
 
   private static final Map<Editor, ElementContainer> elementContainers = new HashMap<>();
-  private final Thread elementsOfPowerUpdateThread;
+  private final Thread elementsUpdateThread;
 
   public ElementContainerManager() {
-    elementsOfPowerUpdateThread = new Thread(() -> {
+    elementsUpdateThread = new Thread(() -> {
       while (true) {
         try {
           if (powerMode() != null) {
@@ -37,7 +37,7 @@ public class ElementContainerManager implements EditorFactoryListener, Power {
         }
       }
     });
-    elementsOfPowerUpdateThread.start();
+    elementsUpdateThread.start();
   }
 
 
@@ -70,7 +70,7 @@ public class ElementContainerManager implements EditorFactoryListener, Power {
   }
 
   public void dispose() {
-    elementsOfPowerUpdateThread.interrupt();
+    elementsUpdateThread.interrupt();
     elementContainers.clear();
   }
 }

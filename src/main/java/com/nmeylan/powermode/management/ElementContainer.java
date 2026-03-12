@@ -27,7 +27,7 @@ public class ElementContainer extends JComponent implements ComponentListener, P
   private final EditorImpl editor;
 
   private final List<JComponent> shakeComponents;
-  private final List<Pair<Element, Point>> elementsOfPower;
+  private final List<Pair<Element, Point>> elements;
   private long lastShake;
   private long lastUpdate;
   private final List<Point> shakeData;
@@ -36,7 +36,7 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     super();
     this.editor = editor;
     this.shakeComponents = Arrays.asList(editor.getComponent(), editor.getContentComponent());
-    this.elementsOfPower = new ArrayList<>();
+    this.elements = new ArrayList<>();
     this.shakeData = new ArrayList<>();
     this.lastShake = System.currentTimeMillis();
     this.lastUpdate = System.currentTimeMillis();
@@ -65,8 +65,8 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     lastUpdate = System.currentTimeMillis();
     double db = 1000.0 / 16;
     long deltaa = delta;
-    if (!elementsOfPower.isEmpty()) {
-      elementsOfPower.removeIf(p -> {
+    if (!elements.isEmpty()) {
+      elements.removeIf(p -> {
         p.first().update((deltaa / db));
         return !p.first().alive();
       });
@@ -124,7 +124,7 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     int dim = editor.getScrollPane().getHeight() / 2;
     int x = point.x - (dim / 2);
     int y = point.y - (dim / 2);
-    elementsOfPower.add(
+    elements.add(
       Pair.with(
         new PowerBam(x, y, dim, dim, (long) (powerMode().getBamLife() * powerMode().valueFactor())),
         getScrollPosition()));
@@ -137,16 +137,16 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     int initLife = (int) (powerMode().getMaxFlameLife() * powerMode().valueFactor());
     if (initLife > 100) {
       if (direction != null) {
-        elementsOfPower.add(
+        elements.add(
           Pair.with(
             new PowerFlame(point.x + 5, point.y - 1, wh, wh, initLife, direction),
             getScrollPosition()));
       } else {
-        elementsOfPower.add(
+        elements.add(
           Pair.with(
             new PowerFlame(point.x + 5, point.y - 1, wh, wh, initLife, Direction.UP),
             getScrollPosition()));
-        elementsOfPower.add(
+        elements.add(
           Pair.with(
             new PowerFlame(point.x + 5, point.y + 15, wh, wh, initLife, Direction.DOWN),
             getScrollPosition()));
@@ -170,7 +170,7 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     int size = (int) ((Math.random() * powerMode().getSparkSize()) + 10);
     int life = (int) (Math.random() * powerMode().getSparkLife() * powerMode().valueFactor());
 
-    elementsOfPower.add(
+    elements.add(
       Pair.with(
         new PowerCharacter(
           x,
@@ -199,7 +199,7 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     float dy = (float) (((Math.random() * -3) - 1) * powerMode().getSparkVelocityFactor());
     int size = (int) ((Math.random() * powerMode().getSparkSize()) + 1);
     int life = (int) (Math.random() * powerMode().getSparkLife() * powerMode().valueFactor());
-    elementsOfPower.add(
+    elements.add(
       Pair.with(
         new PowerSpark(x,
           y,
@@ -307,7 +307,7 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     ScrollingModel scrollingModel = editor.getScrollingModel();
     Point newElementPosition = new Point(scrollingModel.getHorizontalScrollOffset(), scrollingModel.getVerticalScrollOffset());
 
-    elementsOfPower.forEach(elementOfPowerPointPair -> {
+    elements.forEach(elementOfPowerPointPair -> {
       int x = elementOfPowerPointPair.last().x - newElementPosition.x;
       int y = elementOfPowerPointPair.last().y - newElementPosition.y;
       elementOfPowerPointPair.first().render(g, x, y);
