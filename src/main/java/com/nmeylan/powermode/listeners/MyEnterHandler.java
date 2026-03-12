@@ -12,8 +12,31 @@ import org.jetbrains.annotations.NotNull;
 public class MyEnterHandler extends EnterHandlerDelegateAdapter {
 
   @Override
-  public Result preprocessEnter(@NotNull PsiFile file, @NotNull Editor editor, @NotNull Ref<Integer> caretOffset, @NotNull Ref<Integer> caretAdvance, @NotNull DataContext dataContext, EditorActionHandler originalHandler) {
-    ((MyTypedActionHandler)EditorActionManager.getInstance().getTypedAction().getRawHandler()).powerType(editor, '\n', dataContext);
-    return super.preprocessEnter(file, editor, caretOffset, caretAdvance, dataContext, originalHandler);
+  public Result preprocessEnter(
+    @NotNull PsiFile file,
+    @NotNull Editor editor,
+    @NotNull Ref<Integer> caretOffset,
+    @NotNull Ref<Integer> caretAdvance,
+    @NotNull DataContext dataContext,
+    EditorActionHandler originalHandler
+  ) {
+    (
+      (MyTypedActionHandler) EditorActionManager
+        .getInstance()
+        .getTypedAction()
+        .getRawHandler()
+    ).powerType(
+      editor,
+      '\n',
+      dataContext
+    );
+    return super.preprocessEnter(
+      file,
+      editor,
+      caretOffset,
+      caretAdvance,
+      dataContext,
+      originalHandler
+    );
   }
 }

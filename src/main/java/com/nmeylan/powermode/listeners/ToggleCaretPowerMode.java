@@ -7,7 +7,7 @@ import com.nmeylan.powermode.Power;
 public class ToggleCaretPowerMode extends AnAction implements Power {
 
   @Override
-  public void actionPerformed(AnActionEvent e){
+  public void actionPerformed(AnActionEvent e) {
     powerMode().setCaretActionEnabled(!powerMode().isCaretActionEnabled());
   }
 }

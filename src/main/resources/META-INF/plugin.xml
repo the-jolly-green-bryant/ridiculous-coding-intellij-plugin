@@ -24,19 +24,22 @@
     </application-components>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationConfigurable groupId="appearance" groupWeight="20" id="power.mode.ii" displayName="Ridiculous Coding"
+        <applicationConfigurable groupId="appearance" groupWeight="20" id="power.mode.ii"
+                                 displayName="Ridiculous Coding"
                                  instance="com.nmeylan.powermode.PowerModeConfigurable"/>
         <enterHandlerDelegate implementation="com.nmeylan.powermode.listeners.MyEnterHandler"/>
     </extensions>
 
     <actions>
 
-        <action id="togglePowerModeIII" class="com.nmeylan.powermode.listeners.TogglePowerMode" text="Toggle Ridiculous Coding"
+        <action id="togglePowerModeIII" class="com.nmeylan.powermode.listeners.TogglePowerMode"
+                text="Toggle Ridiculous Coding"
                 description="Toggle Power Mode">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt O"/>
         </action>
-        <action id="toggleCaretPowerModeIII" class="com.nmeylan.powermode.listeners.ToggleCaretPowerMode" text="Toggle Caret Power Mode"
+        <action id="toggleCaretPowerModeIII" class="com.nmeylan.powermode.listeners.ToggleCaretPowerMode"
+                text="Toggle Caret Power Mode"
                 description="Toggle Caret Ridiculous Coding">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
         </action>

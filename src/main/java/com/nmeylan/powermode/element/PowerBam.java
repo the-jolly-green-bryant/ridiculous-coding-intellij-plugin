@@ -3,10 +3,7 @@ package com.nmeylan.powermode.element;
 import com.nmeylan.powermode.util.ImageUtil;
 import com.nmeylan.powermode.util.Util;
 
-import java.awt.AlphaComposite;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.HashMap;
@@ -25,7 +22,13 @@ public class PowerBam extends Element {
   private int _height;
   private Image currentImage;
 
-  public PowerBam(float _x, float _y, int _width, int _height, long initLife) {
+  public PowerBam(
+    float _x,
+    float _y,
+    int _width,
+    int _height,
+    long initLife
+  ) {
     this.x = _x;
     this.y = _y;
     this.width = 0;
@@ -41,15 +44,24 @@ public class PowerBam extends Element {
 
   private Image findBamImage() {
     // TODO - Are we able to support animated bams?
-    Image bamImage = bamImages.get(powerMode().bamImageFolder().getAbsolutePath());
+    Image bamImage = bamImages.get(powerMode()
+      .bamImageFolder()
+      .getAbsolutePath());
     if (bamImage != null) {
       return bamImage;
     }
     File bamImageFolder = powerMode().bamImageFolder();
     if (bamImageFolder != null) {
       bamImages.clear();
-      BufferedImage bam = ImageUtil.imagesForPath(powerMode().bamImageFolder()).get(0);
-      bamImages.put(powerMode().bamImageFolder().getAbsolutePath(), bam);
+      BufferedImage bam = ImageUtil
+        .imagesForPath(powerMode().bamImageFolder())
+        .get(0);
+      bamImages.put(
+        powerMode()
+          .bamImageFolder()
+          .getAbsolutePath(),
+        bam
+      );
       return bam;
     }
     return null;
@@ -68,13 +80,25 @@ public class PowerBam extends Element {
   }
 
   @Override
-  public void render(Graphics g, int dxx, int dyy) {
+  public void render(
+    Graphics g,
+    int dxx,
+    int dyy
+  ) {
     if (isAlive() && currentImage != null) {
       Graphics2D g2d = (Graphics2D) g.create();
-      g2d.setComposite(
-        AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
-          Util.alpha(0.9f * (1 - lifeFactor()))));
-      g2d.drawImage(currentImage, (int) x + dxx, (int) y + dyy, width, height, null);
+      g2d.setComposite(AlphaComposite.getInstance(
+        AlphaComposite.SRC_OVER,
+        Util.alpha(0.9f * (1 - lifeFactor()))
+      ));
+      g2d.drawImage(
+        currentImage,
+        (int) x + dxx,
+        (int) y + dyy,
+        width,
+        height,
+        null
+      );
       g2d.dispose();
     }
   }

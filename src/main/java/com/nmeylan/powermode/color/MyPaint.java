@@ -1,6 +1,6 @@
 package com.nmeylan.powermode.color;
 
-import java.awt.Color;
+import java.awt.*;
 
 public class MyPaint {
   private int r;
@@ -12,7 +12,12 @@ public class MyPaint {
   }
 
 
-  public MyPaint(int r, int g, int b, int a) {
+  public MyPaint(
+    int r,
+    int g,
+    int b,
+    int a
+  ) {
     this.r = r;
     this.g = g;
     this.b = b;
@@ -72,6 +77,11 @@ public class MyPaint {
   }
 
   public Color color() {
-    return new Color(r, g, b, a);
+    return new Color(
+      r,
+      g,
+      b,
+      a
+    );
   }
 }

@@ -1,6 +1,7 @@
 package com.nmeylan.powermode.util;
 
 
+import com.intellij.openapi.diagnostic.Logger;
 import com.nmeylan.powermode.PowerMode;
 import org.jetbrains.annotations.Nullable;
 
@@ -11,8 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.*;
-
-import com.intellij.openapi.diagnostic.Logger;
 import java.util.stream.Collectors;
 
 public class ImageUtil {
@@ -28,7 +27,9 @@ public class ImageUtil {
         return loadFromFilesystem(folderOrFile);
       }
 
-      String path = folderOrFile.getPath().toLowerCase(Locale.ROOT);
+      String path = folderOrFile
+        .getPath()
+        .toLowerCase(Locale.ROOT);
 
       if (path.contains("bam")) {
         return loadBundledSingle("bam/bam.png");
@@ -36,13 +37,21 @@ public class ImageUtil {
 
       if (path.contains("fire")) {
         // Adjust frame count / extension to match your actual assets
-        return loadBundledSeries("fire/animated/256", "fire1_ %02d.png", 1, 17);
+        return loadBundledSeries(
+          "fire/animated/256",
+          "fire1_ %02d.png",
+          1,
+          17
+        );
       }
 
       LOG.warn("Unknown image path fallback: " + folderOrFile.getPath());
       return List.of();
     } catch (Exception e) {
-      LOG.warn("Failed loading images for path: " + folderOrFile.getPath(), e);
+      LOG.warn(
+        "Failed loading images for path: " + folderOrFile.getPath(),
+        e
+      );
       return List.of();
     }
   }
@@ -52,12 +61,17 @@ public class ImageUtil {
       try (var stream = Files.walk(fileOrDir.toPath())) {
         return stream
           .filter(Files::isRegularFile)
-          .sorted(Comparator.comparing(path -> path.getFileName().toString()))
+          .sorted(Comparator.comparing(path -> path
+            .getFileName()
+            .toString()))
           .map(path -> {
             try {
               return ImageIO.read(path.toFile());
             } catch (IOException e) {
-              LOG.warn("Failed reading image file: " + path, e);
+              LOG.warn(
+                "Failed reading image file: " + path,
+                e
+              );
               return null;
             }
           })
@@ -85,7 +99,10 @@ public class ImageUtil {
     String normalizedBase = stripLeadingSlash(basePath);
 
     for (int i = startInclusive; i <= endInclusive; i++) {
-      String resourcePath = normalizedBase + "/" + String.format(filePattern, i);
+      String resourcePath = normalizedBase + "/" + String.format(
+        filePattern,
+        i
+      );
       BufferedImage image = readBundledImage(resourcePath);
       if (image != null) {
         images.add(image);
@@ -94,7 +111,8 @@ public class ImageUtil {
 
     if (images.isEmpty()) {
       PowerMode
-        .logger().warn("No bundled images found for base path: " + normalizedBase);
+        .logger()
+        .warn("No bundled images found for base path: " + normalizedBase);
     }
 
     return images;
@@ -103,7 +121,9 @@ public class ImageUtil {
   private static @Nullable BufferedImage readBundledImage(String resourcePath) {
     String normalized = stripLeadingSlash(resourcePath);
 
-    try (InputStream in = ImageUtil.class.getClassLoader().getResourceAsStream(normalized)) {
+    try (InputStream in = ImageUtil.class
+      .getClassLoader()
+      .getResourceAsStream(normalized)) {
       if (in == null) {
         LOG.warn("Missing bundled image: " + normalized);
         return null;
@@ -115,7 +135,10 @@ public class ImageUtil {
       }
       return image;
     } catch (IOException e) {
-      LOG.warn("Failed loading bundled image: " + normalized, e);
+      LOG.warn(
+        "Failed loading bundled image: " + normalized,
+        e
+      );
       return null;
     }
   }

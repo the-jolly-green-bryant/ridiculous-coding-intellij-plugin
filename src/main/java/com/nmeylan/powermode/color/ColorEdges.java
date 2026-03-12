@@ -1,12 +1,32 @@
 package com.nmeylan.powermode.color;
 
-import java.awt.Color;
+import java.awt.*;
 
 public class ColorEdges {
-  private MyPaint leftTop = new MyPaint(0, 0, 0, 255);
-  private MyPaint rightTop = new MyPaint(255, 0, 0, 255);
-  private MyPaint leftBottom = new MyPaint(0, 255, 0, 255);
-  private MyPaint rightBottom = new MyPaint(255, 255, 0, 255);
+  private MyPaint leftTop = new MyPaint(
+    0,
+    0,
+    0,
+    255
+  );
+  private MyPaint rightTop = new MyPaint(
+    255,
+    0,
+    0,
+    255
+  );
+  private MyPaint leftBottom = new MyPaint(
+    0,
+    255,
+    0,
+    255
+  );
+  private MyPaint rightBottom = new MyPaint(
+    255,
+    255,
+    0,
+    255
+  );
 
   public ColorEdges() {
   }
@@ -15,43 +35,58 @@ public class ColorEdges {
     return leftTop.color();
   }
 
-  public Color getRightTop() {
-    return rightTop.color();
-  }
-
-  public Color getLeftBottom() {
-    return leftBottom.color();
-  }
-
-  public Color getRightBottom() {
-    return rightBottom.color();
-  }
-
-  public void updateColors(int c1) {
-    leftTop = updateMyPaint(c1, leftTop);
-    rightTop = updateMyPaint(c1, rightTop);
-    leftBottom = updateMyPaint(c1, leftBottom);
-    rightBottom = updateMyPaint(c1, rightBottom);
-  }
-
-  private MyPaint updateMyPaint(int c, MyPaint MyPaint) {
-    return MyPaint.withBlue(c);
-  }
-
   public void setLeftTop(MyPaint leftTop) {
     this.leftTop = leftTop;
+  }
+
+  public Color getRightTop() {
+    return rightTop.color();
   }
 
   public void setRightTop(MyPaint rightTop) {
     this.rightTop = rightTop;
   }
 
+  public Color getLeftBottom() {
+    return leftBottom.color();
+  }
+
   public void setLeftBottom(MyPaint leftBottom) {
     this.leftBottom = leftBottom;
   }
 
+  public Color getRightBottom() {
+    return rightBottom.color();
+  }
+
   public void setRightBottom(MyPaint rightBottom) {
     this.rightBottom = rightBottom;
+  }
+
+  public void updateColors(int c1) {
+    leftTop = updateMyPaint(
+      c1,
+      leftTop
+    );
+    rightTop = updateMyPaint(
+      c1,
+      rightTop
+    );
+    leftBottom = updateMyPaint(
+      c1,
+      leftBottom
+    );
+    rightBottom = updateMyPaint(
+      c1,
+      rightBottom
+    );
+  }
+
+  private MyPaint updateMyPaint(
+    int c,
+    MyPaint MyPaint
+  ) {
+    return MyPaint.withBlue(c);
   }
 
   public void setRedFrom(int redFrom) {

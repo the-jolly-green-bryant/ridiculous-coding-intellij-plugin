@@ -5,10 +5,7 @@ import com.nmeylan.powermode.PowerMode;
 import com.nmeylan.powermode.util.ImageUtil;
 import com.nmeylan.powermode.util.Util;
 
-import java.awt.AlphaComposite;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.HashMap;
@@ -32,7 +29,14 @@ public class PowerFlame extends Element {
   private Direction direction;
   private String cacheKey;
 
-  public PowerFlame(float _x, float _y, int _width, int _height, long initLife, Direction direction) {
+  public PowerFlame(
+    float _x,
+    float _y,
+    int _width,
+    int _height,
+    long initLife,
+    Direction direction
+  ) {
     this.x = _x;
     this.y = _y;
     this.width = 0;
@@ -44,7 +48,9 @@ public class PowerFlame extends Element {
     this.initLife = initLife;
     this.life = System.currentTimeMillis() + initLife;
     this.direction = direction;
-    this.cacheKey = powerMode().flameImageFolder().getAbsolutePath();
+    this.cacheKey = powerMode()
+      .flameImageFolder()
+      .getAbsolutePath();
     findFlameImages();
   }
 
@@ -61,11 +67,15 @@ public class PowerFlame extends Element {
       List<BufferedImage> flames = ImageUtil.imagesForPath(flameImageFolder);
       if (flames == null || flames.isEmpty()) {
         PowerMode
-          .logger().warn("No flame images loaded for: " + flameImageFolder);
+          .logger()
+          .warn("No flame images loaded for: " + flameImageFolder);
         return null;
       }
 
-      flameImagesCache.put(cacheKey, flames);
+      flameImagesCache.put(
+        cacheKey,
+        flames
+      );
       return flames.get(0);
     }
 
@@ -93,17 +103,42 @@ public class PowerFlame extends Element {
   }
 
   @Override
-  public void render(Graphics g, int dxx, int dyy) {
+  public void render(
+    Graphics g,
+    int dxx,
+    int dyy
+  ) {
     if (isAlive() && flameImagesCache.get(cacheKey) != null) {
-      int flameImagesCount = flameImagesCache.get(cacheKey).size();
+      int flameImagesCount = flameImagesCache
+        .get(cacheKey)
+        .size();
       Graphics2D g2d = (Graphics2D) g.create();
-      g2d.setComposite(
-        AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
-          Util.alpha(0.9f * (1 - lifeFactor()))));
+      g2d.setComposite(AlphaComposite.getInstance(
+        AlphaComposite.SRC_OVER,
+        Util.alpha(0.9f * (1 - lifeFactor()))
+      ));
       if (direction == Direction.DOWN) {
-        g2d.drawImage(flameImagesCache.get(cacheKey).get(i % flameImagesCount), (int) x + dxx, (int) (y + dyy + height), width, -height, null);
+        g2d.drawImage(
+          flameImagesCache
+            .get(cacheKey)
+            .get(i % flameImagesCount),
+          (int) x + dxx,
+          (int) (y + dyy + height),
+          width,
+          -height,
+          null
+        );
       } else {
-        g2d.drawImage(flameImagesCache.get(cacheKey).get(i % flameImagesCount), (int) x + dxx, (int) y + dyy, width, height, null);
+        g2d.drawImage(
+          flameImagesCache
+            .get(cacheKey)
+            .get(i % flameImagesCount),
+          (int) x + dxx,
+          (int) y + dyy,
+          width,
+          height,
+          null
+        );
       }
 
       g2d.dispose();

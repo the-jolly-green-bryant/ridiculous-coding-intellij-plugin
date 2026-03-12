@@ -2,9 +2,7 @@ package com.nmeylan.powermode.element;
 
 import com.nmeylan.powermode.util.Util;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 
 public class PowerSpark extends Element {
   private float x;
@@ -15,7 +13,16 @@ public class PowerSpark extends Element {
   private float[] colors;
   private float gravityFactor;
 
-  public PowerSpark(float x, float y, float dx, float dy, int size, long initLife, float[] colors, float gravityFactor) {
+  public PowerSpark(
+    float x,
+    float y,
+    float dx,
+    float dy,
+    int size,
+    long initLife,
+    float[] colors,
+    float gravityFactor
+  ) {
     this.x = x;
     this.y = y;
     this.dx = dx;
@@ -36,11 +43,25 @@ public class PowerSpark extends Element {
   }
 
   @Override
-  public void render(Graphics g, int dxx, int dyy) {
+  public void render(
+    Graphics g,
+    int dxx,
+    int dyy
+  ) {
     if (isAlive()) {
       Graphics2D g2d = (Graphics2D) g.create();
-      g2d.setColor(new Color(colors[0], colors[1], colors[2], Util.alpha(colors[3])));
-      g2d.fillOval((int)(dxx + x - (size / 2)), (int)(dyy + y - (size / 2)), size,size);
+      g2d.setColor(new Color(
+        colors[0],
+        colors[1],
+        colors[2],
+        Util.alpha(colors[3])
+      ));
+      g2d.fillOval(
+        (int) (dxx + x - (size / 2)),
+        (int) (dyy + y - (size / 2)),
+        size,
+        size
+      );
       g2d.dispose();
     }
   }

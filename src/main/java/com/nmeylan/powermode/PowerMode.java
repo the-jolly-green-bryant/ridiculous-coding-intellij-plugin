@@ -6,24 +6,20 @@ import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.openapi.editor.actionSystem.EditorActionManager;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import com.nmeylan.powermode.color.ColorEdges;
 import com.nmeylan.powermode.listeners.MyTypedActionHandler;
 import com.nmeylan.powermode.management.ElementContainerManager;
-import com.intellij.openapi.diagnostic.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.KeyStroke;
+import javax.swing.*;
 import java.awt.event.InputEvent;
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -47,11 +43,11 @@ public class PowerMode implements PersistentStateComponent<PowerMode>,
   private Map<KeyStroke, Long> lastKeys = new HashMap<>();
 
   private int keyStrokesPerMinute = 300;
+  private final double hotkeyWeight = keyStrokesPerMinute * 0.05;
   private double heatupFactor = 1.0;
   private int sparkLife = 3000;
   private int sparkCount = 10;
   private int shakeRange = 4;
-
   private boolean enabled = true;
   private boolean caretActionEnabled = true;
   private boolean shakeEnabled = true;
@@ -60,7 +56,6 @@ public class PowerMode implements PersistentStateComponent<PowerMode>,
   private boolean sparksEnabled = true;
   private boolean isCustomFlameImages = false;
   private boolean isCustomBamImages = false;
-
   private int redFrom = 200;
   private int redTo = 255;
   private int greenFrom = 0;
@@ -69,16 +64,10 @@ public class PowerMode implements PersistentStateComponent<PowerMode>,
   private int blueTo = 103;
   private int colorAlpha = 164;
   private double heatupThreshold = 0.0;
-  private final double hotkeyWeight = keyStrokesPerMinute * 0.05;
-
   private ElementContainerManager elementContainerManager;
 
   private File customFlameImageFolder;
   private File customBamImageFolder;
-
-  public static Logger logger() {
-    return Logger.getInstance(PowerMode.class);
-  }
 
   @Nullable
   public static PowerMode getInstance() {
@@ -95,6 +84,10 @@ public class PowerMode implements PersistentStateComponent<PowerMode>,
     return null;
   }
 
+  public static Logger logger() {
+    return Logger.getInstance(PowerMode.class);
+  }
+
   public ColorEdges obtainColorEdges() {
     ColorEdges edges = new ColorEdges();
     edges.setAlpha(getColorAlpha());
@@ -105,6 +98,74 @@ public class PowerMode implements PersistentStateComponent<PowerMode>,
     edges.setBlueFrom(getBlueFrom());
     edges.setBlueTo(getBlueTo());
     return edges;
+  }
+
+  public int getColorAlpha() {
+    return colorAlpha;
+  }
+
+  public int getRedFrom() {
+    return redFrom;
+  }
+
+  public void setRedFrom(int redFrom) {
+    if (redFrom <= redTo) {
+      this.redFrom = redFrom;
+    }
+  }
+
+  public int getRedTo() {
+    return redTo;
+  }
+
+  public void setRedTo(int redTo) {
+    if (redTo >= redFrom) {
+      this.redTo = redTo;
+    }
+  }
+
+  public int getGreenFrom() {
+    return greenFrom;
+  }
+
+  public void setGreenFrom(int greenFrom) {
+    if (greenFrom <= greenTo) {
+      this.greenFrom = greenFrom;
+    }
+  }
+
+  public int getGreenTo() {
+    return greenTo;
+  }
+
+  public void setGreenTo(int greenTo) {
+    if (greenTo >= greenFrom) {
+      this.greenTo = greenTo;
+    }
+  }
+
+  public int getBlueFrom() {
+    return blueFrom;
+  }
+
+  public void setBlueFrom(int blueFrom) {
+    if (blueFrom <= blueTo) {
+      this.blueFrom = blueFrom;
+    }
+  }
+
+  public int getBlueTo() {
+    return blueTo;
+  }
+
+  public void setBlueTo(int blueTo) {
+    if (blueTo >= blueFrom) {
+      this.blueTo = blueTo;
+    }
+  }
+
+  public void setColorAlpha(int colorAlpha) {
+    this.colorAlpha = colorAlpha;
   }
 
   public File flameImageFolder() {
@@ -176,7 +237,6 @@ public class PowerMode implements PersistentStateComponent<PowerMode>,
     }
     return 0.0;
   }
-
 
   @Override
   public void initComponent() {
@@ -409,74 +469,6 @@ public class PowerMode implements PersistentStateComponent<PowerMode>,
 
   public void setCustomBamImages(boolean customBamImages) {
     isCustomBamImages = customBamImages;
-  }
-
-  public int getRedFrom() {
-    return redFrom;
-  }
-
-  public void setRedFrom(int redFrom) {
-    if (redFrom <= redTo) {
-      this.redFrom = redFrom;
-    }
-  }
-
-  public int getRedTo() {
-    return redTo;
-  }
-
-  public void setRedTo(int redTo) {
-    if (redTo >= redFrom) {
-      this.redTo = redTo;
-    }
-  }
-
-  public int getGreenFrom() {
-    return greenFrom;
-  }
-
-  public void setGreenFrom(int greenFrom) {
-    if (greenFrom <= greenTo) {
-      this.greenFrom = greenFrom;
-    }
-  }
-
-  public int getGreenTo() {
-    return greenTo;
-  }
-
-  public void setGreenTo(int greenTo) {
-    if (greenTo >= greenFrom) {
-      this.greenTo = greenTo;
-    }
-  }
-
-  public int getBlueFrom() {
-    return blueFrom;
-  }
-
-  public void setBlueFrom(int blueFrom) {
-    if (blueFrom <= blueTo) {
-      this.blueFrom = blueFrom;
-    }
-  }
-
-  public int getBlueTo() {
-    return blueTo;
-  }
-
-  public void setBlueTo(int blueTo) {
-    if (blueTo >= blueFrom) {
-      this.blueTo = blueTo;
-    }
-  }
-
-  public int getColorAlpha() {
-    return colorAlpha;
-  }
-
-  public void setColorAlpha(int colorAlpha) {
-    this.colorAlpha = colorAlpha;
   }
 
   public int getHeatupThreshold() {

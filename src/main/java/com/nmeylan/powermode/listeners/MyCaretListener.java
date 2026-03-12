@@ -7,7 +7,7 @@ import com.nmeylan.powermode.Power;
 import com.nmeylan.powermode.util.Util;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.Point;
+import java.awt.*;
 
 public class MyCaretListener implements CaretListener, Power {
   private boolean modified = true;
@@ -31,9 +31,17 @@ public class MyCaretListener implements CaretListener, Power {
   }
 
   private void initializeAnimationByCaretEvent(Caret caret) {
-    if (Util.isActualEditor(caret.getEditor()) && powerMode().getElementContainerManager() != null) {
+    if (Util.isActualEditor(caret.getEditor())
+      && powerMode().getElementContainerManager() != null) {
       Point position = Util.getCaretPosition(caret);
-      powerMode().getElementContainerManager().initializeAnimation(caret.getEditor(), '\0', position);
+      powerMode()
+        .getElementContainerManager()
+        .initializeAnimation(
+          caret.getEditor(),
+          '\0',
+          position
+        )
+      ;
     }
   }
 }

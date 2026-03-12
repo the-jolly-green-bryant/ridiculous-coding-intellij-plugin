@@ -9,14 +9,15 @@ import com.nmeylan.powermode.PowerMode;
 import com.nmeylan.powermode.util.Util;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.SwingUtilities;
-import java.awt.Point;
+import javax.swing.*;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ElementContainerManager implements EditorFactoryListener, Power {
 
-  private static final Map<Editor, ElementContainer> elementContainers = new HashMap<>();
+  private static final Map<Editor, ElementContainer> elementContainers
+    = new HashMap<>();
   private final Thread elementsOfPowerUpdateThread;
 
   public ElementContainerManager() {
@@ -33,7 +34,12 @@ public class ElementContainerManager implements EditorFactoryListener, Power {
             }
           }
         } catch (Exception e) {
-          PowerMode.logger().error(e.getMessage(), e);
+          PowerMode
+            .logger()
+            .error(
+              e.getMessage(),
+              e
+            );
         }
       }
     });
@@ -42,7 +48,9 @@ public class ElementContainerManager implements EditorFactoryListener, Power {
 
 
   void updateContainers() {
-    elementContainers.values().forEach(ElementContainer::updateElementsOfPower);
+    elementContainers
+      .values()
+      .forEach(ElementContainer::updateElementsOfPower);
   }
 
 
@@ -50,7 +58,10 @@ public class ElementContainerManager implements EditorFactoryListener, Power {
   public void editorCreated(@NotNull EditorFactoryEvent event) {
     Editor editor = event.getEditor();
     if (Util.isActualEditor(editor)) {
-      elementContainers.put(editor, new ElementContainer((EditorImpl) editor));
+      elementContainers.put(
+        editor,
+        new ElementContainer((EditorImpl) editor)
+      );
     }
   }
 
@@ -59,14 +70,31 @@ public class ElementContainerManager implements EditorFactoryListener, Power {
     elementContainers.remove(event.getEditor());
   }
 
-  public void initializeAnimation(Editor editor, char c, Point position) {
+  public void initializeAnimation(
+    Editor editor,
+    char c,
+    Point position
+  ) {
     if (powerMode().isEnabled()) {
-      SwingUtilities.invokeLater(() -> initializeInUI(editor, c, position));
+      SwingUtilities.invokeLater(() -> initializeInUI(
+        editor,
+        c,
+        position
+      ));
     }
   }
 
-  public void initializeInUI(Editor editor, char c, Point position) {
-    elementContainers.get(editor).initializeAnimation(c, position);
+  public void initializeInUI(
+    Editor editor,
+    char c,
+    Point position
+  ) {
+    elementContainers
+      .get(editor)
+      .initializeAnimation(
+        c,
+        position
+      );
   }
 
   public void dispose() {
