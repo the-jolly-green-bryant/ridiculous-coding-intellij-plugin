@@ -9,7 +9,6 @@ import com.bryantjames.ridiculouscoding.util.Util;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -55,10 +54,7 @@ public class MyTypedActionHandler implements TypedActionHandler, Power {
     @NotNull DataContext dataContext
   ) {
     if (powerMode().isEnabled()) {
-      powerMode().increaseHeatup(
-        Optional.of(dataContext),
-        null
-      );
+      powerMode().increaseHeatup(null);
       initializeAnimationByTypedAction(
         editor,
         c

@@ -63,46 +63,41 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     int y = editor
       .getScrollPane()
       .getHeight() / 2 - (dim / 2);
-    if (powerMode().isBamEnabled()) {
-      addBam(new Point(
-        x,
-        y
-      ));
-    }
-    if (powerMode().isSparksEnabled()) {
-      addSparks(new Point(
-        editor
-          .getScrollPane()
-          .getWidth() / 4,
-        editor
-          .getScrollPane()
-          .getHeight() / 4
-      ));
-      addSparks(new Point(
-        editor
-          .getScrollPane()
-          .getWidth() * 3 / 4,
-        editor
-          .getScrollPane()
-          .getHeight() * 3 / 4
-      ));
-      addSparks(new Point(
-        editor
-          .getScrollPane()
-          .getWidth() / 4,
-        editor
-          .getScrollPane()
-          .getHeight() * 3 / 4
-      ));
-      addSparks(new Point(
-        editor
-          .getScrollPane()
-          .getWidth() * 3 / 4,
-        editor
-          .getScrollPane()
-          .getHeight() / 4
-      ));
-    }
+
+    // TODO - Move the guard into the addBam function.
+    addBam(new Point(x, y));
+    addSparks(new Point(
+      editor
+        .getScrollPane()
+        .getWidth() / 4,
+      editor
+        .getScrollPane()
+        .getHeight() / 4
+    ));
+    addSparks(new Point(
+      editor
+        .getScrollPane()
+        .getWidth() * 3 / 4,
+      editor
+        .getScrollPane()
+        .getHeight() * 3 / 4
+    ));
+    addSparks(new Point(
+      editor
+        .getScrollPane()
+        .getWidth() / 4,
+      editor
+        .getScrollPane()
+        .getHeight() * 3 / 4
+    ));
+    addSparks(new Point(
+      editor
+        .getScrollPane()
+        .getWidth() * 3 / 4,
+      editor
+        .getScrollPane()
+        .getHeight() / 4
+    ));
 
     for (
       int i = 0;
@@ -131,6 +126,10 @@ public class ElementContainer extends JComponent implements ComponentListener, P
   }
 
   private void addBam(Point point) {
+    if (!powerMode().isBamEnabled()) {
+      return;
+    }
+
     int dim = editor
       .getScrollPane()
       .getHeight() / 2;
@@ -149,6 +148,10 @@ public class ElementContainer extends JComponent implements ComponentListener, P
   }
 
   private void addSparks(Point point) {
+    if (powerMode().isSparksEnabled()) {
+      return;
+    }
+
     for (
       int i = 0;
       i < (int) (powerMode().getSparkCount() * powerMode().valueFactor());
@@ -165,6 +168,10 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     Point point,
     Direction direction
   ) {
+    if (!powerMode().isFlamesEnabled()) {
+      return;
+    }
+
     float base = 0.3f;
     int wh = (int) (
       (
@@ -176,44 +183,37 @@ public class ElementContainer extends JComponent implements ComponentListener, P
       )
     );
     int initLife = (int) (powerMode().getMaxFlameLife() * powerMode().valueFactor());
-    if (initLife > 100) {
-      if (direction != null) {
-        elements.add(Pair.with(
-          new PowerFlame(
-            point.x + 5,
-            point.y - 1,
-            wh,
-            wh,
-            initLife,
-            direction
-          ),
-          getScrollPosition()
-        ));
-      } else {
-        elements.add(Pair.with(
-          new PowerFlame(
-            point.x + 5,
-            point.y - 1,
-            wh,
-            wh,
-            initLife,
-            Direction.UP
-          ),
-          getScrollPosition()
-        ));
-        elements.add(Pair.with(
-          new PowerFlame(
-            point.x + 5,
-            point.y + 15,
-            wh,
-            wh,
-            initLife,
-            Direction.DOWN
-          ),
-          getScrollPosition()
-        ));
-      }
+    if (initLife <= 100) {
+      return;
     }
+
+    elements.add(Pair.with(
+      new PowerFlame(
+        point.x + 5,
+        point.y - 1,
+        wh,
+        wh,
+        initLife,
+        direction != null ? direction : Direction.UP
+      ),
+      getScrollPosition()
+    ));
+
+    if (direction != null) {
+      return;
+    }
+
+    elements.add(Pair.with(
+      new PowerFlame(
+        point.x + 5,
+        point.y + 15,
+        wh,
+        wh,
+        initLife,
+        Direction.DOWN
+      ),
+      getScrollPosition()
+    ));
   }
 
   private Point getScrollPosition() {
@@ -272,23 +272,8 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     ), powerMode().getColorAlpha() / 255f};
   }
 
-  private float getColorPart(
-    int from,
-    int to
-  ) {
+  private float getColorPart(int from, int to) {
     return (float) (((Math.random() * (to - from)) + from) / 255);
-  }
-
-  private List<Point> getAllCaretPositions() {
-    return editor
-      .getCaretModel()
-      .getAllCarets()
-      .stream()
-      .map(caret -> Util.getPoint(
-        caret.getVisualPosition(),
-        caret.getEditor()
-      ))
-      .collect(Collectors.toList());
   }
 
   public void updateElementsOfPower() {
@@ -296,20 +281,21 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     if (delta > (1000.0 / powerMode().getFrameRate()) * 2) {
       delta = 16;
     }
+
     lastUpdate = System.currentTimeMillis();
     double db = 1000.0 / 16;
     long deltaa = delta;
-    if (!elements.isEmpty()) {
-      elements.removeIf(p -> {
-        p
-          .first()
-          .update((deltaa / db));
-        return !p
-          .first()
-          .isAlive();
-      });
-      repaint();
+    if (elements.isEmpty()) {
+      return;
     }
+
+    elements.removeIf(p -> {
+      p.first().update((deltaa / db));
+      return !p
+        .first()
+        .isAlive();
+    });
+    repaint();
   }
 
   public void initializeAnimation(
@@ -327,23 +313,12 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     }
 
     if (c == '\n') {
-      System.out.println("Adding Bam!");
       addBam(point);
     }
 
-    if (powerMode().isSparksEnabled()) {
-      addSparks(point);
-    }
-    if (powerMode().isFlamesEnabled()) {
-      addFlames(
-        point,
-        null
-      );
-    }
-
-    if (powerMode().isShakeEnabled()) {
-      doShake(shakeComponents);
-    }
+    addSparks(point);
+    addFlames(point, null);
+    doShake(shakeComponents);
     repaint();
   }
 
@@ -360,11 +335,7 @@ public class ElementContainer extends JComponent implements ComponentListener, P
       i < (int) (powerMode().getSparkCount() * powerMode().valueFactor());
       i++
     ) {
-      addCharacter(
-        point.x,
-        point.y,
-        c
-      );
+      addCharacter(point.x, point.y, c);
     }
   }
 
@@ -443,57 +414,63 @@ public class ElementContainer extends JComponent implements ComponentListener, P
   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
-    if (powerMode().isEnabled()) {
-      if (shakeData != null
-        && shakeData.size() >= 2
-        && System.currentTimeMillis() - lastShake > 100
-        && Math.abs(shakeData.get(0).x) < 50
-        && Math.abs(shakeData.get(1).y) < 50) {
-        doShake(List.of(editor.getComponent()));
-      }
-      renderElementsOfPower(g);
+    if (!powerMode().isEnabled()) {
+      return;
     }
+
+    if (shakeData != null
+      && shakeData.size() >= 2
+      && System.currentTimeMillis() - lastShake > 100
+      && Math.abs(shakeData.get(0).x) < 50
+      && Math.abs(shakeData.get(1).y) < 50) {
+      doShake(List.of(editor.getComponent()));
+    }
+
+    renderElementsOfPower(g);
   }
 
   private void doShake(List<JComponent> myShakeComponents) {
-    if (Util.editorOk(
-      editor,
-      100
-    )) {
-      int x, y;
-      if (!shakeData.isEmpty()) {
-        x = shakeData.get(0).x;
-        y = shakeData.get(0).y;
-        shakeData.clear();
-      } else {
-        x = generateShakeOffset();
-        y = generateShakeOffset();
-        int scrollX = editor
-          .getScrollingModel()
-          .getHorizontalScrollOffset();
-        int scrollY = editor
-          .getScrollingModel()
-          .getVerticalScrollOffset();
-        shakeData.add(new Point(
-          x,
-          y
-        ));
-        shakeData.add(new Point(
-          scrollX,
-          scrollY
-        ));
-      }
-      myShakeComponents.forEach(component -> {
-        Rectangle bounds = component.getBounds();
-        component.setBounds(
-          bounds.x + x,
-          bounds.y + y,
-          bounds.width,
-          bounds.height
-        );
-      });
-      lastShake = System.currentTimeMillis();
+    if (!powerMode().isShakeEnabled()) {
+      return;
     }
+
+    if (!Util.editorOk(editor, 100)) {
+      return;
+    }
+
+    int x, y;
+    if (!shakeData.isEmpty()) {
+      x = shakeData.get(0).x;
+      y = shakeData.get(0).y;
+      shakeData.clear();
+    } else {
+      x = generateShakeOffset();
+      y = generateShakeOffset();
+      int scrollX = editor
+        .getScrollingModel()
+        .getHorizontalScrollOffset();
+      int scrollY = editor
+        .getScrollingModel()
+        .getVerticalScrollOffset();
+      shakeData.add(new Point(
+        x,
+        y
+      ));
+      shakeData.add(new Point(
+        scrollX,
+        scrollY
+      ));
+    }
+    myShakeComponents.forEach(component -> {
+      Rectangle bounds = component.getBounds();
+      component.setBounds(
+        bounds.x + x,
+        bounds.y + y,
+        bounds.width,
+        bounds.height
+      );
+    });
+    lastShake = System.currentTimeMillis();
   }
 
   private void renderElementsOfPower(Graphics g) {

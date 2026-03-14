@@ -1,6 +1,5 @@
 package com.bryantjames.ridiculouscoding;
 
-import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.components.PersistentStateComponent;
@@ -176,10 +175,7 @@ public class PowerMode implements PersistentStateComponent<PowerMode>,
     return isCustomBamImages ? customBamImageFolder : new File("bam");
   }
 
-  public void increaseHeatup(
-    Optional<DataContext> dataContext,
-    KeyStroke keyStroke
-  ) {
+  public void increaseHeatup(KeyStroke keyStroke) {
     if (keyStroke != null) {
       long ct = System.currentTimeMillis();
       lastKeys.put(
@@ -272,7 +268,7 @@ public class PowerMode implements PersistentStateComponent<PowerMode>,
 
   @Override
   public @NotNull String getComponentName() {
-    return "PowerModeIII";
+    return "RidiculousCoding";
   }
 
   @Override
