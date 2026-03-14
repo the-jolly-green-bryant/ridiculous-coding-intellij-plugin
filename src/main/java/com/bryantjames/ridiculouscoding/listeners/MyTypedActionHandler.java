@@ -53,33 +53,40 @@ public class MyTypedActionHandler implements TypedActionHandler, Power {
     char c,
     @NotNull DataContext dataContext
   ) {
-    if (powerMode().isEnabled()) {
-      powerMode().increaseHeatup(null);
-      initializeAnimationByTypedAction(
-        editor,
-        c
-      );
+    // TODO - Bet we could replace this with a throwable. This style of guarding is very
+    //  common and we'd only need to catch it in a couple places.
+    if (!powerMode().isEnabled()) {
+      return;
     }
+
+    powerMode().increaseHeatup(null);
+    initializeAnimationByTypedAction(
+      editor,
+      c
+    );
   }
 
   public void initializeAnimationByTypedAction(
     Editor editor,
     char c
   ) {
+    // TODO - Same as above.
     boolean isActualEditor = Util.isActualEditor(editor);
-    if (isActualEditor && powerMode().getElementContainerManager() != null) {
-      Set<Point> positions = getEditorCaretPositions(editor);
-      positions.forEach(pos -> {
-        powerMode()
-          .getElementContainerManager()
-          .initializeAnimation(
-            editor,
-            c,
-            pos
-          )
-        ;
-      });
+    if (!isActualEditor || powerMode().getElementContainerManager() == null) {
+      return;
     }
+
+    Set<Point> positions = getEditorCaretPositions(editor);
+    positions.forEach(pos -> {
+      powerMode()
+        .getElementContainerManager()
+        .initializeAnimation(
+          editor,
+          c,
+          pos
+        )
+      ;
+    });
   }
 
   public Set<Point> getEditorCaretPositions(Editor editor) {

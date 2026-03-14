@@ -30,6 +30,7 @@ public class MyEnterHandler extends EnterHandlerDelegateAdapter {
       '\n',
       dataContext
     );
+
     return super.preprocessEnter(
       file,
       editor,

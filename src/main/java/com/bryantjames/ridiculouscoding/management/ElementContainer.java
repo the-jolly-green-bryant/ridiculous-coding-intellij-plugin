@@ -17,7 +17,6 @@ import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 public class ElementContainer extends JComponent implements ComponentListener, Power {
@@ -57,53 +56,23 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     int dim = editor
       .getScrollPane()
       .getHeight() / 2;
-    int x = editor
+    int w = editor
       .getScrollPane()
-      .getWidth() / 2;
-    int y = editor
+      .getWidth();
+    int h = editor
       .getScrollPane()
-      .getHeight() / 2 - (dim / 2);
+      .getHeight();
 
-    // TODO - Move the guard into the addBam function.
-    addBam(new Point(x, y));
-    addSparks(new Point(
-      editor
-        .getScrollPane()
-        .getWidth() / 4,
-      editor
-        .getScrollPane()
-        .getHeight() / 4
-    ));
-    addSparks(new Point(
-      editor
-        .getScrollPane()
-        .getWidth() * 3 / 4,
-      editor
-        .getScrollPane()
-        .getHeight() * 3 / 4
-    ));
-    addSparks(new Point(
-      editor
-        .getScrollPane()
-        .getWidth() / 4,
-      editor
-        .getScrollPane()
-        .getHeight() * 3 / 4
-    ));
-    addSparks(new Point(
-      editor
-        .getScrollPane()
-        .getWidth() * 3 / 4,
-      editor
-        .getScrollPane()
-        .getHeight() / 4
-    ));
+    addBam(new Point(w / 2, h / 2 - (dim / 2)));
+    addSparks(new Point(w / 4, h / 4));
+    addSparks(new Point(w * 3 / 4, h * 3 / 4));
+    addSparks(new Point(w / 4, h * 3 / 4));
+    addSparks(new Point(w * 3 / 4, h / 4));
 
+    // TODO - Probably an easier way to do this.
     for (
       int i = 0;
-      i < editor
-        .getScrollPane()
-        .getHeight();
+      i < h;
       i += 15
     ) {
       addFlames(
@@ -115,9 +84,7 @@ public class ElementContainer extends JComponent implements ComponentListener, P
       );
       addFlames(
         new Point(
-          editor
-            .getScrollPane()
-            .getWidth() - 75,
+          w - 75,
           i
         ),
         Direction.LEFT

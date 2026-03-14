@@ -16,25 +16,26 @@ class HotkeyHeatupListener implements AWTEventListener, Power, ApplicationCompon
 
   @Override
   public void eventDispatched(AWTEvent e) {
-    if (powerMode().isEnabled() && powerMode().isHotkeyHeatup()) {
-      if (e instanceof KeyEvent event && (
-        event.getModifiersEx() & (
-          InputEvent.CTRL_DOWN_MASK
-            | InputEvent.ALT_DOWN_MASK
-            | InputEvent.SHIFT_DOWN_MASK
-        )
-      ) > 0) {
+    if (!powerMode().isEnabled() || !powerMode().isHotkeyHeatup()) {
+      return;
+    }
 
-          KeyStroke eventKeyStroke = KeyStroke.getKeyStroke(
-            event.getKeyCode(),
-            event.getModifiersEx()
-          );
+    if (e instanceof KeyEvent event && (
+      event.getModifiersEx() & (
+        InputEvent.CTRL_DOWN_MASK
+          | InputEvent.ALT_DOWN_MASK
+          | InputEvent.SHIFT_DOWN_MASK
+      )
+    ) > 0) {
 
-          powerMode().increaseHeatup(
-            eventKeyStroke
-          );
-        }
+        KeyStroke eventKeyStroke = KeyStroke.getKeyStroke(
+          event.getKeyCode(),
+          event.getModifiersEx()
+        );
 
+        powerMode().increaseHeatup(
+          eventKeyStroke
+        );
     }
   }
 

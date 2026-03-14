@@ -10,7 +10,6 @@ public class ColorViewController {
   private final PowerMode powerMode;
   double c = 0;
   double f = 60.0;
-  //    double x = (255 / 5000.0) * f;
   int dir = 1;
 
   public ColorViewController(

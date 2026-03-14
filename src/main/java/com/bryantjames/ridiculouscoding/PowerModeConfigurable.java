@@ -25,6 +25,7 @@ public class PowerModeConfigurable extends ConfigurableBase {
     if (settings == null) {
       throw new IllegalStateException("power mode is null");
     }
+
     return settings;
   }
 

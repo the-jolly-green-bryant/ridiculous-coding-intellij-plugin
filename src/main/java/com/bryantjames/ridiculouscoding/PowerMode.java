@@ -75,11 +75,12 @@ public class PowerMode implements PersistentStateComponent<PowerMode>,
         .getApplication()
         .getComponent(PowerMode.class);
     } catch (Throwable e) {
-      logger().debug(
+      logger().error(
         "error getting component: " + e.getMessage(),
         e
       );
     }
+
     return null;
   }
 
@@ -117,6 +118,7 @@ public class PowerMode implements PersistentStateComponent<PowerMode>,
     return redTo;
   }
 
+  // TODO - I don't like how repetitive these colors are, maybe derive class?
   public void setRedTo(int redTo) {
     if (redTo >= redFrom) {
       this.redTo = redTo;
@@ -176,13 +178,15 @@ public class PowerMode implements PersistentStateComponent<PowerMode>,
   }
 
   public void increaseHeatup(KeyStroke keyStroke) {
-    if (keyStroke != null) {
-      long ct = System.currentTimeMillis();
-      lastKeys.put(
-        keyStroke,
-        ct
-      );
+    if (keyStroke == null) {
+      return;
     }
+
+    long ct = System.currentTimeMillis();
+    lastKeys.put(
+      keyStroke,
+      ct
+    );
   }
 
   public void reduceHeatup() {
@@ -202,7 +206,7 @@ public class PowerMode implements PersistentStateComponent<PowerMode>,
   }
 
   public double valueFactor() {
-    double base = heatupFactor + ((1 - heatupFactor) * timeFactor(false));
+    double base = heatupFactor + ((1 - heatupFactor) * timeFactor());
     double elems = (base - heatupThreshold) / (1 - heatupThreshold);
     double max = Math.max(
       elems,
@@ -213,25 +217,26 @@ public class PowerMode implements PersistentStateComponent<PowerMode>,
     return max;
   }
 
-  private double timeFactor(boolean isRaw) {
+  private double timeFactor() {
     if (heatupTime < 1000) {
       return 1;
-    } else if (!lastKeys.isEmpty()) {
-      double d = heatupTime / (60000.0 / keyStrokesPerMinute);
-      double keysWorth = lastKeys
-        .keySet()
-        .stream()
-        .filter(keystroke -> HOT_INPUTS.contains(keystroke.getModifiers()))
-        .count() * hotkeyWeight;
-      if (isRaw) {
-        return keysWorth / d;
-      }
-      return Math.min(
-        keysWorth,
-        d
-      ) / d;
     }
-    return 0.0;
+
+    if (lastKeys.isEmpty()) {
+      return 0;
+    }
+
+    double d = heatupTime / (60000.0 / keyStrokesPerMinute);
+    double keysWorth = lastKeys
+      .keySet()
+      .stream()
+      .filter(keystroke -> HOT_INPUTS.contains(keystroke.getModifiers()))
+      .count() * hotkeyWeight;
+
+    return Math.min(
+      keysWorth,
+      d
+    ) / d;
   }
 
   @Override
@@ -263,6 +268,7 @@ public class PowerMode implements PersistentStateComponent<PowerMode>,
     if (elementContainerManager == null) {
       return;
     }
+
     elementContainerManager.dispose();
   }
 
@@ -359,14 +365,7 @@ public class PowerMode implements PersistentStateComponent<PowerMode>,
     );
   }
 
-  public Map<KeyStroke, Long> getLastKeys() {
-    return lastKeys;
-  }
-
-  public void setLastKeys(Map<KeyStroke, Long> lastKeys) {
-    this.lastKeys = lastKeys;
-  }
-
+  // TODO - Seems like unnecessary overhead for a value only set in settings.
   public int getKeyStrokesPerMinute() {
     return keyStrokesPerMinute;
   }

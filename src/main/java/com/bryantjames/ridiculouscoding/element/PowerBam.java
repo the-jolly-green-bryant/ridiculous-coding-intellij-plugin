@@ -70,13 +70,15 @@ public class PowerBam extends Element {
 
   @Override
   public boolean update(double delta) {
-    if (isAlive()) {
-      x = (float) (_x + (0.5 * _width) - (0.5 * _width * lifeFactor()));
-      y = (float) (_y + (0.5 * _height) - (0.5 * _height * lifeFactor()));
-      width = (int) (_width * lifeFactor());
-      height = (int) (_height * lifeFactor());
+    if (!isAlive()) {
+      return true;
     }
-    return !isAlive();
+
+    x = (float) (_x + (0.5 * _width) - (0.5 * _width * lifeFactor()));
+    y = (float) (_y + (0.5 * _height) - (0.5 * _height * lifeFactor()));
+    width = (int) (_width * lifeFactor());
+    height = (int) (_height * lifeFactor());
+    return false;
   }
 
   @Override
@@ -85,21 +87,23 @@ public class PowerBam extends Element {
     int dxx,
     int dyy
   ) {
-    if (isAlive() && currentImage != null) {
-      Graphics2D g2d = (Graphics2D) g.create();
-      g2d.setComposite(AlphaComposite.getInstance(
-        AlphaComposite.SRC_OVER,
-        Util.alpha(0.9f * (1 - lifeFactor()))
-      ));
-      g2d.drawImage(
-        currentImage,
-        (int) x + dxx,
-        (int) y + dyy,
-        width,
-        height,
-        null
-      );
-      g2d.dispose();
+    if (!isAlive() || currentImage == null) {
+      return;
     }
+
+    Graphics2D g2d = (Graphics2D) g.create();
+    g2d.setComposite(AlphaComposite.getInstance(
+      AlphaComposite.SRC_OVER,
+      Util.alpha(0.9f * (1 - lifeFactor()))
+    ));
+    g2d.drawImage(
+      currentImage,
+      (int) x + dxx,
+      (int) y + dyy,
+      width,
+      height,
+      null
+    );
+    g2d.dispose();
   }
 }

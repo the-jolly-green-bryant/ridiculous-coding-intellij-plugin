@@ -27,6 +27,7 @@ public class ElementContainerManager implements EditorFactoryListener, Power {
           if (powerMode() != null) {
             powerMode().reduceHeatup();
             updateContainers();
+
             try {
               Thread.sleep(1000 / powerMode().getFrameRate());
             } catch (InterruptedException e) {
@@ -43,6 +44,7 @@ public class ElementContainerManager implements EditorFactoryListener, Power {
         }
       }
     });
+
     elementsOfPowerUpdateThread.start();
   }
 
@@ -75,13 +77,15 @@ public class ElementContainerManager implements EditorFactoryListener, Power {
     char c,
     Point position
   ) {
-    if (powerMode().isEnabled()) {
-      SwingUtilities.invokeLater(() -> initializeInUI(
-        editor,
-        c,
-        position
-      ));
+    if (!powerMode().isEnabled()) {
+      return;
     }
+
+    SwingUtilities.invokeLater(() -> initializeInUI(
+      editor,
+      c,
+      position
+    ));
   }
 
   public void initializeInUI(

@@ -17,6 +17,7 @@ public class MyCaretListener implements CaretListener, Power {
     if (!modified && powerMode().isCaretActionEnabled()) {
       initializeAnimationByCaretEvent(event.getCaret());
     }
+
     modified = false;
   }
 
@@ -31,17 +32,19 @@ public class MyCaretListener implements CaretListener, Power {
   }
 
   private void initializeAnimationByCaretEvent(Caret caret) {
-    if (Util.isActualEditor(caret.getEditor())
-      && powerMode().getElementContainerManager() != null) {
-      Point position = Util.getCaretPosition(caret);
-      powerMode()
-        .getElementContainerManager()
-        .initializeAnimation(
-          caret.getEditor(),
-          '\0',
-          position
-        )
-      ;
+    if (!Util.isActualEditor(caret.getEditor())
+      || powerMode().getElementContainerManager() == null) {
+      return;
     }
+
+    Point position = Util.getCaretPosition(caret);
+    powerMode()
+      .getElementContainerManager()
+      .initializeAnimation(
+        caret.getEditor(),
+        '\0',
+        position
+      )
+    ;
   }
 }

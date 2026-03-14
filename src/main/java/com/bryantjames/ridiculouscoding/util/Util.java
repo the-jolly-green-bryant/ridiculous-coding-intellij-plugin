@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Util {
-  private static List<EditorKind> EDITOR_KINDS = Arrays.asList(
+  private static final List<EditorKind> EDITOR_KINDS = Arrays.asList(
     EditorKind.UNTYPED,
     EditorKind.MAIN_EDITOR,
     EditorKind.DIFF
@@ -51,8 +51,7 @@ public class Util {
     Editor editor,
     int maxSize
   ) {
-    if (editor instanceof EditorImpl) {
-      EditorImpl impl = (EditorImpl) editor;
+    if (editor instanceof EditorImpl impl) {
       return !(
         impl.getPreferredSize().height < maxSize
           || impl.getPreferredSize().width < maxSize
