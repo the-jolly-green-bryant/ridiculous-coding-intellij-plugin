@@ -71,13 +71,6 @@ public class PowerCharacter extends Element {
         RenderingHints.VALUE_ANTIALIAS_ON
       );
 
-      g2d.setColor(new Color(
-        colors[0],
-        colors[1],
-        colors[2],
-        Util.alpha(colors[3])
-      ));
-
       float p = progress();
       float rawSize = Math.max(size * (1.4f + (p * 0.8f)), 16f);
       int quantizedSize = Math.round(rawSize / 2f) * 2; // 16, 18, 20, etc
@@ -93,11 +86,21 @@ public class PowerCharacter extends Element {
       int drawX = (int) (dxx + x - (fm.stringWidth(text) / 2f));
       int drawY = Math.round(dyy + y + ((fm.getAscent() - fm.getDescent()) / 2f));
 
-      g2d.drawString(
-        text,
-        drawX,
-        drawY
+      float alpha = colors[3];
+      Color mainColor = new Color(
+        colors[0],
+        colors[1],
+        colors[2],
+        alpha
       );
+      int shadowAlpha = Math.max(40, (int)(alpha * 255 / 3));
+      Color shadowColor = new Color(0, 0, 0, shadowAlpha);
+
+      g2d.setColor(shadowColor);
+      g2d.drawString(text, drawX + 2, drawY + 2);
+
+      g2d.setColor(mainColor);
+      g2d.drawString(text, drawX, drawY);
     } finally {
       g2d.dispose();
     }
