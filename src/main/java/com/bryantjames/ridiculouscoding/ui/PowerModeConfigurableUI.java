@@ -62,7 +62,10 @@ public class PowerModeConfigurableUI implements ConfigurableUi<PowerMode> {
   private JLabel sparkColorBlueToValue;
   private JLabel sparkColorAlphaValue;
   private JSlider sparkColorAlpha;
-  private JPanel colorView;
+  private JPanel colorView = new MultiGradientPanel(
+    200,
+    null
+  );
   private JCheckBox visualizeEveryCaretMovementCheckBox;
   private JCheckBox BAMCheckBox;
   private JLabel bamLifeValue;

@@ -1,1 +1,1 @@
-rootProject.name = "power-mode-3-intellij-plugin"
+rootProject.name = "ridiculous-coding-intellij-plugin"

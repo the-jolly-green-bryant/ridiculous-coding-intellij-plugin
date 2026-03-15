@@ -2,12 +2,12 @@
     <id>com.nmeylan.powermode</id>
     <name>Ridiculous Coding</name>
     <version>97.68</version>
-    <vendor email="nmeylan@gmail.com" url="https://github.com/nmeylan/power-mode-3-intellij-plugin">Nicolas Meylan
+    <vendor email="bryant@bryantjames.com" url="https://github.com/the-jolly-green-bryant/ridiculous-coding-intellij-plugin">Bryant James
     </vendor>
     <description><![CDATA[
         <h1>Ridiculous Coding</h1>
-        <div>Forked from axaluss on Github. Credits to https://github.com/axaluss/power-mode-intellij-plugin.</div>
-        <div>Source available here: https://github.com/nmeylan/power-mode-3-intellij-plugin</div>
+        <div>Make your coding experience in IntelliJ 1000x more ridiculous.</div>
+        <div>Source available here: https://github.com/the-jolly-green-bryant/ridiculous-coding-intellij-plugin</div>
         ]]></description>
 
     <idea-version since-build="143.0"/>
@@ -34,13 +34,13 @@
 
         <action id="togglePowerModeIII" class="com.bryantjames.ridiculouscoding.listeners.TogglePowerMode"
                 text="Toggle Ridiculous Coding"
-                description="Toggle Power Mode">
+                description="Toggle Ridiculous Coding">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt O"/>
         </action>
         <action id="toggleCaretPowerModeIII" class="com.bryantjames.ridiculouscoding.listeners.ToggleCaretPowerMode"
                 text="Toggle Caret Power Mode"
-                description="Toggle Caret Ridiculous Coding">
+                description="Toggle Caret Mode for Ridiculous Coding">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
         </action>
     </actions>
