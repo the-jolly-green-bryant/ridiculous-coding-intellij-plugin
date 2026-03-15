@@ -18,6 +18,14 @@ repositories {
     }
 }
 
+intellijPlatform {
+    pluginVerification {
+        ides {
+            recommended()
+        }
+    }
+}
+
 dependencies {
     intellijPlatform {
         intellijIdeaCommunity("2024.1")
