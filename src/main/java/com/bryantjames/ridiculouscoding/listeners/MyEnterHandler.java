@@ -27,7 +27,7 @@ public class MyEnterHandler extends EnterHandlerDelegateAdapter {
         .getRawHandler()
     ).powerType(
       editor,
-      '\n',
+      "\n",
       dataContext
     );
 

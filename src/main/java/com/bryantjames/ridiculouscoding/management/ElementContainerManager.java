@@ -74,7 +74,7 @@ public class ElementContainerManager implements EditorFactoryListener, Power {
 
   public void initializeAnimation(
     Editor editor,
-    char c,
+    String text,
     Point position
   ) {
     if (!powerMode().isEnabled()) {
@@ -83,20 +83,20 @@ public class ElementContainerManager implements EditorFactoryListener, Power {
 
     SwingUtilities.invokeLater(() -> initializeInUI(
       editor,
-      c,
+      text,
       position
     ));
   }
 
   public void initializeInUI(
     Editor editor,
-    char c,
+    String text,
     Point position
   ) {
     elementContainers
       .get(editor)
       .initializeAnimation(
-        c,
+        text,
         position
       );
   }

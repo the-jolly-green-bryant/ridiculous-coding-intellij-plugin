@@ -29,7 +29,7 @@ public class MyTypedActionHandler implements TypedActionHandler, Power {
   ) {
     powerType(
       editor,
-      c,
+      "" + c,
       dataContext
     );
     try {
@@ -50,7 +50,7 @@ public class MyTypedActionHandler implements TypedActionHandler, Power {
 
   public void powerType(
     @NotNull Editor editor,
-    char c,
+    String text,
     @NotNull DataContext dataContext
   ) {
     // TODO - Bet we could replace this with a throwable. This style of guarding is very
@@ -62,13 +62,13 @@ public class MyTypedActionHandler implements TypedActionHandler, Power {
     powerMode().increaseHeatup(null);
     initializeAnimationByTypedAction(
       editor,
-      c
+      text
     );
   }
 
   public void initializeAnimationByTypedAction(
     Editor editor,
-    char c
+    String text
   ) {
     // TODO - Same as above.
     boolean isActualEditor = Util.isActualEditor(editor);
@@ -82,7 +82,7 @@ public class MyTypedActionHandler implements TypedActionHandler, Power {
         .getElementContainerManager()
         .initializeAnimation(
           editor,
-          c,
+          text,
           pos
         )
       ;

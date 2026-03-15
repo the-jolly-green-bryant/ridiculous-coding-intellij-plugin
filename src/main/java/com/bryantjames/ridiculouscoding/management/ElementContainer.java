@@ -285,20 +285,20 @@ public class ElementContainer extends JComponent implements ComponentListener, P
   }
 
   public void initializeAnimation(
-    char c,
+    String text,
     Point point
   ) {
     this.setBounds(getMyBounds());
 
     // Add our character falling.
-    if (c != '\0') {
+    if (!text.isEmpty()) {
       addCharacter(
         point,
-        c
+        text
       );
     }
 
-    if (c == '\n') {
+    if (text.equals("\n")) {
       addBam(point);
     }
 
@@ -310,19 +310,19 @@ public class ElementContainer extends JComponent implements ComponentListener, P
 
   private void addCharacter(
     Point point,
-    char c
+    String text
   ) {
-    if (c == '\0' || Character.isWhitespace(c)) {
+    if (text.isEmpty()) {
       return;
     }
 
-    addCharacter(point.x, point.y, c);
+    addCharacter(point.x, point.y, text);
   }
 
   private void addCharacter(
     int x,
     int y,
-    char c
+    String text
   ) {
     float velocityFactor = (float) powerMode().getSparkVelocityFactor();
 
@@ -347,7 +347,7 @@ public class ElementContainer extends JComponent implements ComponentListener, P
         life,
         getBrightColor(),
         (float) powerMode().getGravityFactor(),
-        c
+        text
       ),
       getScrollPosition()
     ));

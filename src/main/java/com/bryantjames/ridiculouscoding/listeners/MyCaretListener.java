@@ -42,7 +42,7 @@ public class MyCaretListener implements CaretListener, Power {
       .getElementContainerManager()
       .initializeAnimation(
         caret.getEditor(),
-        '\0',
+        "",
         position
       )
     ;

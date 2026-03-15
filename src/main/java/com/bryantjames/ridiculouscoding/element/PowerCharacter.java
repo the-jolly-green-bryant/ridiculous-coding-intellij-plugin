@@ -20,7 +20,7 @@ public class PowerCharacter extends Element {
   private int size;
   private float[] colors;
   private float gravityFactor;
-  private char character;
+  private String text;
 
   public PowerCharacter(
     float x,
@@ -31,7 +31,7 @@ public class PowerCharacter extends Element {
     long initLife,
     float[] colors,
     float gravityFactor,
-    char c
+    String text
   ) {
     this.x = x;
     this.y = y;
@@ -46,7 +46,7 @@ public class PowerCharacter extends Element {
     this.colors = colors;
     this.gravityFactor = gravityFactor;
     this.life = System.currentTimeMillis() + initLife;
-    this.character = c;
+    this.text = text;
   }
 
   @Override
@@ -83,7 +83,7 @@ public class PowerCharacter extends Element {
       Font font = FontUtil.getPixelFont(quantizedSize);
       g2d.setFont(font);
 
-      String text = String.valueOf(character).toUpperCase();
+      String text = String.valueOf(this.text).toUpperCase();
 
       float riseProgress = (float) Math.pow(p, 0.9f);
 
