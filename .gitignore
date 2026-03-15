@@ -2,6 +2,7 @@
 out
 *.iml
 *.jar
+!gradle/wrapper/gradle-wrapper.jar
 lib/
 *.zip
 
