@@ -87,15 +87,23 @@ public class PowerCharacter extends Element {
       int drawX = (int) (dxx + x - (fm.stringWidth(text) / 2f));
       int drawY = Math.round(dyy + y + ((fm.getAscent() - fm.getDescent()) / 2f));
 
-      float alpha = colors[3];
+      float fade = 1.0f - (p * 0.85f);
+      float alpha = colors[3] * fade;
+
       Color mainColor = new Color(
         colors[0],
         colors[1],
         colors[2],
         alpha
       );
-      int shadowAlpha = Math.max(40, (int)(alpha * 255 / 3));
-      Color shadowColor = new Color(0, 0, 0, shadowAlpha);
+      float shadowAlpha = Math.max(0.15f, alpha * 0.35f);
+
+      Color shadowColor = new Color(
+        colors[0] * 0.25f,
+        colors[1] * 0.25f,
+        colors[2] * 0.25f,
+        shadowAlpha
+      );
 
       g2d.setColor(shadowColor);
       g2d.drawString(text, drawX + 2, drawY + 2);

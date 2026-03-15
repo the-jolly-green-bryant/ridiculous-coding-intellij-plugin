@@ -49,7 +49,7 @@ public class PowerMode implements PersistentStateComponent<PowerMode>,
   private int shakeRange = 4;
   private boolean enabled = true;
   private boolean caretActionEnabled = true;
-  private boolean shakeEnabled = true;
+  private boolean shakeEnabled = false;
   private boolean bamEnabled = true;
   private boolean flamesEnabled = true;
   private boolean sparksEnabled = true;

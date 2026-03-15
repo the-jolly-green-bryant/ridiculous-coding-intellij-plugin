@@ -226,6 +226,34 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     ));
   }
 
+  private float[] getBrightColor() {
+    float[] hues = new float[] {
+      0.6f,
+      0.73f,
+      0.53f,
+      0.88f
+    };
+
+    float baseHue = hues[(int) (Math.random() * hues.length)];
+    float hue = baseHue + (((float) Math.random() - 0.5f) * 0.04f);
+
+    if (hue < 0f) hue += 1f;
+    if (hue > 1f) hue -= 1f;
+
+    float saturation = 0.70f + ((float) Math.random() * 0.25f);
+    float brightness = 0.92f + ((float) Math.random() * 0.08f);
+    float alpha = 0.95f;
+
+    Color color = Color.getHSBColor(hue, saturation, brightness);
+
+    return new float[] {
+      color.getRed() / 255f,
+      color.getGreen() / 255f,
+      color.getBlue() / 255f,
+      alpha
+    };
+  }
+
   private float[] genNextColor() {
     return new float[]{getColorPart(
       powerMode().getRedFrom(),
@@ -297,11 +325,11 @@ public class ElementContainer extends JComponent implements ComponentListener, P
       return;
     }
 
-    for (
-      int i = 0;
-      i < (int) (powerMode().getSparkCount() * powerMode().valueFactor());
-      i++
-    ) {
+    int count = Character.isLetterOrDigit(c)
+      ? 1 + (int) (Math.random() * 2)
+      : 1;
+
+    for (int i = 0; i < count; i++) {
       addCharacter(point.x, point.y, c);
     }
   }
@@ -311,28 +339,28 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     int y,
     char c
   ) {
-    float dx = (float) (
-      (Math.random() * 2)
-        * (Math.random() > 0.5 ? -1 : 1)
-        * powerMode().getSparkVelocityFactor()
-    );
-    float dy = (float) (
-      ((Math.random() * -3) - 1) * powerMode().getSparkVelocityFactor()
-    );
-    int size = (int) ((Math.random() * powerMode().getSparkSize()) + 10);
-    int life = (int) (
-      Math.random() * powerMode().getSparkLife() * powerMode().valueFactor()
-    );
+    float velocityFactor = (float) powerMode().getSparkVelocityFactor();
+
+    float startX = x + (float) ((Math.random() * 6) - 3);
+    float startY = y + (float) ((Math.random() * 4) - 2);
+
+    float dx = (float) (((Math.random() * 1.2) - 0.6) * velocityFactor);
+    float dy = (float) (-(1.8 + (Math.random() * 2.2)) * velocityFactor);
+
+    int size = 14 + (int) (Math.random() * 6);
+
+    int baseLife = (int) (powerMode().getSparkLife() * powerMode().valueFactor());
+    int life = (int) (baseLife * (0.75 + (Math.random() * 0.35)));
 
     elements.add(Pair.with(
       new PowerCharacter(
-        x,
-        y,
+        startX,
+        startY,
         dx,
         dy,
         size,
         life,
-        genNextColor(),
+        getBrightColor(),
         (float) powerMode().getGravityFactor(),
         c
       ),
