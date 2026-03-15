@@ -77,6 +77,10 @@ public class PowerModeConfigurableUI implements ConfigurableUi<PowerMode> {
 
 
   public PowerModeConfigurableUI(PowerMode powerMode) {
+    if (this.colorView == null) {
+      createUIComponents();
+    }
+
     ((MultiGradientPanel) colorView).setColorEdges(powerMode.obtainColorEdges());
     new ColorViewController(
       (MultiGradientPanel) colorView,
@@ -396,7 +400,7 @@ public class PowerModeConfigurableUI implements ConfigurableUi<PowerMode> {
   }
 
   private void createUIComponents() {
-    colorView = new MultiGradientPanel(
+    this.colorView = new MultiGradientPanel(
       200,
       null
     );
