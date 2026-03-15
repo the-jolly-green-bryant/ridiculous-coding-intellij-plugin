@@ -227,30 +227,21 @@ public class ElementContainer extends JComponent implements ComponentListener, P
   }
 
   private float[] getBrightColor() {
-    float[] hues = new float[] {
-      0.6f,
-      0.73f,
-      0.53f,
-      0.88f
+    Color[] palette = new Color[] {
+      new Color(80, 255, 255),   // cyan
+      new Color(255, 80, 220),   // magenta
+      new Color(255, 240, 80),   // yellow
+      new Color(120, 255, 120),  // green
+      new Color(255, 255, 255)   // white
     };
 
-    float baseHue = hues[(int) (Math.random() * hues.length)];
-    float hue = baseHue + (((float) Math.random() - 0.5f) * 0.04f);
-
-    if (hue < 0f) hue += 1f;
-    if (hue > 1f) hue -= 1f;
-
-    float saturation = 0.70f + ((float) Math.random() * 0.25f);
-    float brightness = 0.92f + ((float) Math.random() * 0.08f);
-    float alpha = 0.95f;
-
-    Color color = Color.getHSBColor(hue, saturation, brightness);
+    Color color = palette[(int) (Math.random() * palette.length)];
 
     return new float[] {
       color.getRed() / 255f,
       color.getGreen() / 255f,
       color.getBlue() / 255f,
-      alpha
+      1.0f
     };
   }
 
@@ -325,13 +316,7 @@ public class ElementContainer extends JComponent implements ComponentListener, P
       return;
     }
 
-    int count = Character.isLetterOrDigit(c)
-      ? 1 + (int) (Math.random() * 2)
-      : 1;
-
-    for (int i = 0; i < count; i++) {
-      addCharacter(point.x, point.y, c);
-    }
+    addCharacter(point.x, point.y, c);
   }
 
   private void addCharacter(
@@ -341,7 +326,7 @@ public class ElementContainer extends JComponent implements ComponentListener, P
   ) {
     float velocityFactor = (float) powerMode().getSparkVelocityFactor();
 
-    float startX = x + (float) ((Math.random() * 6) - 3);
+    float startX = x + (float) ((Math.random() * 8) - 4);
     float startY = y + (float) ((Math.random() * 4) - 2);
 
     float dx = (float) (((Math.random() * 1.2) - 0.6) * velocityFactor);

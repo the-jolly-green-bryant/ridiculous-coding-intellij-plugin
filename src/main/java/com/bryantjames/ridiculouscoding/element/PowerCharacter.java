@@ -1,5 +1,6 @@
 package com.bryantjames.ridiculouscoding.element;
 
+import com.bryantjames.ridiculouscoding.util.FontUtil;
 import com.bryantjames.ridiculouscoding.util.Util;
 
 import java.awt.*;
@@ -10,14 +11,14 @@ public class PowerCharacter extends Element {
 
   private float x;
   private float y;
+  private final float startX;
+  private final float startY;
   private float dx;
   private float dy;
   private int size;
   private float[] colors;
   private float gravityFactor;
   private char character;
-
-  private static final Map<Integer, Font> FONT_CACHE = new HashMap<>();
 
   public PowerCharacter(
     float x,
@@ -32,6 +33,8 @@ public class PowerCharacter extends Element {
   ) {
     this.x = x;
     this.y = y;
+    this.startX = x;
+    this.startY = y;
     this.dx = dx;
     this.dy = dy;
     this.size = size;
@@ -73,19 +76,22 @@ public class PowerCharacter extends Element {
       );
 
       float p = progress();
-      float rawSize = Math.max(size * (1.4f + (p * 0.8f)), 16f);
+      float pop = 1.0f + (0.25f * (1.0f - p));
+      float rawSize = size * pop;
       int quantizedSize = Math.round(rawSize / 2f) * 2; // 16, 18, 20, etc
-      Font font = FONT_CACHE.computeIfAbsent(
-        quantizedSize,
-        s -> g2d.getFont().deriveFont(Font.BOLD, (float) s)
-      );
+      Font font = FontUtil.getPixelFont(quantizedSize);
       g2d.setFont(font);
 
       String text = String.valueOf(character).toUpperCase();
       FontMetrics fm = g2d.getFontMetrics(font);
 
-      int drawX = (int) (dxx + x - (fm.stringWidth(text) / 2f));
-      int drawY = Math.round(dyy + y + ((fm.getAscent() - fm.getDescent()) / 2f));
+      float eased = 1.0f - (float) Math.pow(1.0f - p, 2.0f); // ease out
+
+      float offsetY = -28f * eased;
+      float offsetX = dx * 10f * eased;
+
+      float drawX = x + offsetX;
+      float drawY = y + offsetY;
 
       float fade = 1.0f - (p * 0.85f);
       float alpha = colors[3] * fade;
@@ -105,8 +111,17 @@ public class PowerCharacter extends Element {
         shadowAlpha
       );
 
+      int shadowSize = 2;
+
       g2d.setColor(shadowColor);
-      g2d.drawString(text, drawX + 2, drawY + 2);
+      g2d.drawString(text, drawX - shadowSize, drawY - shadowSize);
+      g2d.drawString(text, drawX, drawY - shadowSize);
+      g2d.drawString(text, drawX + shadowSize, drawY - shadowSize);
+      g2d.drawString(text, drawX - shadowSize, drawY);
+      g2d.drawString(text, drawX + shadowSize, drawY);
+      g2d.drawString(text, drawX - shadowSize, drawY + shadowSize);
+      g2d.drawString(text, drawX,     drawY + shadowSize);
+      g2d.drawString(text, drawX + shadowSize, drawY + shadowSize);
 
       g2d.setColor(mainColor);
       g2d.drawString(text, drawX, drawY);
