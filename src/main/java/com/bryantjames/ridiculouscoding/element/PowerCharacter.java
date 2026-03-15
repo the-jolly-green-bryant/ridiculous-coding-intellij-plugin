@@ -75,13 +75,11 @@ public class PowerCharacter extends Element {
       ));
 
       Font baseFont = g2d.getFont();
-      Font font = baseFont.deriveFont(
-        Font.BOLD,
-        (float) size
-      );
+      float fontSize = Math.max(size * 2.0f, 16f);
+      Font font = baseFont.deriveFont(Font.BOLD, fontSize);
       g2d.setFont(font);
 
-      String text = String.valueOf(character);
+      String text = String.valueOf(character).toUpperCase();
       FontMetrics fm = g2d.getFontMetrics(font);
 
       int drawX = (int) (dxx + x - (fm.stringWidth(text) / 2f));
