@@ -61,45 +61,50 @@ public class PowerFlame extends Element {
     }
 
     File flameImageFolder = powerMode().flameImageFolder();
-    if (flameImageFolder != null) {
-      flameImagesCache.clear();
-
-      List<BufferedImage> flames = ImageUtil.imagesForPath(flameImageFolder);
-      if (flames == null || flames.isEmpty()) {
-        PowerMode
-          .logger()
-          .warn("No flame images loaded for: " + flameImageFolder);
-        return null;
-      }
-
-      flameImagesCache.put(
-        cacheKey,
-        flames
-      );
-      return flames.get(0);
+    if (flameImageFolder == null) {
+      return null;
     }
 
-    return null;
+    flameImagesCache.clear();
+
+    List<BufferedImage> flames = ImageUtil.imagesForPath(flameImageFolder);
+    if (flames == null || flames.isEmpty()) {
+      PowerMode
+        .logger()
+        .warn("No flame images loaded for: " + flameImageFolder);
+      return null;
+    }
+
+    flameImagesCache.put(
+      cacheKey,
+      flames
+    );
+
+    return flames.get(0);
   }
 
   @Override
   public boolean update(double delta) {
-    if (isAlive()) {
-      i += 1;
-      x = _x - (int) (0.5 * _width * lifeFactor());
-      if (direction == Direction.UP) {
-        y = _y - (int) (1.1 * _height * lifeFactor());
-      } else if (direction == Direction.DOWN) {
-        y = _y + (int) (0.25 * _height * lifeFactor());
-      } else if (direction == Direction.LEFT) {
-        y = _y - (int) (0.5 * _height * lifeFactor());
-      } else if (direction == Direction.RIGHT) {
-        y = _y - (int) (0.5 * _height * lifeFactor());
-      }
-      width = (int) (_width * lifeFactor());
-      height = (int) (_height * lifeFactor());
+    if (!isAlive()) {
+      return true;
     }
-    return !isAlive();
+
+    i += 1;
+    x = _x - (int) (0.5 * _width * lifeFactor());
+    // TODO - This can be simplified.
+    if (direction == Direction.UP) {
+      y = _y - (int) (1.1 * _height * lifeFactor());
+    } else if (direction == Direction.DOWN) {
+      y = _y + (int) (0.25 * _height * lifeFactor());
+    } else if (direction == Direction.LEFT) {
+      y = _y - (int) (0.5 * _height * lifeFactor());
+    } else if (direction == Direction.RIGHT) {
+      y = _y - (int) (0.5 * _height * lifeFactor());
+    }
+
+    width = (int) (_width * lifeFactor());
+    height = (int) (_height * lifeFactor());
+    return false;
   }
 
   @Override
@@ -128,19 +133,20 @@ public class PowerFlame extends Element {
           -height,
           null
         );
-      } else {
-        g2d.drawImage(
-          flameImagesCache
-            .get(cacheKey)
-            .get(i % flameImagesCount),
-          (int) x + dxx,
-          (int) y + dyy,
-          width,
-          height,
-          null
-        );
+        g2d.dispose();
+        return;
       }
 
+      g2d.drawImage(
+        flameImagesCache
+          .get(cacheKey)
+          .get(i % flameImagesCount),
+        (int) x + dxx,
+        (int) y + dyy,
+        width,
+        height,
+        null
+      );
       g2d.dispose();
     }
   }

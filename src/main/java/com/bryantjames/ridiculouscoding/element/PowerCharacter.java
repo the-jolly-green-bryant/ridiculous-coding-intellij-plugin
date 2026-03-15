@@ -52,46 +52,48 @@ public class PowerCharacter extends Element {
     int dxx,
     int dyy
   ) {
-    if (isAlive()) {
-      Graphics2D g2d = (Graphics2D) g.create();
-      try {
-        g2d.setRenderingHint(
-          RenderingHints.KEY_TEXT_ANTIALIASING,
-          RenderingHints.VALUE_TEXT_ANTIALIAS_ON
-        );
-        g2d.setRenderingHint(
-          RenderingHints.KEY_ANTIALIASING,
-          RenderingHints.VALUE_ANTIALIAS_ON
-        );
+    if (!isAlive()) {
+      return;
+    }
 
-        g2d.setColor(new Color(
-          colors[0],
-          colors[1],
-          colors[2],
-          Util.alpha(colors[3])
-        ));
+    Graphics2D g2d = (Graphics2D) g.create();
+    try {
+      g2d.setRenderingHint(
+        RenderingHints.KEY_TEXT_ANTIALIASING,
+        RenderingHints.VALUE_TEXT_ANTIALIAS_ON
+      );
+      g2d.setRenderingHint(
+        RenderingHints.KEY_ANTIALIASING,
+        RenderingHints.VALUE_ANTIALIAS_ON
+      );
 
-        Font baseFont = g2d.getFont();
-        Font font = baseFont.deriveFont(
-          Font.BOLD,
-          (float) size
-        );
-        g2d.setFont(font);
+      g2d.setColor(new Color(
+        colors[0],
+        colors[1],
+        colors[2],
+        Util.alpha(colors[3])
+      ));
 
-        String text = String.valueOf(character);
-        FontMetrics fm = g2d.getFontMetrics(font);
+      Font baseFont = g2d.getFont();
+      Font font = baseFont.deriveFont(
+        Font.BOLD,
+        (float) size
+      );
+      g2d.setFont(font);
 
-        int drawX = (int) (dxx + x - (fm.stringWidth(text) / 2f));
-        int drawY = (int) (dyy + y + (fm.getAscent() / 2f));
+      String text = String.valueOf(character);
+      FontMetrics fm = g2d.getFontMetrics(font);
 
-        g2d.drawString(
-          text,
-          drawX,
-          drawY
-        );
-      } finally {
-        g2d.dispose();
-      }
+      int drawX = (int) (dxx + x - (fm.stringWidth(text) / 2f));
+      int drawY = (int) (dyy + y + (fm.getAscent() / 2f));
+
+      g2d.drawString(
+        text,
+        drawX,
+        drawY
+      );
+    } finally {
+      g2d.dispose();
     }
   }
 }
