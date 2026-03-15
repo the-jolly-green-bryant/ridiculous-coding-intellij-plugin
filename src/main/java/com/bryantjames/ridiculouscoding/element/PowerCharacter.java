@@ -75,7 +75,8 @@ public class PowerCharacter extends Element {
       ));
 
       Font baseFont = g2d.getFont();
-      float fontSize = Math.max(size * 2.0f, 16f);
+      float p = progress();
+      float fontSize = Math.max(size * (1.4f + (p * 0.8f)), 16f);
       Font font = baseFont.deriveFont(Font.BOLD, fontSize);
       g2d.setFont(font);
 
@@ -83,7 +84,7 @@ public class PowerCharacter extends Element {
       FontMetrics fm = g2d.getFontMetrics(font);
 
       int drawX = (int) (dxx + x - (fm.stringWidth(text) / 2f));
-      int drawY = (int) (dyy + y + (fm.getAscent() / 2f));
+      int drawY = Math.round(dyy + y + ((fm.getAscent() - fm.getDescent()) / 2f));
 
       g2d.drawString(
         text,

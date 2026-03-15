@@ -34,6 +34,16 @@ public abstract class Element implements Power {
     return this.initLife;
   }
 
+  protected float progress() {
+    long remaining = life - System.currentTimeMillis();
+    if (initLife <= 0) {
+      return 1f;
+    }
+
+    float p = 1f - ((float) remaining / (float) initLife);
+    return Math.max(0f, Math.min(1f, p));
+  }
+
   public boolean isAlive() {
     return life() > System.currentTimeMillis() && powerMode().isEnabled();
   }
