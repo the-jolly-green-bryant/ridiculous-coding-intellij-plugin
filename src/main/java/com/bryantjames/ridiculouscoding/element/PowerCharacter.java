@@ -44,7 +44,8 @@ public class PowerCharacter extends Element {
 
   @Override
   public boolean update(double delta) {
-    dy += (0.07f * gravityFactor) * delta;
+    dy += (0.05f * gravityFactor) * delta;
+    dx *= 0.98f;
     x += dx * delta;
     y += dy * delta;
     return !isAlive();
