@@ -9,9 +9,19 @@ plugins {
 }
 
 group = "com.bryantjames"
-version = providers.environmentVariable("GITHUB_SHA")
-    .orElse("local")
-    .get()
+val gitSha = providers.environmentVariable("GITHUB_SHA").orNull
+val dateVersion = providers.environmentVariable("BUILD_SEMVER_DATE").orNull
+
+version = when {
+    !dateVersion.isNullOrBlank() && !gitSha.isNullOrBlank() ->
+        "$dateVersion+${gitSha.take(7)}"
+
+    !dateVersion.isNullOrBlank() ->
+        "$dateVersion+no-sha"
+
+    else ->
+        "0.0.0-local"
+}
 
 repositories {
     mavenCentral()

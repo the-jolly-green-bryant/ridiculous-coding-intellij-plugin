@@ -9,7 +9,7 @@
         </layout>
     </appender>
 
-    <category name="com.nmeylan.powermode">
+    <category name="com.bryantjames.ridiculouscoding">
         <priority value="trace"/>
         <appender-ref ref="console"/>
     </category>

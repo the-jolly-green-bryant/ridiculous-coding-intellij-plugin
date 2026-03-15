@@ -28,6 +28,9 @@ jobs:
       - name: Make Gradle wrapper executable
         run: chmod +x ./gradlew
 
+      - name: Set build version date
+        run: echo "BUILD_SEMVER_DATE=$(date -u +'%Y.%m.%d')" >> $GITHUB_ENV
+
       - name: Build plugin
         run: ./gradlew buildPlugin
 
