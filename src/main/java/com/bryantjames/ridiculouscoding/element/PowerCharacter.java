@@ -13,6 +13,8 @@ public class PowerCharacter extends Element {
   private float y;
   private final float startX;
   private final float startY;
+  private final float driftX;
+  private final float riseHeight;
   private float dx;
   private float dy;
   private int size;
@@ -35,6 +37,8 @@ public class PowerCharacter extends Element {
     this.y = y;
     this.startX = x;
     this.startY = y;
+    this.driftX = 10f + (float) (Math.random() * 10f);
+    this.riseHeight = 24f + (float) (Math.random() * 12f);
     this.dx = dx;
     this.dy = dy;
     this.size = size;
@@ -47,10 +51,6 @@ public class PowerCharacter extends Element {
 
   @Override
   public boolean update(double delta) {
-    dy += (0.05f * gravityFactor) * delta;
-    dx *= 0.98f;
-    x += dx * delta;
-    y += dy * delta;
     return !isAlive();
   }
 
@@ -76,25 +76,24 @@ public class PowerCharacter extends Element {
       );
 
       float p = progress();
-      float pop = 1.0f + (0.25f * (1.0f - p));
-      float rawSize = size * pop;
+      float sizeProgress = (float) Math.pow(p, 0.8f);
+      float scale = 0.35f + (1.35f * sizeProgress);
+      float rawSize = size * scale;
       int quantizedSize = Math.round(rawSize / 2f) * 2; // 16, 18, 20, etc
       Font font = FontUtil.getPixelFont(quantizedSize);
       g2d.setFont(font);
 
       String text = String.valueOf(character).toUpperCase();
-      FontMetrics fm = g2d.getFontMetrics(font);
 
-      float eased = 1.0f - (float) Math.pow(1.0f - p, 2.0f); // ease out
+      float riseProgress = (float) Math.pow(p, 0.9f);
 
-      float offsetY = -28f * eased;
-      float offsetX = dx * 10f * eased;
+      float drawX = startX + driftX * riseProgress;
+      float drawY = startY - riseHeight * riseProgress;
 
-      float drawX = x + offsetX;
-      float drawY = y + offsetY;
 
-      float fade = 1.0f - (p * 0.85f);
+      float fade = Math.min(1.0f, p * 6.0f);
       float alpha = colors[3] * fade;
+      alpha = Math.max(0f, Math.min(1f, alpha));
 
       Color mainColor = new Color(
         colors[0],

@@ -334,7 +334,7 @@ public class ElementContainer extends JComponent implements ComponentListener, P
 
     int size = 14 + (int) (Math.random() * 6);
 
-    int baseLife = (int) (powerMode().getSparkLife() * powerMode().valueFactor());
+    int baseLife = 1000;
     int life = (int) (baseLife * (0.75 + (Math.random() * 0.35)));
 
     elements.add(Pair.with(
