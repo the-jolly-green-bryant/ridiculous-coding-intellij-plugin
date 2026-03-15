@@ -8,8 +8,10 @@ plugins {
     id("pmd")
 }
 
-group = "com.nmeylan"
-version = "1.0-SNAPSHOT"
+group = "com.bryantjames"
+version = providers.environmentVariable("GITHUB_SHA")
+    .orElse("local")
+    .get()
 
 repositories {
     mavenCentral()
