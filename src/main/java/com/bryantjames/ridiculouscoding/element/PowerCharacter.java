@@ -3,6 +3,8 @@ package com.bryantjames.ridiculouscoding.element;
 import com.bryantjames.ridiculouscoding.util.Util;
 
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PowerCharacter extends Element {
 
@@ -14,6 +16,8 @@ public class PowerCharacter extends Element {
   private float[] colors;
   private float gravityFactor;
   private char character;
+
+  private static final Map<Integer, Font> FONT_CACHE = new HashMap<>();
 
   public PowerCharacter(
     float x,
@@ -74,10 +78,13 @@ public class PowerCharacter extends Element {
         Util.alpha(colors[3])
       ));
 
-      Font baseFont = g2d.getFont();
       float p = progress();
-      float fontSize = Math.max(size * (1.4f + (p * 0.8f)), 16f);
-      Font font = baseFont.deriveFont(Font.BOLD, fontSize);
+      float rawSize = Math.max(size * (1.4f + (p * 0.8f)), 16f);
+      int quantizedSize = Math.round(rawSize / 2f) * 2; // 16, 18, 20, etc
+      Font font = FONT_CACHE.computeIfAbsent(
+        quantizedSize,
+        s -> g2d.getFont().deriveFont(Font.BOLD, (float) s)
+      );
       g2d.setFont(font);
 
       String text = String.valueOf(character).toUpperCase();
