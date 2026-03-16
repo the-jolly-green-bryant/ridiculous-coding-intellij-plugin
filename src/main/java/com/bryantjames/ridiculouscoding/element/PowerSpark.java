@@ -11,7 +11,6 @@ public class PowerSpark extends Element {
   private float dy;
   private int size;
   private float[] colors;
-  private float gravityFactor;
 
   public PowerSpark(
     float x,
@@ -20,8 +19,7 @@ public class PowerSpark extends Element {
     float dy,
     int size,
     long initLife,
-    float[] colors,
-    float gravityFactor
+    float[] colors
   ) {
     this.x = x;
     this.y = y;
@@ -30,13 +28,11 @@ public class PowerSpark extends Element {
     this.size = size;
     this.initLife = initLife;
     this.colors = colors;
-    this.gravityFactor = gravityFactor;
     this.life = System.currentTimeMillis() + initLife;
   }
 
   @Override
   public boolean update(double delta) {
-    dy += (0.07f * gravityFactor) * delta;
     x += dx * delta;
     y += dy * delta;
     return !isAlive();
@@ -48,21 +44,43 @@ public class PowerSpark extends Element {
     int dxx,
     int dyy
   ) {
-    if (isAlive()) {
-      Graphics2D g2d = (Graphics2D) g.create();
-      g2d.setColor(new Color(
-        colors[0],
-        colors[1],
-        colors[2],
-        Util.alpha(colors[3])
-      ));
-      g2d.fillOval(
-        (int) (dxx + x - (size / 2)),
-        (int) (dyy + y - (size / 2)),
-        size,
-        size
-      );
-      g2d.dispose();
+    if (!isAlive()) {
+      return;
     }
+
+    float p = progress();
+    float alpha = colors[3] * (1.0f - p);
+    alpha = Math.max(0f, Math.min(1f, alpha));
+    float scale = 1.0f - (p * 0.6f);
+    int scaledSize = Math.max(1, Math.round(size * scale));
+
+    Graphics2D g2d = (Graphics2D) g.create();
+    g2d.setColor(new Color(
+      colors[0],
+      colors[1],
+      colors[2],
+      alpha
+    ));
+    g2d.fillOval(
+      (int) (dxx + x - (scaledSize / 2)),
+      (int) (dyy + y - (scaledSize / 2)),
+      size,
+      size
+    );
+    g2d.dispose();
+  }
+
+  public static float[] getColor() {
+    float base = 0.75f + (float) Math.random() * 0.25f;
+
+    float r = base + ((float) Math.random() - 0.5f) * 0.05f;
+    float g = base + ((float) Math.random() - 0.5f) * 0.05f;
+    float b = base + ((float) Math.random() - 0.5f) * 0.05f;
+
+    r = Math.min(1f, Math.max(0f, r));
+    g = Math.min(1f, Math.max(0f, g));
+    b = Math.min(1f, Math.max(0f, b));
+
+    return new float[] { r, g, b, 1.0f };
   }
 }

@@ -115,10 +115,6 @@ public class ElementContainer extends JComponent implements ComponentListener, P
   }
 
   private void addSparks(Point point) {
-    if (powerMode().isSparksEnabled()) {
-      return;
-    }
-
     for (
       int i = 0;
       i < (int) (powerMode().getSparkCount() * powerMode().valueFactor());
@@ -199,28 +195,27 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     int x,
     int y
   ) {
+    float mod_fontSize = (float) this.editor.getColorsScheme().getEditorFontSize() / 2;
+
     float dx = (float) (
-      (Math.random() * 2)
-        * (Math.random() > 0.5 ? -1 : 1)
-        * powerMode().getSparkVelocityFactor()
+      ((Math.random() * 2) - 1) * powerMode().getSparkVelocityFactor() * 2.2
     );
+
     float dy = (float) (
-      ((Math.random() * -3) - 1) * powerMode().getSparkVelocityFactor()
+      ((Math.random() * 2) - 1) * powerMode().getSparkVelocityFactor() * 1.6
     );
-    int size = (int) ((Math.random() * powerMode().getSparkSize()) + 1);
-    int life = (int) (
-      Math.random() * powerMode().getSparkLife() * powerMode().valueFactor()
-    );
+
+    int size = (int) ((Math.random() * powerMode().getSparkSize()) + 3);
+    int life = 1500;
     elements.add(Pair.with(
       new PowerSpark(
         x,
-        y,
+        y + mod_fontSize,
         dx,
         dy,
         size,
         life,
-        genNextColor(),
-        (float) powerMode().getGravityFactor()
+        PowerSpark.getColor()
       ),
       getScrollPosition()
     ));
