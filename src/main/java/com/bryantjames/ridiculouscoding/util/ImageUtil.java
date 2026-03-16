@@ -45,6 +45,16 @@ public class ImageUtil {
         );
       }
 
+      if (path.contains("reticule")) {
+        // Adjust frame count / extension to match your actual assets
+        return loadBundledSeries(
+          "reticule",
+          "tile%03d.png",
+          1,
+          8
+        );
+      }
+
       LOG.warn("Unknown image path fallback: " + folderOrFile.getPath());
       return List.of();
     } catch (Exception e) {

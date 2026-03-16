@@ -69,7 +69,7 @@ public class AnimatedImageBaseElement extends BaseElement {
       PowerMode
         .logger()
         .warn("No images loaded for: " + this.folder);
-      return null;
+      throw new RuntimeException("No images loaded for: " + this.folder);
     }
 
     IMAGE_CACHE.put(
@@ -86,21 +86,28 @@ public class AnimatedImageBaseElement extends BaseElement {
       return true;
     }
 
-    i += 1;
-    x = _x - (int) (0.5 * _width * lifeFactor());
-    // TODO - This can be simplified.
-    if (direction == Direction.UP) {
-      y = _y - (int) (1.1 * _height * lifeFactor());
-    } else if (direction == Direction.DOWN) {
-      y = _y + (int) (0.25 * _height * lifeFactor());
-    } else if (direction == Direction.LEFT) {
-      y = _y - (int) (0.5 * _height * lifeFactor());
-    } else if (direction == Direction.RIGHT) {
-      y = _y - (int) (0.5 * _height * lifeFactor());
-    }
+    int imageCount = IMAGE_CACHE
+      .get(cacheKey)
+      .size();
 
-    width = (int) (_width * lifeFactor());
-    height = (int) (_height * lifeFactor());
+    float p = progress();
+    int frame = (int) (p * imageCount);
+    i = Math.min(frame, imageCount - 1);
+
+//    x = _x - (int) (0.5 * _width * lifeFactor());
+//    // TODO - This can be simplified.
+//    if (direction == Direction.UP) {
+//      y = _y - (int) (1.1 * _height * lifeFactor());
+//    } else if (direction == Direction.DOWN) {
+//      y = _y + (int) (0.25 * _height * lifeFactor());
+//    } else if (direction == Direction.LEFT) {
+//      y = _y - (int) (0.5 * _height * lifeFactor());
+//    } else if (direction == Direction.RIGHT) {
+//      y = _y - (int) (0.5 * _height * lifeFactor());
+//    }
+
+    width = _width;  // (int) (_width * lifeFactor());
+    height = _height;  // (int) (_height * lifeFactor());
     return false;
   }
 
@@ -115,24 +122,6 @@ public class AnimatedImageBaseElement extends BaseElement {
         .get(cacheKey)
         .size();
       Graphics2D g2d = (Graphics2D) g.create();
-      g2d.setComposite(AlphaComposite.getInstance(
-        AlphaComposite.SRC_OVER,
-        Util.alpha(0.9f * (1 - lifeFactor()))
-      ));
-      if (direction == Direction.DOWN) {
-        g2d.drawImage(
-          IMAGE_CACHE
-            .get(cacheKey)
-            .get(i % imageCount),
-          (int) x + dxx,
-          (int) (y + dyy + height),
-          width,
-          -height,
-          null
-        );
-        g2d.dispose();
-        return;
-      }
 
       g2d.drawImage(
         IMAGE_CACHE

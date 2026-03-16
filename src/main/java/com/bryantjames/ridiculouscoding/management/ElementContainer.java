@@ -180,6 +180,38 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     ));
   }
 
+  private void addReticule(Point point) {
+    float base = 0.3f;
+    int maxSize = 64;
+    int wh = (int) (
+      (
+        maxSize * base + (
+          (
+            Math.random() * maxSize * (1 - base)
+          ) * powerMode().valueFactor()
+        )
+      )
+    );
+
+    float mod_fontSize = (float) this.editor.getColorsScheme().getEditorFontSize();
+    float mod_centerReticule = (float) wh / 2;
+    FontMetrics metrics = this.editor.getFontMetrics(Font.PLAIN);
+    float mod_fontWidth = metrics.charWidth(' ');
+
+    elements.add(Pair.with(
+      new AnimatedImageBaseElement(
+        "reticule",
+        point.x - mod_centerReticule + mod_fontWidth,
+        point.y + mod_fontSize - mod_centerReticule,
+        wh,
+        wh,
+        500,
+        null
+      ),
+      getScrollPosition()
+    ));
+  }
+
   private Point getScrollPosition() {
     return new Point(
       editor
@@ -288,6 +320,7 @@ public class ElementContainer extends JComponent implements ComponentListener, P
 
     // Add our character falling.
     if (!text.isEmpty()) {
+      addReticule(point);
       addCharacter(
         point,
         text
@@ -299,7 +332,6 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     }
 
     addSparks(point);
-    addFlames(point, null);
     doShake(shakeComponents);
     repaint();
   }
