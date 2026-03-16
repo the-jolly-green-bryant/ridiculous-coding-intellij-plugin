@@ -1,4 +1,3 @@
-- Change fire instead to be reticule that grows
 - we should replace bam with something
 - Add backspace and hotkey listeners
 - Add tab and spacebar listeners

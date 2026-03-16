@@ -81,8 +81,15 @@ public class AnimatedImageBaseElement extends BaseElement {
       return true;
     }
 
-    width = _width;
-    height = _height;
+    float p = progress();
+
+    float scale = 0.9f + (0.25f * p); // 0.90 -> 1.15
+    width = Math.round(_width * scale);
+    height = Math.round(_height * scale);
+
+    x = _x - ((width - _width) / 2f);
+    y = _y - ((height - _height) / 2f);
+
     return false;
   }
 
@@ -100,7 +107,14 @@ public class AnimatedImageBaseElement extends BaseElement {
     int imageCount = images.size();
     float p = progress();
     int frame = Math.min((int) (p * (imageCount - 1)), imageCount - 1);
+
     Graphics2D g2d = (Graphics2D) g.create();
+
+    float alpha = 0.95f - (0.3f * p); // 0.95 -> 0.20
+    g2d.setComposite(AlphaComposite.getInstance(
+      AlphaComposite.SRC_OVER,
+      Math.max(0f, Math.min(1f, alpha))
+    ));
 
     g2d.drawImage(
       images.get(frame),

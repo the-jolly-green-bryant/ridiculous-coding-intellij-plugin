@@ -181,8 +181,8 @@ public class ElementContainer extends JComponent implements ComponentListener, P
   }
 
   private void addReticule(Point point) {
-    float base = 0.3f;
-    int maxSize = 64;
+    float base = 1.0f;
+    int maxSize = 96;
     int wh = (int) (
       (
         maxSize * base + (
@@ -205,7 +205,7 @@ public class ElementContainer extends JComponent implements ComponentListener, P
         point.y + mod_fontSize - mod_centerReticule,
         wh,
         wh,
-        500,
+        375,
         null
       ),
       getScrollPosition()
