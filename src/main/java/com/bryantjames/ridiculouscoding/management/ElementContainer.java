@@ -1,5 +1,6 @@
 package com.bryantjames.ridiculouscoding.management;
 
+import com.bryantjames.ridiculouscoding.PowerMode;
 import com.bryantjames.ridiculouscoding.element.*;
 import com.intellij.openapi.editor.ScrollingModel;
 import com.intellij.openapi.editor.impl.EditorImpl;
@@ -8,6 +9,7 @@ import com.bryantjames.ridiculouscoding.Power;
 import com.bryantjames.ridiculouscoding.listeners.MyCaretListener;
 import com.bryantjames.ridiculouscoding.util.Pair;
 import com.bryantjames.ridiculouscoding.util.Util;
+import com.intellij.ui.JBColor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -47,7 +49,7 @@ public class ElementContainer extends JComponent implements ComponentListener, P
       .getCaretModel()
       .addCaretListener(new MyCaretListener());
 
-    SwingUtilities.invokeLater(() -> onOpenEditor());
+    SwingUtilities.invokeLater(this::onOpenEditor);
     setVisible(true);
   }
 
@@ -101,7 +103,7 @@ public class ElementContainer extends JComponent implements ComponentListener, P
       .getHeight() / 2;
     int x = point.x - (dim / 2);
     int y = point.y - (dim / 2);
-    elements.add(Pair.with(
+    elements.add(new Pair<>(
       new PowerBam(
         x,
         y,
@@ -149,7 +151,7 @@ public class ElementContainer extends JComponent implements ComponentListener, P
       return;
     }
 
-    elements.add(Pair.with(
+    elements.add(new Pair<>(
       new AnimatedImageBaseElement(
         "fire/animated/256",
         point.x + 5,
@@ -166,7 +168,7 @@ public class ElementContainer extends JComponent implements ComponentListener, P
       return;
     }
 
-    elements.add(Pair.with(
+    elements.add(new Pair<>(
       new AnimatedImageBaseElement(
         "fire/animated/256",
         point.x + 5,
@@ -198,7 +200,7 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     FontMetrics metrics = this.editor.getFontMetrics(Font.PLAIN);
     float mod_fontWidth = metrics.charWidth(' ');
 
-    elements.add(Pair.with(
+    elements.add(new Pair<>(
       new AnimatedImageBaseElement(
         "reticule",
         point.x - mod_centerReticule + mod_fontWidth,
@@ -240,7 +242,7 @@ public class ElementContainer extends JComponent implements ComponentListener, P
 
     int size = (int) ((Math.random() * powerMode().getSparkSize()) + 3);
     int life = 1500;
-    elements.add(Pair.with(
+    elements.add(new Pair<>(
       new ParticleBaseElement(
         x,
         y + mod_fontSize,
@@ -256,11 +258,11 @@ public class ElementContainer extends JComponent implements ComponentListener, P
 
   private float[] getBrightColor() {
     Color[] palette = new Color[] {
-      new Color(80, 255, 255),   // cyan
-      new Color(255, 80, 220),   // magenta
-      new Color(255, 240, 80),   // yellow
-      new Color(120, 255, 120),  // green
-      new Color(255, 255, 255)   // white
+      new JBColor(new Color(80, 255, 255), new Color(80, 255, 255)),
+      new JBColor(new Color(255, 80, 220), new Color(255, 80, 220)),
+      new JBColor(new Color(255, 240, 80), new Color(255, 240, 80)),
+      new JBColor(new Color(120, 255, 120), new Color(120, 255, 120)),
+      JBColor.WHITE
     };
 
     Color color = palette[(int) (Math.random() * palette.length)];
@@ -271,23 +273,6 @@ public class ElementContainer extends JComponent implements ComponentListener, P
       color.getBlue() / 255f,
       1.0f
     };
-  }
-
-  private float[] genNextColor() {
-    return new float[]{getColorPart(
-      powerMode().getRedFrom(),
-      powerMode().getRedTo()
-    ), getColorPart(
-      powerMode().getGreenFrom(),
-      powerMode().getGreenTo()
-    ), getColorPart(
-      powerMode().getBlueFrom(),
-      powerMode().getBlueTo()
-    ), powerMode().getColorAlpha() / 255f};
-  }
-
-  private float getColorPart(int from, int to) {
-    return (float) (((Math.random() * (to - from)) + from) / 255);
   }
 
   public void updateElementsOfPower() {
@@ -365,7 +350,7 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     int baseLife = 1000;
     int life = (int) (baseLife * (0.75 + (Math.random() * 0.35)));
 
-    elements.add(Pair.with(
+    elements.add(new Pair<>(
       new StringBaseElement(
         startX,
         startY,
@@ -383,18 +368,12 @@ public class ElementContainer extends JComponent implements ComponentListener, P
 
   public void componentResized(ComponentEvent e) {
     setBounds(getMyBounds());
-    powerMode()
-      .logger()
-      .debug("Resized")
-    ;
+    PowerMode.logger().debug("Resized");
   }
 
   public void componentMoved(ComponentEvent e) {
     setBounds(getMyBounds());
-    powerMode()
-      .logger()
-      .debug("Moved")
-    ;
+    PowerMode.logger().debug("Moved");
   }
 
   @Override
