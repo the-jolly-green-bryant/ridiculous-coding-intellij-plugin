@@ -4,10 +4,9 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 
 public class ParticleBaseElement extends BaseElement {
-  private float dx;
-  private float dy;
-  private int size;
-  private float[] colors;
+  private final Point2D.Float direction;
+  private final int size;
+  private final float[] colors;
 
   public ParticleBaseElement(
     float x,
@@ -19,8 +18,7 @@ public class ParticleBaseElement extends BaseElement {
     float[] colors
   ) {
     this.origin = new Point2D.Float(x, y);
-    this.dx = dx;
-    this.dy = dy;
+    this.direction = new Point2D.Float(dx, dy);
     this.size = size;
     this.initLife = initLife;
     this.colors = colors;
@@ -29,8 +27,8 @@ public class ParticleBaseElement extends BaseElement {
 
   @Override
   public boolean update(double delta) {
-    this.origin.x += (float) (dx * delta);
-    this.origin.y += (float) (dy * delta);
+    this.origin.x += (float) (this.direction.x * delta);
+    this.origin.y += (float) (this.direction.y * delta);
     return !isAlive();
   }
 
