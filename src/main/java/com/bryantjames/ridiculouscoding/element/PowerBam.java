@@ -4,6 +4,7 @@ import com.bryantjames.ridiculouscoding.util.ImageUtil;
 import com.bryantjames.ridiculouscoding.util.Util;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.HashMap;
@@ -13,9 +14,7 @@ public class PowerBam extends BaseElement {
 
   private static Map<String, Image> bamImages = new HashMap<>();
   private float x;
-  private float _x;
   private float y;
-  private float _y;
   private int width;
   private int _width;
   private int height;
@@ -33,8 +32,7 @@ public class PowerBam extends BaseElement {
     this.y = _y;
     this.width = 0;
     this.height = 0;
-    this._x = _x;
-    this._y = _y;
+    this.origin = new Point2D.Float(_x, _y);
     this._width = _width;
     this._height = _height;
     this.initLife = initLife;
@@ -74,8 +72,8 @@ public class PowerBam extends BaseElement {
       return true;
     }
 
-    x = (float) (_x + (0.5 * _width) - (0.5 * _width * lifeFactor()));
-    y = (float) (_y + (0.5 * _height) - (0.5 * _height * lifeFactor()));
+    x = (float) (this.origin.x + (0.5 * _width) - (0.5 * _width * lifeFactor()));
+    y = (float) (this.origin.y + (0.5 * _height) - (0.5 * _height * lifeFactor()));
     width = (int) (_width * lifeFactor());
     height = (int) (_height * lifeFactor());
     return false;

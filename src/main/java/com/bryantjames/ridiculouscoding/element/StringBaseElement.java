@@ -3,45 +3,30 @@ package com.bryantjames.ridiculouscoding.element;
 import com.bryantjames.ridiculouscoding.util.FontUtil;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 public class StringBaseElement extends BaseElement {
 
-  private float x;
-  private float y;
-  private final float startX;
-  private final float startY;
   private final float driftX;
   private final float riseHeight;
-  private float dx;
-  private float dy;
   private int size;
   private float[] colors;
-  private float gravityFactor;
   private String text;
 
   public StringBaseElement(
     float x,
     float y,
-    float dx,
-    float dy,
     int size,
     long initLife,
     float[] colors,
-    float gravityFactor,
     String text
   ) {
-    this.x = x;
-    this.y = y;
-    this.startX = x;
-    this.startY = y;
+    this.origin = new Point2D.Float(x, y);
     this.driftX = 10f + (float) (Math.random() * 10f);
     this.riseHeight = 24f + (float) (Math.random() * 12f);
-    this.dx = dx;
-    this.dy = dy;
     this.size = size;
     this.initLife = initLife;
     this.colors = colors;
-    this.gravityFactor = gravityFactor;
     this.life = System.currentTimeMillis() + initLife;
     this.text = text;
   }
@@ -84,8 +69,8 @@ public class StringBaseElement extends BaseElement {
 
       float riseProgress = (float) Math.pow(p, 0.9f);
 
-      float drawX = startX + driftX * riseProgress;
-      float drawY = startY - riseHeight * riseProgress;
+      float drawX = this.origin.x + driftX * riseProgress;
+      float drawY = this.origin.y - riseHeight * riseProgress;
 
 
       float fade = Math.min(1.0f, p * 6.0f);

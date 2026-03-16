@@ -22,7 +22,6 @@ public class AnimatedImageBaseElement extends BaseElement {
   private final int height;
   private final String cacheKey;
   private final File folder;
-  private final Point2D.Float origin;
 
   public AnimatedImageBaseElement(
     String folderPath,

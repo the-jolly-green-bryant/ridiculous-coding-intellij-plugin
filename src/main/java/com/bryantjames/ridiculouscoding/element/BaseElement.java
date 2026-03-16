@@ -5,10 +5,12 @@ import com.bryantjames.ridiculouscoding.Power;
 import org.apache.commons.lang3.NotImplementedException;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 public abstract class BaseElement implements Power {
   protected long initLife;
   protected long life;
+  protected Point2D.Float origin;
 
   public boolean update(double delta) {
     throw new NotImplementedException("Calling base `update` method on Element.");

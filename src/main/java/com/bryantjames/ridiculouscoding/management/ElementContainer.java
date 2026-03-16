@@ -337,13 +337,8 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     int y,
     String text
   ) {
-    float velocityFactor = (float) powerMode().getSparkVelocityFactor();
-
     float startX = x + (float) ((Math.random() * 8) - 4);
     float startY = y + (float) ((Math.random() * 4) - 2);
-
-    float dx = (float) (((Math.random() * 1.2) - 0.6) * velocityFactor);
-    float dy = (float) (-(1.8 + (Math.random() * 2.2)) * velocityFactor);
 
     int size = 14 + (int) (Math.random() * 6);
 
@@ -354,12 +349,9 @@ public class ElementContainer extends JComponent implements ComponentListener, P
       new StringBaseElement(
         startX,
         startY,
-        dx,
-        dy,
         size,
         life,
         getBrightColor(),
-        (float) powerMode().getGravityFactor(),
         text
       ),
       getScrollPosition()

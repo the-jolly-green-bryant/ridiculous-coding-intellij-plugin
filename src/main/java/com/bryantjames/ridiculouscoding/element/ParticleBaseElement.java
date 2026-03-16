@@ -1,10 +1,9 @@
 package com.bryantjames.ridiculouscoding.element;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 public class ParticleBaseElement extends BaseElement {
-  private float x;
-  private float y;
   private float dx;
   private float dy;
   private int size;
@@ -19,8 +18,7 @@ public class ParticleBaseElement extends BaseElement {
     long initLife,
     float[] colors
   ) {
-    this.x = x;
-    this.y = y;
+    this.origin = new Point2D.Float(x, y);
     this.dx = dx;
     this.dy = dy;
     this.size = size;
@@ -31,8 +29,8 @@ public class ParticleBaseElement extends BaseElement {
 
   @Override
   public boolean update(double delta) {
-    x += dx * delta;
-    y += dy * delta;
+    this.origin.x += (float) (dx * delta);
+    this.origin.y += (float) (dy * delta);
     return !isAlive();
   }
 
@@ -59,9 +57,9 @@ public class ParticleBaseElement extends BaseElement {
       colors[2],
       alpha
     ));
-    g2d.fillOval(
-      (int) (dxx + x - (scaledSize / 2)),
-      (int) (dyy + y - (scaledSize / 2)),
+    g2d.fillRect(
+      (int) (dxx + this.origin.x - ((float) scaledSize / 2)),
+      (int) (dyy + this.origin.y - ((float) scaledSize / 2)),
       size,
       size
     );
