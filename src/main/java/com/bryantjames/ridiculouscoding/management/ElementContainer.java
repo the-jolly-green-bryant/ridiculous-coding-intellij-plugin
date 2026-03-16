@@ -313,7 +313,11 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     }
 
     if (text.equals("\n")) {
-      addBam(point);
+      addReticule(point);
+      addCharacter(
+        point,
+        "ENTER"
+      );
     }
 
     addSparks(point);

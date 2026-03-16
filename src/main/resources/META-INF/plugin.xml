@@ -24,7 +24,7 @@
     </application-components>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationConfigurable groupId="appearance" groupWeight="20" id="power.mode.ii"
+        <applicationConfigurable groupId="appearance" groupWeight="20" id="ridiculous.coding"
                                  displayName="Ridiculous Coding"
                                  instance="com.bryantjames.ridiculouscoding.PowerModeConfigurable"/>
         <enterHandlerDelegate implementation="com.bryantjames.ridiculouscoding.listeners.MyEnterHandler"/>
