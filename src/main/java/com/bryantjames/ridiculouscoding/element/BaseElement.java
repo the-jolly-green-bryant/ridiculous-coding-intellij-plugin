@@ -6,7 +6,7 @@ import org.apache.commons.lang3.NotImplementedException;
 
 import java.awt.*;
 
-public abstract class Element implements Power {
+public abstract class BaseElement implements Power {
   protected long initLife;
   protected long life;
 

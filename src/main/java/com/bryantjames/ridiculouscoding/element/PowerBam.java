@@ -9,7 +9,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PowerBam extends Element {
+public class PowerBam extends BaseElement {
 
   private static Map<String, Image> bamImages = new HashMap<>();
   private float x;

@@ -5,7 +5,6 @@ import com.intellij.openapi.editor.ScrollingModel;
 import com.intellij.openapi.editor.impl.EditorImpl;
 import com.bryantjames.ridiculouscoding.Direction;
 import com.bryantjames.ridiculouscoding.Power;
-import com.bryantjames.ridiculouscoding.element.*;
 import com.bryantjames.ridiculouscoding.listeners.MyCaretListener;
 import com.bryantjames.ridiculouscoding.util.Pair;
 import com.bryantjames.ridiculouscoding.util.Util;
@@ -24,7 +23,7 @@ public class ElementContainer extends JComponent implements ComponentListener, P
   private final EditorImpl editor;
 
   private final List<JComponent> shakeComponents;
-  private final List<Pair<Element, Point>> elements;
+  private final List<Pair<BaseElement, Point>> elements;
   private final List<Point> shakeData;
   private long lastShake;
   private long lastUpdate;
@@ -151,7 +150,8 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     }
 
     elements.add(Pair.with(
-      new PowerFlame(
+      new AnimatedImageBaseElement(
+        "fire/animated/256",
         point.x + 5,
         point.y - 1,
         wh,
@@ -167,7 +167,8 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     }
 
     elements.add(Pair.with(
-      new PowerFlame(
+      new AnimatedImageBaseElement(
+        "fire/animated/256",
         point.x + 5,
         point.y + 15,
         wh,
@@ -208,14 +209,14 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     int size = (int) ((Math.random() * powerMode().getSparkSize()) + 3);
     int life = 1500;
     elements.add(Pair.with(
-      new PowerSpark(
+      new ParticleBaseElement(
         x,
         y + mod_fontSize,
         dx,
         dy,
         size,
         life,
-        PowerSpark.getColor()
+        ParticleBaseElement.getColor()
       ),
       getScrollPosition()
     ));
@@ -333,7 +334,7 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     int life = (int) (baseLife * (0.75 + (Math.random() * 0.35)));
 
     elements.add(Pair.with(
-      new PowerCharacter(
+      new StringBaseElement(
         startX,
         startY,
         dx,

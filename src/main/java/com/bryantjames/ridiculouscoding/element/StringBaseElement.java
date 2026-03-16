@@ -1,13 +1,10 @@
 package com.bryantjames.ridiculouscoding.element;
 
 import com.bryantjames.ridiculouscoding.util.FontUtil;
-import com.bryantjames.ridiculouscoding.util.Util;
 
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
 
-public class PowerCharacter extends Element {
+public class StringBaseElement extends BaseElement {
 
   private float x;
   private float y;
@@ -22,7 +19,7 @@ public class PowerCharacter extends Element {
   private float gravityFactor;
   private String text;
 
-  public PowerCharacter(
+  public StringBaseElement(
     float x,
     float y,
     float dx,

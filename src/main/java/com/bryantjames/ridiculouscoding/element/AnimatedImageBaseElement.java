@@ -12,9 +12,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PowerFlame extends Element {
+public class AnimatedImageBaseElement extends BaseElement {
 
-  private static Map<String, List<BufferedImage>> flameImagesCache = new HashMap<>();
+  private static final Map<String, List<BufferedImage>> IMAGE_CACHE = new HashMap<>();
   private float x;
   private int i;
   private float _x;
@@ -27,9 +27,11 @@ public class PowerFlame extends Element {
   private long initLife;
   private long life;
   private Direction direction;
-  private String cacheKey;
+  private final String cacheKey;
+  private final File folder;
 
-  public PowerFlame(
+  public AnimatedImageBaseElement(
+    String folderPath,
     float _x,
     float _y,
     int _width,
@@ -48,39 +50,34 @@ public class PowerFlame extends Element {
     this.initLife = initLife;
     this.life = System.currentTimeMillis() + initLife;
     this.direction = direction;
-    this.cacheKey = powerMode()
-      .flameImageFolder()
-      .getAbsolutePath();
-    findFlameImages();
+
+    this.folder = new File(folderPath);
+    this.cacheKey = this.folder.getAbsolutePath();
+    findImages();
   }
 
-  private Image findFlameImages() {
-    List<BufferedImage> flameImages = flameImagesCache.get(cacheKey);
-    if (flameImages != null && !flameImages.isEmpty()) {
-      return flameImages.get(0);
+  private Image findImages() {
+    List<BufferedImage> image = IMAGE_CACHE.get(cacheKey);
+    if (image != null && !image.isEmpty()) {
+      return image.get(0);
     }
 
-    File flameImageFolder = powerMode().flameImageFolder();
-    if (flameImageFolder == null) {
-      return null;
-    }
+    IMAGE_CACHE.clear();
 
-    flameImagesCache.clear();
-
-    List<BufferedImage> flames = ImageUtil.imagesForPath(flameImageFolder);
-    if (flames == null || flames.isEmpty()) {
+    List<BufferedImage> images = ImageUtil.imagesForPath(this.folder);
+    if (images == null || images.isEmpty()) {
       PowerMode
         .logger()
-        .warn("No flame images loaded for: " + flameImageFolder);
+        .warn("No images loaded for: " + this.folder);
       return null;
     }
 
-    flameImagesCache.put(
+    IMAGE_CACHE.put(
       cacheKey,
-      flames
+      images
     );
 
-    return flames.get(0);
+    return images.get(0);
   }
 
   @Override
@@ -113,8 +110,8 @@ public class PowerFlame extends Element {
     int dxx,
     int dyy
   ) {
-    if (isAlive() && flameImagesCache.get(cacheKey) != null) {
-      int flameImagesCount = flameImagesCache
+    if (isAlive() && IMAGE_CACHE.get(cacheKey) != null) {
+      int imageCount = IMAGE_CACHE
         .get(cacheKey)
         .size();
       Graphics2D g2d = (Graphics2D) g.create();
@@ -124,9 +121,9 @@ public class PowerFlame extends Element {
       ));
       if (direction == Direction.DOWN) {
         g2d.drawImage(
-          flameImagesCache
+          IMAGE_CACHE
             .get(cacheKey)
-            .get(i % flameImagesCount),
+            .get(i % imageCount),
           (int) x + dxx,
           (int) (y + dyy + height),
           width,
@@ -138,9 +135,9 @@ public class PowerFlame extends Element {
       }
 
       g2d.drawImage(
-        flameImagesCache
+        IMAGE_CACHE
           .get(cacheKey)
-          .get(i % flameImagesCount),
+          .get(i % imageCount),
         (int) x + dxx,
         (int) y + dyy,
         width,

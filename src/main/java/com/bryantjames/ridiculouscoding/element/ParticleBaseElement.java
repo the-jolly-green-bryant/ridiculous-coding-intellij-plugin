@@ -1,10 +1,8 @@
 package com.bryantjames.ridiculouscoding.element;
 
-import com.bryantjames.ridiculouscoding.util.Util;
-
 import java.awt.*;
 
-public class PowerSpark extends Element {
+public class ParticleBaseElement extends BaseElement {
   private float x;
   private float y;
   private float dx;
@@ -12,7 +10,7 @@ public class PowerSpark extends Element {
   private int size;
   private float[] colors;
 
-  public PowerSpark(
+  public ParticleBaseElement(
     float x,
     float y,
     float dx,

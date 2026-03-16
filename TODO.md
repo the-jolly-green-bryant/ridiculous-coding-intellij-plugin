@@ -1,4 +1,3 @@
-- Sparks should be outward flying like explosion
 - Change fire instead to be reticule that grows
 - we should replace bam with something
 - Add backspace and hotkey listeners
