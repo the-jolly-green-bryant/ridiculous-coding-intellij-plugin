@@ -16,7 +16,6 @@ public class AnimatedImageBaseElement extends BaseElement {
 
   private static final Map<String, List<BufferedImage>> IMAGE_CACHE = new HashMap<>();
   private float x;
-  private int i;
   private float _x;
   private float y;
   private float _y;
@@ -24,9 +23,6 @@ public class AnimatedImageBaseElement extends BaseElement {
   private int _width;
   private int height;
   private int _height;
-  private long initLife;
-  private long life;
-  private Direction direction;
   private final String cacheKey;
   private final File folder;
 
@@ -49,7 +45,6 @@ public class AnimatedImageBaseElement extends BaseElement {
     this._height = _height;
     this.initLife = initLife;
     this.life = System.currentTimeMillis() + initLife;
-    this.direction = direction;
 
     this.folder = new File(folderPath);
     this.cacheKey = this.folder.getAbsolutePath();
@@ -86,28 +81,8 @@ public class AnimatedImageBaseElement extends BaseElement {
       return true;
     }
 
-    int imageCount = IMAGE_CACHE
-      .get(cacheKey)
-      .size();
-
-    float p = progress();
-    int frame = (int) (p * imageCount);
-    i = Math.min(frame, imageCount - 1);
-
-//    x = _x - (int) (0.5 * _width * lifeFactor());
-//    // TODO - This can be simplified.
-//    if (direction == Direction.UP) {
-//      y = _y - (int) (1.1 * _height * lifeFactor());
-//    } else if (direction == Direction.DOWN) {
-//      y = _y + (int) (0.25 * _height * lifeFactor());
-//    } else if (direction == Direction.LEFT) {
-//      y = _y - (int) (0.5 * _height * lifeFactor());
-//    } else if (direction == Direction.RIGHT) {
-//      y = _y - (int) (0.5 * _height * lifeFactor());
-//    }
-
-    width = _width;  // (int) (_width * lifeFactor());
-    height = _height;  // (int) (_height * lifeFactor());
+    width = _width;
+    height = _height;
     return false;
   }
 
@@ -117,34 +92,24 @@ public class AnimatedImageBaseElement extends BaseElement {
     int dxx,
     int dyy
   ) {
-    if (isAlive() && IMAGE_CACHE.get(cacheKey) != null) {
-      int imageCount = IMAGE_CACHE
-        .get(cacheKey)
-        .size();
-      Graphics2D g2d = (Graphics2D) g.create();
-
-      g2d.drawImage(
-        IMAGE_CACHE
-          .get(cacheKey)
-          .get(i % imageCount),
-        (int) x + dxx,
-        (int) y + dyy,
-        width,
-        height,
-        null
-      );
-      g2d.dispose();
+    if (!isAlive() || IMAGE_CACHE.get(cacheKey) == null) {
+      return;
     }
-  }
 
-  @Override
-  public long life() {
-    return this.life;
-  }
+    List<BufferedImage> images = IMAGE_CACHE.get(this.cacheKey);
+    int imageCount = images.size();
+    float p = progress();
+    int frame = Math.min((int) (p * (imageCount - 1)), imageCount - 1);
+    Graphics2D g2d = (Graphics2D) g.create();
 
-  @Override
-  public long initLife() {
-    return this.initLife;
+    g2d.drawImage(
+      images.get(frame),
+      (int) x + dxx,
+      (int) y + dyy,
+      width,
+      height,
+      null
+    );
+    g2d.dispose();
   }
-
 }

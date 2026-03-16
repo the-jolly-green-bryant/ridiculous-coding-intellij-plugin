@@ -35,12 +35,12 @@ public abstract class BaseElement implements Power {
   }
 
   protected float progress() {
-    long remaining = life - System.currentTimeMillis();
-    if (initLife <= 0) {
+    long remaining = this.life - System.currentTimeMillis();
+    if (this.initLife <= 0) {
       return 1f;
     }
 
-    float p = 1f - ((float) remaining / (float) initLife);
+    float p = 1f - ((float) remaining / (float) this.initLife);
     return Math.max(0f, Math.min(1f, p));
   }
 
