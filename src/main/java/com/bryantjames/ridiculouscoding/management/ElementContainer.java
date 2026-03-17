@@ -4,7 +4,7 @@ import com.bryantjames.ridiculouscoding.*;
 import com.bryantjames.ridiculouscoding.element.*;
 import com.intellij.openapi.editor.ScrollingModel;
 import com.intellij.openapi.editor.impl.EditorImpl;
-import com.bryantjames.ridiculouscoding.listeners.MyCaretListener;
+import com.bryantjames.ridiculouscoding.listeners.CaretHandler;
 import com.bryantjames.ridiculouscoding.util.Pair;
 import com.bryantjames.ridiculouscoding.util.Util;
 import com.intellij.ui.JBColor;
@@ -45,7 +45,7 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     myParent.addComponentListener(this);
     editor
       .getCaretModel()
-      .addCaretListener(new MyCaretListener());
+      .addCaretListener(new CaretHandler());
 
     SwingUtilities.invokeLater(this::onOpenEditor);
     setVisible(true);

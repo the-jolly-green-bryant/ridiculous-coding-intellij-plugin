@@ -14,7 +14,7 @@ import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
 import com.intellij.openapi.editor.actionSystem.EditorActionManager;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import com.bryantjames.ridiculouscoding.color.ColorEdges;
-import com.bryantjames.ridiculouscoding.listeners.MyTypedActionHandler;
+import com.bryantjames.ridiculouscoding.listeners.TypingHandler;
 import com.bryantjames.ridiculouscoding.management.ElementContainerManager;
 import org.jetbrains.annotations.NotNull;
 
@@ -252,7 +252,7 @@ public class PowerMode implements PersistentStateComponent<PowerMode>,
     EditorActionManager manager = EditorActionManager.getInstance();
     manager
       .getTypedAction()
-      .setupRawHandler(new MyTypedActionHandler(manager
+      .setupRawHandler(new TypingHandler(manager
         .getTypedAction()
         .getRawHandler()));
 

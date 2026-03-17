@@ -16,11 +16,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 
-public class MyTypedActionHandler implements TypedActionHandler, Power {
+public class TypingHandler implements TypedActionHandler, Power {
 
   private final TypedActionHandler typedActionHandler;
 
-  public MyTypedActionHandler(TypedActionHandler typedActionHandler) {
+  public TypingHandler(TypedActionHandler typedActionHandler) {
     this.typedActionHandler = typedActionHandler;
   }
 

@@ -22,7 +22,7 @@ public class BackspaceHandler extends EditorActionHandler {
         original.execute(editor, caret, dataContext);
       }
 
-      MyTypedActionHandler.powerType(editor, "backspace");
+      TypingHandler.powerType(editor, "backspace");
 
     });
   }

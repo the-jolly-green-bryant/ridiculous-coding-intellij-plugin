@@ -19,7 +19,7 @@
             <implementation-class>com.bryantjames.ridiculouscoding.PowerMode</implementation-class>
         </component>
         <component>
-            <implementation-class>com.bryantjames.ridiculouscoding.listeners.HotkeyHeatupListener</implementation-class>
+            <implementation-class>com.bryantjames.ridiculouscoding.listeners.HotkeyHandler</implementation-class>
         </component>
     </application-components>
 
@@ -27,7 +27,7 @@
         <applicationConfigurable groupId="appearance" groupWeight="20" id="ridiculous.coding"
                                  displayName="Ridiculous Coding"
                                  instance="com.bryantjames.ridiculouscoding.PowerModeConfigurable"/>
-        <enterHandlerDelegate implementation="com.bryantjames.ridiculouscoding.listeners.MyEnterHandler"/>
+        <enterHandlerDelegate implementation="com.bryantjames.ridiculouscoding.listeners.EnterHandler"/>
     </extensions>
 
     <actions>

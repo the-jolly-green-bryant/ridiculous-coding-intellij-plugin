@@ -22,7 +22,7 @@ public class TabHandler extends EditorActionHandler {
         original.execute(editor, caret, dataContext);
       }
 
-      MyTypedActionHandler.powerType(editor, "tab");
+      TypingHandler.powerType(editor, "tab");
     });
   }
 }

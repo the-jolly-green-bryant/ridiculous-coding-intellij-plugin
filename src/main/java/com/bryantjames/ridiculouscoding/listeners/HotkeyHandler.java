@@ -15,7 +15,7 @@ import java.awt.event.AWTEventListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
-class HotkeyHeatupListener implements AWTEventListener, Power, ApplicationComponent {
+class HotkeyHandler implements AWTEventListener, Power, ApplicationComponent {
 
   @Override
   public void eventDispatched(AWTEvent e) {
@@ -44,7 +44,7 @@ class HotkeyHeatupListener implements AWTEventListener, Power, ApplicationCompon
           .getRawHandler()
           ;
 
-        if (rawHandler instanceof MyTypedActionHandler) {
+        if (rawHandler instanceof TypingHandler) {
 
           int mods = event.getModifiersEx();
           int key = event.getKeyCode();
@@ -87,7 +87,7 @@ class HotkeyHeatupListener implements AWTEventListener, Power, ApplicationCompon
 
           if (!keyText.isBlank()) {
             text.append(keyText);
-            MyTypedActionHandler.powerType(
+            TypingHandler.powerType(
               editor,
               text.toString()
             );

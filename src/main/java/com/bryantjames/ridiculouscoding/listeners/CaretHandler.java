@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
-public class MyCaretListener implements CaretListener, Power {
+public class CaretHandler implements CaretListener, Power {
   private boolean modified = true;
 
   @Override

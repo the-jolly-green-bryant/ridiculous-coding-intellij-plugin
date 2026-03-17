@@ -9,7 +9,7 @@ import com.intellij.openapi.util.Ref;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 
-public class MyEnterHandler extends EnterHandlerDelegateAdapter {
+public class EnterHandler extends EnterHandlerDelegateAdapter {
 
   @Override
   public Result preprocessEnter(
@@ -20,7 +20,7 @@ public class MyEnterHandler extends EnterHandlerDelegateAdapter {
     @NotNull DataContext dataContext,
     EditorActionHandler originalHandler
   ) {
-    PluginDisabledGuard.run(() -> MyTypedActionHandler.powerType(
+    PluginDisabledGuard.run(() -> TypingHandler.powerType(
       editor,
       "\n"
     ));
