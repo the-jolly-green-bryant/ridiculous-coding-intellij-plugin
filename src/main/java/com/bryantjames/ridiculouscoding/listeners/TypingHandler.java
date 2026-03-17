@@ -61,7 +61,10 @@ public class TypingHandler implements TypedActionHandler, Power {
     PluginDisabledException.requirePluginEnabled();
     PluginDisabledException.requireNotNull(editor);
     PowerMode.getInstance().increaseHeatup(null);
-    Experience.modExperience(1);
+    if (text != null && !text.isEmpty()) {
+      Experience.modExperience(editor, 1);
+    }
+
     initializeAnimationByTypedAction(
       editor,
       text
