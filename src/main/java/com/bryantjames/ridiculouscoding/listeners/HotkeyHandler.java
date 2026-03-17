@@ -70,7 +70,7 @@ class HotkeyHandler implements AWTEventListener, Power, ApplicationComponent {
             default -> keyText = KeyEvent.getKeyText(key).toLowerCase();
           }
 
-          if (keyText == null || keyText.isBlank() || keyText.toLowerCase().contains("unknown")) {
+          if (keyText.isBlank() || keyText.toLowerCase().contains("unknown")) {
             return;
           }
 

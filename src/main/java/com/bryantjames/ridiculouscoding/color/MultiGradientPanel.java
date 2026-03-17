@@ -39,7 +39,7 @@ public class MultiGradientPanel extends JPanel {
       colorEdges.getLeftBottom()
     );
 
-    float radius = size - (size / 4);
+    float radius = size - ((float) size / 4);
     float[] dist = {0f, 1.0f};
     Point2D center = new Point2D.Float(
       0f,
