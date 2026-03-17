@@ -5,6 +5,7 @@ import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.Caret;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
+import org.jetbrains.annotations.NotNull;
 
 public class BackspaceHandler extends EditorActionHandler {
 
@@ -15,7 +16,7 @@ public class BackspaceHandler extends EditorActionHandler {
   }
 
   @Override
-  protected void doExecute(Editor editor, Caret caret, DataContext dataContext) {
+  protected void doExecute(@NotNull Editor editor, Caret caret, DataContext dataContext) {
     PluginDisabledGuard.run(() -> {
 
       if (original != null) {
