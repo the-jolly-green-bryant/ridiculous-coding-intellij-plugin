@@ -21,12 +21,7 @@ public class MyEnterHandler extends EnterHandlerDelegateAdapter {
     @NotNull DataContext dataContext,
     EditorActionHandler originalHandler
   ) {
-    PluginDisabledGuard.run(() -> (
-      (MyTypedActionHandler) EditorActionManager
-        .getInstance()
-        .getTypedAction()
-        .getRawHandler()
-    ).powerType(
+    PluginDisabledGuard.run(() -> MyTypedActionHandler.powerType(
       editor,
       "\n"
     ));

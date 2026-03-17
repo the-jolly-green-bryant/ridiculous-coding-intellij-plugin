@@ -53,31 +53,31 @@ public class MyTypedActionHandler implements TypedActionHandler, Power {
     });
   }
 
-  public void powerType(
+  public static void powerType(
     @Nullable Editor editor,
     String text
   ) {
     PluginDisabledException.requirePluginEnabled();
     PluginDisabledException.requireNotNull(editor);
-    powerMode().increaseHeatup(null);
+    PowerMode.getInstance().increaseHeatup(null);
     initializeAnimationByTypedAction(
       editor,
       text
     );
   }
 
-  public void initializeAnimationByTypedAction(
+  public static void initializeAnimationByTypedAction(
     Editor editor,
     String text
   ) {
     // TODO - Same as above.
     boolean isActualEditor = Util.isActualEditor(editor);
-    if (!isActualEditor || powerMode().getElementContainerManager() == null) {
+    if (!isActualEditor || PowerMode.getInstance().getElementContainerManager() == null) {
       return;
     }
 
     Set<Point> positions = getEditorCaretPositions(editor);
-    positions.forEach(pos -> powerMode()
+    positions.forEach(pos -> PowerMode.getInstance()
       .getElementContainerManager()
       .initializeAnimation(
         editor,
@@ -86,7 +86,7 @@ public class MyTypedActionHandler implements TypedActionHandler, Power {
       ));
   }
 
-  public Set<Point> getEditorCaretPositions(Editor editor) {
+  public static Set<Point> getEditorCaretPositions(Editor editor) {
     return editor
       .getCaretModel()
       .getAllCarets()
