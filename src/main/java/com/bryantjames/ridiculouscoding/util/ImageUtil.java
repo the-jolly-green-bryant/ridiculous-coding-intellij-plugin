@@ -40,7 +40,6 @@ public class ImageUtil {
         return loadBundledSeries(
           "fire/animated/256",
           "fire1_ %02d.png",
-          1,
           17
         );
       }
@@ -50,7 +49,6 @@ public class ImageUtil {
         return loadBundledSeries(
           "reticule",
           "tile%03d.png",
-          1,
           8
         );
       }
@@ -60,7 +58,6 @@ public class ImageUtil {
         return loadBundledSeries(
           "explosion",
           "tile%03d.png",
-          1,
           6
         );
       }
@@ -112,9 +109,9 @@ public class ImageUtil {
   private static List<BufferedImage> loadBundledSeries(
     String basePath,
     String filePattern,
-    int startInclusive,
     int endInclusive
   ) {
+    int startInclusive = 1;
     List<BufferedImage> images = new ArrayList<>();
     String normalizedBase = stripLeadingSlash(basePath);
 

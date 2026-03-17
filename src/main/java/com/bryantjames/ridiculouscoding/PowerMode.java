@@ -1,8 +1,5 @@
 package com.bryantjames.ridiculouscoding;
 
-import com.bryantjames.ridiculouscoding.listeners.BackspaceHandler;
-import com.bryantjames.ridiculouscoding.listeners.TabHandler;
-import com.intellij.openapi.actionSystem.IdeActions;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.components.PersistentStateComponent;
@@ -10,7 +7,6 @@ import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.EditorFactory;
-import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
 import com.intellij.openapi.editor.actionSystem.EditorActionManager;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import com.bryantjames.ridiculouscoding.color.ColorEdges;
@@ -245,6 +241,7 @@ public class PowerMode implements PersistentStateComponent<PowerMode>,
     PowerMode
       .logger()
       .debug("initComponent...");
+
     EditorFactory editorFactory = EditorFactory.getInstance();
     elementContainerManager = new ElementContainerManager();
     editorFactory.addEditorFactoryListener(
