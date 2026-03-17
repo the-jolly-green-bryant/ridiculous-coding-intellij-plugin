@@ -1,11 +1,9 @@
 package com.bryantjames.ridiculouscoding.management;
 
-import com.bryantjames.ridiculouscoding.PowerMode;
+import com.bryantjames.ridiculouscoding.*;
 import com.bryantjames.ridiculouscoding.element.*;
 import com.intellij.openapi.editor.ScrollingModel;
 import com.intellij.openapi.editor.impl.EditorImpl;
-import com.bryantjames.ridiculouscoding.Direction;
-import com.bryantjames.ridiculouscoding.Power;
 import com.bryantjames.ridiculouscoding.listeners.MyCaretListener;
 import com.bryantjames.ridiculouscoding.util.Pair;
 import com.bryantjames.ridiculouscoding.util.Util;
@@ -403,20 +401,19 @@ public class ElementContainer extends JComponent implements ComponentListener, P
 
   @Override
   protected void paintComponent(Graphics g) {
-    super.paintComponent(g);
-    if (!powerMode().isEnabled()) {
-      return;
-    }
+    PluginDisabledGuard.run(() -> {
+      super.paintComponent(g);
+      PluginDisabledException.requirePluginEnabled();
+      if (shakeData != null
+        && shakeData.size() >= 2
+        && System.currentTimeMillis() - lastShake > 100
+        && Math.abs(shakeData.get(0).x) < 50
+        && Math.abs(shakeData.get(1).y) < 50) {
+        doShake(List.of(editor.getComponent()));
+      }
 
-    if (shakeData != null
-      && shakeData.size() >= 2
-      && System.currentTimeMillis() - lastShake > 100
-      && Math.abs(shakeData.get(0).x) < 50
-      && Math.abs(shakeData.get(1).y) < 50) {
-      doShake(List.of(editor.getComponent()));
-    }
-
-    renderElementsOfPower(g);
+      renderElementsOfPower(g);
+    });
   }
 
   private void doShake(List<JComponent> myShakeComponents) {

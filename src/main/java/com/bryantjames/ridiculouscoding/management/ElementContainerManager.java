@@ -1,5 +1,6 @@
 package com.bryantjames.ridiculouscoding.management;
 
+import com.bryantjames.ridiculouscoding.PluginDisabledException;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.event.EditorFactoryEvent;
 import com.intellij.openapi.editor.event.EditorFactoryListener;
@@ -24,16 +25,10 @@ public class ElementContainerManager implements EditorFactoryListener, Power {
     elementsOfPowerUpdateThread = new Thread(() -> {
       while (true) {
         try {
-          if (powerMode() != null) {
-            powerMode().reduceHeatup();
-            updateContainers();
-
-            try {
-              Thread.sleep(1000 / powerMode().getFrameRate());
-            } catch (InterruptedException e) {
-              // Do nothing
-            }
-          }
+          powerMode().reduceHeatup();
+          updateContainers();
+          Thread.sleep(1000 / powerMode().getFrameRate());
+        } catch (InterruptedException | PluginDisabledException ignored) {
         } catch (Exception e) {
           PowerMode
             .logger()
@@ -77,10 +72,7 @@ public class ElementContainerManager implements EditorFactoryListener, Power {
     String text,
     Point position
   ) {
-    if (!powerMode().isEnabled()) {
-      return;
-    }
-
+    PluginDisabledException.requirePluginEnabled();
     SwingUtilities.invokeLater(() -> initializeInUI(
       editor,
       text,

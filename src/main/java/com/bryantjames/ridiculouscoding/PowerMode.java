@@ -68,7 +68,6 @@ public class PowerMode implements PersistentStateComponent<PowerMode>,
   private File customFlameImageFolder;
   private File customBamImageFolder;
 
-  @Nullable
   public static PowerMode getInstance() {
     try {
       return ApplicationManager
@@ -81,7 +80,7 @@ public class PowerMode implements PersistentStateComponent<PowerMode>,
       );
     }
 
-    return null;
+    throw new PluginDisabledException("Plugin instance is null!");
   }
 
   public static Logger logger() {

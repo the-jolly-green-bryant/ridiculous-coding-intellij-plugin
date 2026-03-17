@@ -1,5 +1,7 @@
 package com.bryantjames.ridiculouscoding.listeners;
 
+import com.bryantjames.ridiculouscoding.PluginDisabledException;
+import com.bryantjames.ridiculouscoding.PluginDisabledGuard;
 import com.intellij.openapi.editor.Caret;
 import com.intellij.openapi.editor.event.CaretEvent;
 import com.intellij.openapi.editor.event.CaretListener;
@@ -14,11 +16,13 @@ public class MyCaretListener implements CaretListener, Power {
 
   @Override
   public void caretPositionChanged(@NotNull CaretEvent event) {
-    if (!modified && powerMode().isCaretActionEnabled()) {
-      initializeAnimationByCaretEvent(event.getCaret());
-    }
+    PluginDisabledGuard.run(() -> {
+      if (!modified && powerMode().isCaretActionEnabled() && event.getCaret() != null) {
+        initializeAnimationByCaretEvent(event.getCaret());
+      }
 
-    modified = false;
+      modified = false;
+    });
   }
 
   @Override

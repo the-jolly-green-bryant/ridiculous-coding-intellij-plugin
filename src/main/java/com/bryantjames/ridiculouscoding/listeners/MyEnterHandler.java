@@ -1,5 +1,6 @@
 package com.bryantjames.ridiculouscoding.listeners;
 
+import com.bryantjames.ridiculouscoding.PluginDisabledGuard;
 import com.intellij.codeInsight.editorActions.enter.EnterHandlerDelegateAdapter;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.Editor;
@@ -20,16 +21,18 @@ public class MyEnterHandler extends EnterHandlerDelegateAdapter {
     @NotNull DataContext dataContext,
     EditorActionHandler originalHandler
   ) {
-    (
-      (MyTypedActionHandler) EditorActionManager
-        .getInstance()
-        .getTypedAction()
-        .getRawHandler()
-    ).powerType(
-      editor,
-      "\n",
-      dataContext
-    );
+    PluginDisabledGuard.run(() -> {
+      (
+        (MyTypedActionHandler) EditorActionManager
+          .getInstance()
+          .getTypedAction()
+          .getRawHandler()
+      ).powerType(
+        editor,
+        "\n",
+        dataContext
+      );
+    });
 
     return super.preprocessEnter(
       file,

@@ -1,5 +1,8 @@
 package com.bryantjames.ridiculouscoding.listeners;
 
+import com.bryantjames.ridiculouscoding.PluginDisabledException;
+import com.bryantjames.ridiculouscoding.PluginDisabledGuard;
+import com.esotericsoftware.kryo.kryo5.util.Null;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.actionSystem.TypedActionHandler;
@@ -7,6 +10,7 @@ import com.bryantjames.ridiculouscoding.Power;
 import com.bryantjames.ridiculouscoding.PowerMode;
 import com.bryantjames.ridiculouscoding.util.Util;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
 import java.util.Set;
@@ -27,38 +31,37 @@ public class MyTypedActionHandler implements TypedActionHandler, Power {
     char c,
     @NotNull DataContext dataContext
   ) {
-    powerType(
-      editor,
-      "" + c,
-      dataContext
-    );
-    try {
-      typedActionHandler.execute(
+    PluginDisabledGuard.run(() -> {
+      try {
+        typedActionHandler.execute(
+          editor,
+          c,
+          dataContext
+        );
+      } catch (IllegalStateException | IndexOutOfBoundsException x) {
+        PowerMode
+          .logger()
+          .info(
+            x.getMessage(),
+            x
+          );
+      }
+
+      powerType(
         editor,
-        c,
+        "" + c,
         dataContext
       );
-    } catch (IllegalStateException | IndexOutOfBoundsException x) {
-      PowerMode
-        .logger()
-        .info(
-          x.getMessage(),
-          x
-        );
-    }
+    });
   }
 
   public void powerType(
-    @NotNull Editor editor,
+    @Nullable Editor editor,
     String text,
     @NotNull DataContext dataContext
   ) {
-    // TODO - Bet we could replace this with a throwable. This style of guarding is very
-    //  common and we'd only need to catch it in a couple places.
-    if (!powerMode().isEnabled()) {
-      return;
-    }
-
+    PluginDisabledException.requirePluginEnabled();
+    PluginDisabledException.requireNotNull(editor);
     powerMode().increaseHeatup(null);
     initializeAnimationByTypedAction(
       editor,

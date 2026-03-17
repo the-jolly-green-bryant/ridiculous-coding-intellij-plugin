@@ -1,6 +1,7 @@
 package com.bryantjames.ridiculouscoding.listeners;
 
-import com.bryantjames.ridiculouscoding.PowerMode;
+import com.bryantjames.ridiculouscoding.PluginDisabledException;
+import com.bryantjames.ridiculouscoding.PluginDisabledGuard;
 import com.intellij.ide.DataManager;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.DataContext;
@@ -10,96 +11,92 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.actionSystem.EditorActionManager;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.AWTEventListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.util.Optional;
 
 class HotkeyHeatupListener implements AWTEventListener, Power, ApplicationComponent {
 
   @Override
   public void eventDispatched(AWTEvent e) {
-    if (!powerMode().isEnabled()) {
-      return;
-    }
+    PluginDisabledGuard.run(() -> {
+      // TODO - This is a super long function.
+      if (e instanceof KeyEvent event && (
+        event.getModifiersEx() & (
+          InputEvent.CTRL_DOWN_MASK
+            | InputEvent.ALT_DOWN_MASK
+            | InputEvent.SHIFT_DOWN_MASK
+            | InputEvent.META_DOWN_MASK
+        )
+      ) > 0) {
+        Component focusOwner = KeyboardFocusManager
+          .getCurrentKeyboardFocusManager()
+          .getFocusOwner();
 
-    if (e instanceof KeyEvent event && (
-      event.getModifiersEx() & (
-        InputEvent.CTRL_DOWN_MASK
-          | InputEvent.ALT_DOWN_MASK
-          | InputEvent.SHIFT_DOWN_MASK
-          | InputEvent.META_DOWN_MASK
-      )
-    ) > 0) {
+        DataContext dataContext = DataManager
+          .getInstance()
+          .getDataContext(focusOwner);
+        Editor editor = CommonDataKeys.EDITOR.getData(dataContext);
 
-      Component focusOwner = KeyboardFocusManager
-        .getCurrentKeyboardFocusManager()
-        .getFocusOwner();
+        Object rawHandler = EditorActionManager
+          .getInstance()
+          .getTypedAction()
+          .getRawHandler()
+          ;
 
-      DataContext dataContext = DataManager
-        .getInstance()
-        .getDataContext(focusOwner);
-      Editor editor = CommonDataKeys.EDITOR.getData(dataContext);
+        if (rawHandler instanceof MyTypedActionHandler handler) {
 
-      Object rawHandler = EditorActionManager
-        .getInstance()
-        .getTypedAction()
-        .getRawHandler()
-        ;
+          int mods = event.getModifiersEx();
+          int key = event.getKeyCode();
 
-      if (rawHandler instanceof MyTypedActionHandler handler) {
+          if (mods == 0)
+            return;
 
-        int mods = event.getModifiersEx();
-        int key = event.getKeyCode();
+          // ignore pure modifier keys
+          if (key == KeyEvent.VK_SHIFT
+            || key == KeyEvent.VK_CONTROL
+            || key == KeyEvent.VK_ALT
+            || key == KeyEvent.VK_META) {
+            return;
+          }
 
-        if (mods == 0)
-          return;
+          String keyText;
 
-        // ignore pure modifier keys
-        if (key == KeyEvent.VK_SHIFT
-          || key == KeyEvent.VK_CONTROL
-          || key == KeyEvent.VK_ALT
-          || key == KeyEvent.VK_META) {
-          return;
-        }
+          switch (key) {
+            case KeyEvent.VK_UP -> keyText = "up";
+            case KeyEvent.VK_DOWN -> keyText = "down";
+            case KeyEvent.VK_LEFT -> keyText = "left";
+            case KeyEvent.VK_RIGHT -> keyText = "right";
+            default -> keyText = KeyEvent.getKeyText(key).toLowerCase();
+          }
 
-        String keyText;
+          if (keyText == null || keyText.isBlank() || keyText.toLowerCase().contains("unknown")) {
+            return;
+          }
 
-        switch (key) {
-          case KeyEvent.VK_UP -> keyText = "up";
-          case KeyEvent.VK_DOWN -> keyText = "down";
-          case KeyEvent.VK_LEFT -> keyText = "left";
-          case KeyEvent.VK_RIGHT -> keyText = "right";
-          default -> keyText = KeyEvent.getKeyText(key).toLowerCase();
-        }
+          StringBuilder text = new StringBuilder();
 
-        if (keyText == null || keyText.isBlank() || keyText.toLowerCase().contains("unknown")) {
-          return;
-        }
+          if ((mods & InputEvent.META_DOWN_MASK) != 0)
+            text.append("cmd+");
+          if ((mods & InputEvent.CTRL_DOWN_MASK) != 0)
+            text.append("ctrl+");
+          if ((mods & InputEvent.ALT_DOWN_MASK) != 0)
+            text.append("alt+");
+          if ((mods & InputEvent.SHIFT_DOWN_MASK) != 0)
+            text.append("shift+");
 
-        StringBuilder text = new StringBuilder();
-
-        if ((mods & InputEvent.META_DOWN_MASK) != 0)
-          text.append("cmd+");
-        if ((mods & InputEvent.CTRL_DOWN_MASK) != 0)
-          text.append("ctrl+");
-        if ((mods & InputEvent.ALT_DOWN_MASK) != 0)
-          text.append("alt+");
-        if ((mods & InputEvent.SHIFT_DOWN_MASK) != 0)
-          text.append("shift+");
-
-        if (!keyText.isBlank()) {
-          text.append(keyText);
-          handler.powerType(
-            editor,
-            text.toString(),
-            dataContext
-          );
+          if (!keyText.isBlank()) {
+            text.append(keyText);
+            handler.powerType(
+              editor,
+              text.toString(),
+              dataContext
+            );
+          }
         }
       }
-    }
+    });
   }
 
   @Override
