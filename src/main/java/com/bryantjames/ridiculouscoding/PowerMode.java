@@ -13,7 +13,6 @@ import com.bryantjames.ridiculouscoding.color.ColorEdges;
 import com.bryantjames.ridiculouscoding.listeners.MyTypedActionHandler;
 import com.bryantjames.ridiculouscoding.management.ElementContainerManager;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.awt.event.InputEvent;
@@ -166,10 +165,6 @@ public class PowerMode implements PersistentStateComponent<PowerMode>,
 
   public void setColorAlpha(int colorAlpha) {
     this.colorAlpha = colorAlpha;
-  }
-
-  public File flameImageFolder() {
-    return isCustomFlameImages ? customFlameImageFolder : new File("fire/animated/256");
   }
 
   public File bamImageFolder() {

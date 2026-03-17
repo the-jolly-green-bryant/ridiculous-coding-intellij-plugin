@@ -1,6 +1,5 @@
 package com.bryantjames.ridiculouscoding.listeners;
 
-import com.bryantjames.ridiculouscoding.PluginDisabledException;
 import com.bryantjames.ridiculouscoding.PluginDisabledGuard;
 import com.intellij.ide.DataManager;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
@@ -90,8 +89,7 @@ class HotkeyHeatupListener implements AWTEventListener, Power, ApplicationCompon
             text.append(keyText);
             handler.powerType(
               editor,
-              text.toString(),
-              dataContext
+              text.toString()
             );
           }
         }

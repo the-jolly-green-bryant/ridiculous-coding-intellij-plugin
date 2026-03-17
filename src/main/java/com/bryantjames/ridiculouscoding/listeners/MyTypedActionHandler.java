@@ -2,7 +2,6 @@ package com.bryantjames.ridiculouscoding.listeners;
 
 import com.bryantjames.ridiculouscoding.PluginDisabledException;
 import com.bryantjames.ridiculouscoding.PluginDisabledGuard;
-import com.esotericsoftware.kryo.kryo5.util.Null;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.actionSystem.TypedActionHandler;
@@ -49,16 +48,14 @@ public class MyTypedActionHandler implements TypedActionHandler, Power {
 
       powerType(
         editor,
-        "" + c,
-        dataContext
+        "" + c
       );
     });
   }
 
   public void powerType(
     @Nullable Editor editor,
-    String text,
-    @NotNull DataContext dataContext
+    String text
   ) {
     PluginDisabledException.requirePluginEnabled();
     PluginDisabledException.requireNotNull(editor);
@@ -80,16 +77,13 @@ public class MyTypedActionHandler implements TypedActionHandler, Power {
     }
 
     Set<Point> positions = getEditorCaretPositions(editor);
-    positions.forEach(pos -> {
-      powerMode()
-        .getElementContainerManager()
-        .initializeAnimation(
-          editor,
-          text,
-          pos
-        )
-      ;
-    });
+    positions.forEach(pos -> powerMode()
+      .getElementContainerManager()
+      .initializeAnimation(
+        editor,
+        text,
+        pos
+      ));
   }
 
   public Set<Point> getEditorCaretPositions(Editor editor) {

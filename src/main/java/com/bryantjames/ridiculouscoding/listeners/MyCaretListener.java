@@ -1,6 +1,5 @@
 package com.bryantjames.ridiculouscoding.listeners;
 
-import com.bryantjames.ridiculouscoding.PluginDisabledException;
 import com.bryantjames.ridiculouscoding.PluginDisabledGuard;
 import com.intellij.openapi.editor.Caret;
 import com.intellij.openapi.editor.event.CaretEvent;
