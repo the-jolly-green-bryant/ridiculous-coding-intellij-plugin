@@ -5,7 +5,6 @@ import com.intellij.codeInsight.editorActions.enter.EnterHandlerDelegateAdapter;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
-import com.intellij.openapi.editor.actionSystem.EditorActionManager;
 import com.intellij.openapi.util.Ref;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;

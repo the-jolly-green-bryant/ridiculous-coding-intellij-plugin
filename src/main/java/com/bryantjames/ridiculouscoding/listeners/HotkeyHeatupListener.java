@@ -44,7 +44,7 @@ class HotkeyHeatupListener implements AWTEventListener, Power, ApplicationCompon
           .getRawHandler()
           ;
 
-        if (rawHandler instanceof MyTypedActionHandler handler) {
+        if (rawHandler instanceof MyTypedActionHandler) {
 
           int mods = event.getModifiersEx();
           int key = event.getKeyCode();
@@ -87,7 +87,7 @@ class HotkeyHeatupListener implements AWTEventListener, Power, ApplicationCompon
 
           if (!keyText.isBlank()) {
             text.append(keyText);
-            handler.powerType(
+            MyTypedActionHandler.powerType(
               editor,
               text.toString()
             );
