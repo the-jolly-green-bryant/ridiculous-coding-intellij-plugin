@@ -320,6 +320,13 @@ public class ElementContainer extends JComponent implements ComponentListener, P
       );
     }
 
+    if (text.equals(" ")) {
+      addCharacter(
+        point,
+        "SPACE"
+      );
+    }
+
     addSparks(point);
     doShake(shakeComponents);
     repaint();
