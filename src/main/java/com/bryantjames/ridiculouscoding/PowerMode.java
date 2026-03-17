@@ -49,10 +49,10 @@ public class PowerMode implements PersistentStateComponent<PowerMode>,
   private double heatupFactor = 1.0;
   private int sparkLife = 3000;
   private int sparkCount = 10;
-  private int shakeRange = 4;
+  private int shakeRange = 6;
   private boolean enabled = true;
   private boolean caretActionEnabled = true;
-  private boolean shakeEnabled = false;
+  private boolean shakeEnabled = true;
   private boolean bamEnabled = true;
   private boolean flamesEnabled = true;
   private boolean sparksEnabled = true;
