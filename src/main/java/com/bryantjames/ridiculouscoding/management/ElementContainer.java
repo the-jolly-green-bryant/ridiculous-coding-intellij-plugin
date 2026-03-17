@@ -212,6 +212,38 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     ));
   }
 
+  private void addExplosion(Point point) {
+    float base = 1.0f;
+    int maxSize = 32;
+    int wh = (int) (
+      (
+        maxSize * base + (
+          (
+            Math.random() * maxSize * (1 - base)
+          ) * powerMode().valueFactor()
+        )
+      )
+    );
+
+    float mod_fontSize = (float) this.editor.getColorsScheme().getEditorFontSize();
+    float mod_sprintCenter = (float) wh / 2;
+    FontMetrics metrics = this.editor.getFontMetrics(Font.PLAIN);
+    float mod_fontWidth = metrics.charWidth(' ');
+
+    elements.add(new Pair<>(
+      new AnimatedImageBaseElement(
+        "explosion",
+        point.x - mod_sprintCenter + mod_fontWidth,
+        point.y + mod_fontSize - mod_sprintCenter,
+        wh,
+        wh,
+        375,
+        null
+      ),
+      getScrollPosition()
+    ));
+  }
+
   private Point getScrollPosition() {
     return new Point(
       editor
@@ -325,7 +357,14 @@ public class ElementContainer extends JComponent implements ComponentListener, P
       );
     }
 
-    addSparks(point);
+    if (text.equalsIgnoreCase("backspace")) {
+      addExplosion(point);
+    }
+
+    if (!text.equalsIgnoreCase("backspace")) {
+      addSparks(point);
+    }
+
     doShake(shakeComponents);
     repaint();
   }

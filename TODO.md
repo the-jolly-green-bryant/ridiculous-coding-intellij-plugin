@@ -1,4 +1,2 @@
 - we should replace bam with something
-- Add backspace listeners
-- Add tab listeners
 - Update to new addon style (it hates the components)

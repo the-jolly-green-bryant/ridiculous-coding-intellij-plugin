@@ -55,6 +55,16 @@ public class ImageUtil {
         );
       }
 
+      if (path.contains("explosion")) {
+        // Adjust frame count / extension to match your actual assets
+        return loadBundledSeries(
+          "explosion",
+          "tile%03d.png",
+          1,
+          8
+        );
+      }
+
       LOG.warn("Unknown image path fallback: " + folderOrFile.getPath());
       return List.of();
     } catch (Exception e) {
