@@ -61,7 +61,7 @@ public class ImageUtil {
           "explosion",
           "tile%03d.png",
           1,
-          8
+          6
         );
       }
 

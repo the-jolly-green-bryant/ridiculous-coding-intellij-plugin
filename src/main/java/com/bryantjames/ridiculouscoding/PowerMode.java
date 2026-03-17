@@ -259,22 +259,6 @@ public class PowerMode implements PersistentStateComponent<PowerMode>,
         .getTypedAction()
         .getRawHandler()));
 
-    EditorActionHandler tabHandler =
-      manager.getActionHandler(IdeActions.ACTION_EDITOR_TAB);
-
-    manager.setActionHandler(
-      IdeActions.ACTION_EDITOR_TAB,
-      new TabHandler(tabHandler)
-    );
-
-    EditorActionHandler backspaceHandler =
-      manager.getActionHandler(IdeActions.ACTION_EDITOR_BACKSPACE);
-
-    manager.setActionHandler(
-      IdeActions.ACTION_EDITOR_BACKSPACE,
-      new BackspaceHandler(backspaceHandler)
-    );
-
     PowerMode
       .logger()
       .debug("initComponent done");

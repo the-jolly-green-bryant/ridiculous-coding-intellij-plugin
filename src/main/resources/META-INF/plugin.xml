@@ -28,6 +28,7 @@
                                  displayName="Ridiculous Coding"
                                  instance="com.bryantjames.ridiculouscoding.PowerModeConfigurable"/>
         <enterHandlerDelegate implementation="com.bryantjames.ridiculouscoding.listeners.EnterHandler"/>
+        <postStartupActivity implementation="com.bryantjames.ridiculouscoding.Startup"/>
     </extensions>
 
     <actions>
