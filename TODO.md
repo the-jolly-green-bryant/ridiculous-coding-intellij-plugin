@@ -1,2 +1,4 @@
 - we should replace bam with something
 - Update to new addon style (it hates the components)
+- Remove unneeded settings
+- add experience

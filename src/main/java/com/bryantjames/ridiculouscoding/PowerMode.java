@@ -71,6 +71,9 @@ public class PowerMode implements PersistentStateComponent<PowerMode>,
   private File customFlameImageFolder;
   private File customBamImageFolder;
 
+  public long xp = 0;
+  public int level = 1;
+
   public static PowerMode getInstance() {
     try {
       return ApplicationManager

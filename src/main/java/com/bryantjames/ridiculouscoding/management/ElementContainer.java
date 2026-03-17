@@ -2,6 +2,7 @@ package com.bryantjames.ridiculouscoding.management;
 
 import com.bryantjames.ridiculouscoding.*;
 import com.bryantjames.ridiculouscoding.element.*;
+import com.bryantjames.ridiculouscoding.gamification.Experience;
 import com.intellij.openapi.editor.ScrollingModel;
 import com.intellij.openapi.editor.impl.EditorImpl;
 import com.bryantjames.ridiculouscoding.listeners.CaretHandler;

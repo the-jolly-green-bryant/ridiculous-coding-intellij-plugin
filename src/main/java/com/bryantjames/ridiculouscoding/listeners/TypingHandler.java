@@ -2,6 +2,7 @@ package com.bryantjames.ridiculouscoding.listeners;
 
 import com.bryantjames.ridiculouscoding.PluginDisabledException;
 import com.bryantjames.ridiculouscoding.PluginDisabledGuard;
+import com.bryantjames.ridiculouscoding.gamification.Experience;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.actionSystem.TypedActionHandler;
@@ -60,6 +61,7 @@ public class TypingHandler implements TypedActionHandler, Power {
     PluginDisabledException.requirePluginEnabled();
     PluginDisabledException.requireNotNull(editor);
     PowerMode.getInstance().increaseHeatup(null);
+    Experience.modExperience(1);
     initializeAnimationByTypedAction(
       editor,
       text
