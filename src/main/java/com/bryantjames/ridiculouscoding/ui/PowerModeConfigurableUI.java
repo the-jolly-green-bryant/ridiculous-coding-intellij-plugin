@@ -72,40 +72,6 @@ public class PowerModeConfigurableUI implements ConfigurableUi<PowerMode> {
     HOTKEYHEATUPCheckBox.addChangeListener(e -> powerMode.setHotkeyHeatup(HOTKEYHEATUPCheckBox.isSelected()));
 
     initValues(
-      powerMode.getSparkCount(),
-      sparkCount,
-      sparkCountValue,
-      slider -> powerMode.setSparkCount(slider.getValue())
-    );
-    initValues(
-      powerMode.getSparkSize(),
-      sparkSize,
-      sparkSizeValue,
-      slider -> powerMode.setSparkSize(slider.getValue())
-    );
-    initValues(
-      powerMode.getSparkLife(),
-      sparkLife,
-      sparkLifeValue,
-      slider -> powerMode.setSparkLife(slider.getValue())
-    );
-    initValues(
-      Double
-        .valueOf((powerMode.getSparkVelocityFactor() * 100.0))
-        .intValue(),
-      velocityFactor,
-      velocityFactorValue,
-      slider -> powerMode.setSparkVelocityFactor(slider.getValue() / 100.0)
-    );
-    initValues(
-      Double
-        .valueOf(powerMode.getGravityFactor() * 100.0)
-        .intValue(),
-      gravityFactor,
-      gravityFactorValue,
-      slider -> powerMode.setGravityFactor(slider.getValue() / 100.0)
-    );
-    initValues(
       powerMode.getShakeRange(),
       shakeRange,
       shakeRangeValue,
@@ -147,6 +113,10 @@ public class PowerModeConfigurableUI implements ConfigurableUi<PowerMode> {
     JLabel sliderValueLabel,
     ValueSettable valueSettable
   ) {
+    if (slider == null) {
+      return;
+    }
+
     slider.setValue(initValue);
     sliderValueLabel.setText(String.valueOf(initValue));
     slider.addChangeListener(new MyChangeListener(
