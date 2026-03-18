@@ -1,13 +1,18 @@
 package com.bryantjames.ridiculouscoding.listeners;
 
-import com.bryantjames.ridiculouscoding.Power;
+import com.bryantjames.ridiculouscoding.PowerMode;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import org.jetbrains.annotations.NotNull;
 
-public class TogglePowerMode extends AnAction implements Power {
+public class TogglePowerMode extends AnAction {
 
   @Override
-  public void actionPerformed(AnActionEvent e) {
-    powerMode().setEnabled(!powerMode().isEnabled());
+  public void actionPerformed(@NotNull AnActionEvent e) {
+    PowerMode
+      .getInstance()
+      .setEnabled(!PowerMode
+        .getInstance()
+        .isEnabled());
   }
 }

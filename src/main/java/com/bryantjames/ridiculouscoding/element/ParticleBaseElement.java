@@ -7,7 +7,6 @@ public class ParticleBaseElement extends BaseElement {
   private final Point2D.Float direction;
   private final int size;
   private final float[] colors;
-  private final float speed = 0.55f;
 
   public ParticleBaseElement(
     float x,
@@ -66,8 +65,9 @@ public class ParticleBaseElement extends BaseElement {
 
   @Override
   public void update(double delta) {
-    this.origin.x += (float) (this.direction.x * delta * this.speed);
-    this.origin.y += (float) (this.direction.y * delta * this.speed);
+    float speed = 0.55f;
+    this.origin.x += (float) (this.direction.x * delta * speed);
+    this.origin.y += (float) (this.direction.y * delta * speed);
   }
 
   @Override

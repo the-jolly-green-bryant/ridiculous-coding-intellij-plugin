@@ -35,7 +35,7 @@ public class PowerMode implements PersistentStateComponent<PowerMode> {
   private double sparkVelocityFactor = 4.36;
   private int sparkSize = 3;
   private int frameRate = 30;
-  private int heatupTime = 10000;
+  private final int heatupTime = 10000;
   private Map<KeyStroke, Long> lastKeys = new HashMap<>();
   private int keyStrokesPerMinute = 300;
   private final double hotkeyWeight = keyStrokesPerMinute * 0.05;
@@ -48,13 +48,6 @@ public class PowerMode implements PersistentStateComponent<PowerMode> {
   private boolean shakeEnabled = true;
   private boolean flamesEnabled = true;
   private boolean sparksEnabled = true;
-  private int redFrom = 200;
-  private int redTo = 255;
-  private int greenFrom = 0;
-  private int greenTo = 255;
-  private int blueFrom = 0;
-  private int blueTo = 103;
-  private int colorAlpha = 164;
   private double heatupThreshold = 0.0;
   private ElementContainerManager elementContainerManager;
 
@@ -83,33 +76,33 @@ public class PowerMode implements PersistentStateComponent<PowerMode> {
   }
 
   public int getColorAlpha() {
-    return colorAlpha;
+    return 164;
   }
 
   public int getRedFrom() {
-    return redFrom;
+    return 200;
   }
 
   public int getRedTo() {
-    return redTo;
+    return 255;
   }
 
   // TODO - I don't like how repetitive these colors are, maybe derive class?
 
   public int getGreenFrom() {
-    return greenFrom;
+    return 0;
   }
 
   public int getGreenTo() {
-    return greenTo;
+    return 255;
   }
 
   public int getBlueFrom() {
-    return blueFrom;
+    return 0;
   }
 
   public int getBlueTo() {
-    return blueTo;
+    return 103;
   }
 
   public void increaseHeatup(KeyStroke keyStroke) {
@@ -205,28 +198,12 @@ public class PowerMode implements PersistentStateComponent<PowerMode> {
     this.hotkeyHeatup = hotkeyHeatup;
   }
 
-  public double getGravityFactor() {
-    return gravityFactor;
-  }
-
-  public void setGravityFactor(double gravityFactor) {
-    this.gravityFactor = gravityFactor;
-  }
-
   public double getSparkVelocityFactor() {
     return sparkVelocityFactor;
   }
 
-  public void setSparkVelocityFactor(double sparkVelocityFactor) {
-    this.sparkVelocityFactor = sparkVelocityFactor;
-  }
-
   public int getSparkSize() {
     return sparkSize;
-  }
-
-  public void setSparkSize(int sparkSize) {
-    this.sparkSize = sparkSize;
   }
 
   public int getFrameRate() {
@@ -246,24 +223,8 @@ public class PowerMode implements PersistentStateComponent<PowerMode> {
     this.keyStrokesPerMinute = keyStrokesPerMinute;
   }
 
-  public void setHeatupFactor(double heatupFactor) {
-    this.heatupFactor = heatupFactor;
-  }
-
-  public int getSparkLife() {
-    return sparkLife;
-  }
-
-  public void setSparkLife(int sparkLife) {
-    this.sparkLife = sparkLife;
-  }
-
   public int getSparkCount() {
     return sparkCount;
-  }
-
-  public void setSparkCount(int sparkCount) {
-    this.sparkCount = sparkCount;
   }
 
   public int getShakeRange() {

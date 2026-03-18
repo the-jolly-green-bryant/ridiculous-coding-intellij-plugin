@@ -1,13 +1,12 @@
 package com.bryantjames.ridiculouscoding.element;
 
 
-import com.bryantjames.ridiculouscoding.Power;
 import com.bryantjames.ridiculouscoding.PowerMode;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-public abstract class BaseElement implements Power {
+public abstract class BaseElement {
   protected long initLife;
   protected long life;
   protected Point2D.Float origin;
@@ -42,7 +41,9 @@ public abstract class BaseElement implements Power {
   }
 
   public boolean isAlive() {
-    return life() > System.currentTimeMillis() && powerMode().isEnabled();
+    return life() > System.currentTimeMillis() && PowerMode
+      .getInstance()
+      .isEnabled();
   }
 
   protected long life() {

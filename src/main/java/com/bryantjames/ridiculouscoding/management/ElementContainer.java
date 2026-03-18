@@ -2,7 +2,6 @@ package com.bryantjames.ridiculouscoding.management;
 
 import com.bryantjames.ridiculouscoding.PluginDisabledException;
 import com.bryantjames.ridiculouscoding.PluginDisabledGuard;
-import com.bryantjames.ridiculouscoding.Power;
 import com.bryantjames.ridiculouscoding.PowerMode;
 import com.bryantjames.ridiculouscoding.element.*;
 import com.bryantjames.ridiculouscoding.listeners.CaretHandler;
@@ -21,7 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class ElementContainer extends JComponent implements ComponentListener, Power {
+public class ElementContainer extends JComponent implements ComponentListener {
 
   private final EditorImpl editor;
 
@@ -61,7 +60,13 @@ public class ElementContainer extends JComponent implements ComponentListener, P
   private void addSparks(Point point) {
     for (
       int i = 0;
-      i < (int) (powerMode().getSparkCount() * powerMode().valueFactor());
+      i < (int) (
+        PowerMode
+          .getInstance()
+          .getSparkCount() * PowerMode
+          .getInstance()
+          .valueFactor()
+      );
       i++
     ) {
       addSpark(
@@ -82,7 +87,9 @@ public class ElementContainer extends JComponent implements ComponentListener, P
         maxSize * base + (
           (
             Math.random() * maxSize * (1 - base)
-          ) * powerMode().valueFactor()
+          ) * PowerMode
+            .getInstance()
+            .valueFactor()
         )
       )
     );
@@ -150,14 +157,24 @@ public class ElementContainer extends JComponent implements ComponentListener, P
       .getEditorFontSize() / 2;
 
     float dx = (float) (
-      ((Math.random() * 2) - 1) * powerMode().getSparkVelocityFactor() * 1.2
+      ((Math.random() * 2) - 1) * PowerMode
+        .getInstance()
+        .getSparkVelocityFactor() * 1.2
     );
 
     float dy = (float) (
-      ((Math.random() * 2) - 1) * powerMode().getSparkVelocityFactor() * 0.8
+      ((Math.random() * 2) - 1) * PowerMode
+        .getInstance()
+        .getSparkVelocityFactor() * 0.8
     );
 
-    int size = (int) ((Math.random() * powerMode().getSparkSize()) + 3);
+    int size = (int) (
+      (
+        Math.random() * PowerMode
+          .getInstance()
+          .getSparkSize()
+      ) + 3
+    );
     int life = 3000;
     elements.add(new Pair<>(
       new ParticleBaseElement(
@@ -249,7 +266,12 @@ public class ElementContainer extends JComponent implements ComponentListener, P
 
   public void updateElementsOfPower() {
     long delta = System.currentTimeMillis() - lastUpdate;
-    if (delta > (1000.0 / powerMode().getFrameRate()) * 2) {
+    if (delta
+      > (
+      1000.0 / PowerMode
+        .getInstance()
+        .getFrameRate()
+    ) * 2) {
       delta = 16;
     }
 
@@ -414,7 +436,9 @@ public class ElementContainer extends JComponent implements ComponentListener, P
   }
 
   private void doShake(List<JComponent> myShakeComponents) {
-    if (!powerMode().isShakeEnabled()) {
+    if (!PowerMode
+      .getInstance()
+      .isShakeEnabled()) {
       return;
     }
 
@@ -482,7 +506,13 @@ public class ElementContainer extends JComponent implements ComponentListener, P
   }
 
   private int generateShakeOffset() {
-    int range = (int) (powerMode().getShakeRange() * powerMode().valueFactor());
+    int range = (int) (
+      PowerMode
+        .getInstance()
+        .getShakeRange() * PowerMode
+        .getInstance()
+        .valueFactor()
+    );
     return (int) (range - (Math.random() * 2 * range));
   }
 }

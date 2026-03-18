@@ -1,7 +1,6 @@
 package com.bryantjames.ridiculouscoding.management;
 
 import com.bryantjames.ridiculouscoding.PluginDisabledException;
-import com.bryantjames.ridiculouscoding.Power;
 import com.bryantjames.ridiculouscoding.PowerMode;
 import com.bryantjames.ridiculouscoding.util.Util;
 import com.intellij.openapi.editor.Editor;
@@ -19,7 +18,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-public class ElementContainerManager implements EditorFactoryListener, Power {
+public class ElementContainerManager implements EditorFactoryListener {
 
   private static final Map<Editor, ElementContainer> elementContainers
     = new HashMap<>();

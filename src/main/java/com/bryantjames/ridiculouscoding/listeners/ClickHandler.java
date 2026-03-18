@@ -1,7 +1,7 @@
 package com.bryantjames.ridiculouscoding.listeners;
 
 import com.bryantjames.ridiculouscoding.PluginDisabledGuard;
-import com.bryantjames.ridiculouscoding.Power;
+import com.bryantjames.ridiculouscoding.PowerMode;
 import com.bryantjames.ridiculouscoding.util.Util;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.event.EditorMouseEvent;
@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
-public class ClickHandler implements EditorMouseListener, Power {
+public class ClickHandler implements EditorMouseListener {
 
   @Override
   public void mousePressed(@NotNull EditorMouseEvent event) {
@@ -18,7 +18,9 @@ public class ClickHandler implements EditorMouseListener, Power {
       Editor editor = event.getEditor();
 
       if (!Util.isActualEditor(editor)
-        || powerMode().getElementContainerManager() == null) {
+        || PowerMode
+        .getInstance()
+        .getElementContainerManager() == null) {
         return;
       }
 
@@ -36,7 +38,8 @@ public class ClickHandler implements EditorMouseListener, Power {
         editorPoint.y - visibleArea.y
       );
 
-      powerMode()
+      PowerMode
+        .getInstance()
         .getElementContainerManager()
         .initializeAnimation(
           editor,
