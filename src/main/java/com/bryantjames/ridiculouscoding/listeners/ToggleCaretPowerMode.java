@@ -3,11 +3,12 @@ package com.bryantjames.ridiculouscoding.listeners;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.bryantjames.ridiculouscoding.Power;
+import org.jetbrains.annotations.NotNull;
 
 public class ToggleCaretPowerMode extends AnAction implements Power {
 
   @Override
-  public void actionPerformed(AnActionEvent e) {
+  public void actionPerformed(@NotNull AnActionEvent e) {
     powerMode().setCaretActionEnabled(!powerMode().isCaretActionEnabled());
   }
 }

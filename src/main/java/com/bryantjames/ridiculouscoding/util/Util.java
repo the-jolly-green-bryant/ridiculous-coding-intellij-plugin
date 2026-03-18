@@ -21,16 +21,6 @@ public class Util {
     EditorKind.DIFF
   );
 
-  public static float alpha(float f) {
-    if (f < 0) {
-      return 0f;
-    } else if (f > 1) {
-      return 1f;
-    } else {
-      return f;
-    }
-  }
-
   public static boolean isActualEditor(Editor editor) {
     if (editor instanceof EditorImpl) {
       return EDITOR_KINDS.contains(editor.getEditorKind())

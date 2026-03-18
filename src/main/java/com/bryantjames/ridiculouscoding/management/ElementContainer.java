@@ -91,8 +91,7 @@ public class ElementContainer extends JComponent implements ComponentListener, P
         point.y + mod_fontSize - mod_centerReticule,
         wh,
         wh,
-        375,
-        null
+        375
       ),
       getScrollPosition()
     ));

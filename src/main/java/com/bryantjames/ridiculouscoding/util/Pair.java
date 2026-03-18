@@ -1,8 +1,9 @@
 package com.bryantjames.ridiculouscoding.util;
 
+// TODO - This feels like this can be replaced with a builtin.
 public class Pair<X, Y> {
-  private X x;
-  private Y y;
+  private final X x;
+  private final Y y;
 
   public Pair(
     X x,
@@ -10,16 +11,6 @@ public class Pair<X, Y> {
   ) {
     this.x = x;
     this.y = y;
-  }
-
-  public static Pair with(
-    Object x,
-    Object y
-  ) {
-    return new Pair<>(
-      x,
-      y
-    );
   }
 
   public X first() {

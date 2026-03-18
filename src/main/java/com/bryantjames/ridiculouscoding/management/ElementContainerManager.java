@@ -105,6 +105,7 @@ public class ElementContainerManager implements EditorFactoryListener, Power {
       );
   }
 
+  // TODO - We should probably wire this up somewhere...
   public void dispose() {
     elementsOfPowerUpdateThread.interrupt();
     elementContainers.clear();

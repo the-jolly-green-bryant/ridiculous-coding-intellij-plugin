@@ -29,8 +29,7 @@ public class AnimatedImageBaseElement extends BaseElement {
     float y,
     int width,
     int height,
-    long initLife,
-    Direction direction
+    long initLife
   ) {
     this.origin = new Point2D.Float(
       x,
@@ -75,9 +74,9 @@ public class AnimatedImageBaseElement extends BaseElement {
   }
 
   @Override
-  public boolean update(double delta) {
+  public void update(double delta) {
     if (!isAlive()) {
-      return true;
+      return;
     }
 
     float p = progress();
@@ -90,8 +89,6 @@ public class AnimatedImageBaseElement extends BaseElement {
       this.origin.x - ((renderWidth - width) / 2f),
       this.origin.y - ((renderHeight - height) / 2f)
     );
-
-    return false;
   }
 
   @Override

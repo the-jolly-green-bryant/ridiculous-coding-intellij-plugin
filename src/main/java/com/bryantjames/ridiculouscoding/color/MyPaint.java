@@ -8,9 +8,6 @@ public class MyPaint {
   private int b;
   private int a;
 
-  public MyPaint() {
-  }
-
 
   public MyPaint(
     int r,
@@ -44,32 +41,16 @@ public class MyPaint {
     return this;
   }
 
-  public int getR() {
-    return r;
-  }
-
   public void setR(int r) {
     this.r = r;
-  }
-
-  public int getG() {
-    return g;
   }
 
   public void setG(int g) {
     this.g = g;
   }
 
-  public int getB() {
-    return b;
-  }
-
   public void setB(int b) {
     this.b = b;
-  }
-
-  public int getA() {
-    return a;
   }
 
   public void setA(int a) {

@@ -9,9 +9,9 @@ public class StringBaseElement extends BaseElement {
 
   private final float driftX;
   private final float riseHeight;
-  private int size;
-  private float[] colors;
-  private String text;
+  private final int size;
+  private final float[] colors;
+  private final String text;
 
   public StringBaseElement(
     float x,
@@ -29,11 +29,6 @@ public class StringBaseElement extends BaseElement {
     this.colors = colors;
     this.life = System.currentTimeMillis() + initLife;
     this.text = text;
-  }
-
-  @Override
-  public boolean update(double delta) {
-    return !isAlive();
   }
 
   @Override

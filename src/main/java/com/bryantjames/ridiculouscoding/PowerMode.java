@@ -19,19 +19,17 @@ import java.util.stream.Collectors;
 
 @State(name = "RidiculousCoding", storages = @Storage("ridiculous.coding.xml"))
 public class PowerMode implements PersistentStateComponent<PowerMode> {
+  // TODO - A lot of these values are no longer used.
   private static final List<Integer> HOT_INPUTS = Arrays.asList(
     InputEvent.CTRL_DOWN_MASK,
     InputEvent.ALT_DOWN_MASK,
     InputEvent.SHIFT_DOWN_MASK
   );
   private boolean hotkeyHeatup = true;
-  private long bamLife = 1000;
   private double gravityFactor = 21.21;
   private double sparkVelocityFactor = 4.36;
   private int sparkSize = 3;
   private int frameRate = 30;
-  private int maxFlameSize = 100;
-  private int maxFlameLife = 2000;
   private int heatupTime = 10000;
   private Map<KeyStroke, Long> lastKeys = new HashMap<>();
 
@@ -44,11 +42,8 @@ public class PowerMode implements PersistentStateComponent<PowerMode> {
   private boolean enabled = true;
   private boolean caretActionEnabled = true;
   private boolean shakeEnabled = true;
-  private boolean bamEnabled = true;
   private boolean flamesEnabled = true;
   private boolean sparksEnabled = true;
-  private boolean isCustomFlameImages = false;
-  private boolean isCustomBamImages = false;
   private int redFrom = 200;
   private int redTo = 255;
   private int greenFrom = 0;
@@ -58,9 +53,6 @@ public class PowerMode implements PersistentStateComponent<PowerMode> {
   private int colorAlpha = 164;
   private double heatupThreshold = 0.0;
   private ElementContainerManager elementContainerManager;
-
-  private File customFlameImageFolder;
-  private File customBamImageFolder;
 
   public long xp = 0;
   public int level = 1;
@@ -99,69 +91,26 @@ public class PowerMode implements PersistentStateComponent<PowerMode> {
     return redFrom;
   }
 
-  public void setRedFrom(int redFrom) {
-    if (redFrom <= redTo) {
-      this.redFrom = redFrom;
-    }
-  }
-
   public int getRedTo() {
     return redTo;
   }
 
   // TODO - I don't like how repetitive these colors are, maybe derive class?
-  public void setRedTo(int redTo) {
-    if (redTo >= redFrom) {
-      this.redTo = redTo;
-    }
-  }
 
   public int getGreenFrom() {
     return greenFrom;
-  }
-
-  public void setGreenFrom(int greenFrom) {
-    if (greenFrom <= greenTo) {
-      this.greenFrom = greenFrom;
-    }
   }
 
   public int getGreenTo() {
     return greenTo;
   }
 
-  public void setGreenTo(int greenTo) {
-    if (greenTo >= greenFrom) {
-      this.greenTo = greenTo;
-    }
-  }
-
   public int getBlueFrom() {
     return blueFrom;
   }
 
-  public void setBlueFrom(int blueFrom) {
-    if (blueFrom <= blueTo) {
-      this.blueFrom = blueFrom;
-    }
-  }
-
   public int getBlueTo() {
     return blueTo;
-  }
-
-  public void setBlueTo(int blueTo) {
-    if (blueTo >= blueFrom) {
-      this.blueTo = blueTo;
-    }
-  }
-
-  public void setColorAlpha(int colorAlpha) {
-    this.colorAlpha = colorAlpha;
-  }
-
-  public File bamImageFolder() {
-    return isCustomBamImages ? customBamImageFolder : new File("bam");
   }
 
   public void increaseHeatup(KeyStroke keyStroke) {
@@ -257,14 +206,6 @@ public class PowerMode implements PersistentStateComponent<PowerMode> {
     this.hotkeyHeatup = hotkeyHeatup;
   }
 
-  public long getBamLife() {
-    return bamLife;
-  }
-
-  public void setBamLife(long bamLife) {
-    this.bamLife = bamLife;
-  }
-
   public double getGravityFactor() {
     return gravityFactor;
   }
@@ -297,33 +238,6 @@ public class PowerMode implements PersistentStateComponent<PowerMode> {
     this.frameRate = frameRate;
   }
 
-  public int getMaxFlameSize() {
-    return maxFlameSize;
-  }
-
-  public void setMaxFlameSize(int maxFlameSize) {
-    this.maxFlameSize = maxFlameSize;
-  }
-
-  public int getMaxFlameLife() {
-    return maxFlameLife;
-  }
-
-  public void setMaxFlameLife(int maxFlameLife) {
-    this.maxFlameLife = maxFlameLife;
-  }
-
-  public int getHeatupTime() {
-    return heatupTime;
-  }
-
-  public void setHeatupTime(int heatupTime) {
-    this.heatupTime = Math.max(
-      0,
-      heatupTime
-    );
-  }
-
   // TODO - Seems like unnecessary overhead for a value only set in settings.
   public int getKeyStrokesPerMinute() {
     return keyStrokesPerMinute;
@@ -331,14 +245,6 @@ public class PowerMode implements PersistentStateComponent<PowerMode> {
 
   public void setKeyStrokesPerMinute(int keyStrokesPerMinute) {
     this.keyStrokesPerMinute = keyStrokesPerMinute;
-  }
-
-  public int getHeatup() {
-    return (int) (heatupFactor * 100);
-  }
-
-  public void setHeatup(int heatup) {
-    setHeatupFactor((double) heatup / 100);
   }
 
   public void setHeatupFactor(double heatupFactor) {
@@ -385,14 +291,6 @@ public class PowerMode implements PersistentStateComponent<PowerMode> {
     this.shakeEnabled = shakeEnabled;
   }
 
-  public boolean isBamEnabled() {
-    return bamEnabled;
-  }
-
-  public void setBamEnabled(boolean bamEnabled) {
-    this.bamEnabled = bamEnabled;
-  }
-
   public boolean isFlamesEnabled() {
     return flamesEnabled;
   }
@@ -409,22 +307,6 @@ public class PowerMode implements PersistentStateComponent<PowerMode> {
     this.sparksEnabled = sparksEnabled;
   }
 
-  public boolean isCustomFlameImages() {
-    return isCustomFlameImages;
-  }
-
-  public void setCustomFlameImages(boolean customFlameImages) {
-    isCustomFlameImages = customFlameImages;
-  }
-
-  public boolean isCustomBamImages() {
-    return isCustomBamImages;
-  }
-
-  public void setCustomBamImages(boolean customBamImages) {
-    isCustomBamImages = customBamImages;
-  }
-
   public int getHeatupThreshold() {
     return (int) (heatupThreshold * 100);
   }
@@ -437,24 +319,7 @@ public class PowerMode implements PersistentStateComponent<PowerMode> {
     return elementContainerManager;
   }
 
-  public String getCustomFlameImageFolder() {
-    return customFlameImageFolder != null
-      ? customFlameImageFolder.getAbsolutePath()
-      : "";
-  }
-
-  public void setCustomFlameImageFolder(String customFlameImageFolder) {
-    this.customFlameImageFolder = new File(customFlameImageFolder);
-  }
-
-  public String getCustomBamImageFolder() {
-    return customBamImageFolder != null ? customBamImageFolder.getAbsolutePath() : "";
-  }
-
-  public void setCustomBamImageFolder(String customBamImageFolder) {
-    this.customBamImageFolder = new File(customBamImageFolder);
-  }
-
+  // I don't think we use this...
   public boolean isCaretActionEnabled() {
     return caretActionEnabled;
   }

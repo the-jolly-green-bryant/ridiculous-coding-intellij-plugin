@@ -26,10 +26,9 @@ public class ParticleBaseElement extends BaseElement {
   }
 
   @Override
-  public boolean update(double delta) {
+  public void update(double delta) {
     this.origin.x += (float) (this.direction.x * delta);
     this.origin.y += (float) (this.direction.y * delta);
-    return !isAlive();
   }
 
   @Override

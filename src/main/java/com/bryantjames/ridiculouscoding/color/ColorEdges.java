@@ -35,34 +35,18 @@ public class ColorEdges {
     return leftTop.color();
   }
 
-  public void setLeftTop(MyPaint leftTop) {
-    this.leftTop = leftTop;
-  }
-
   public Color getRightTop() {
     return rightTop.color();
-  }
-
-  public void setRightTop(MyPaint rightTop) {
-    this.rightTop = rightTop;
   }
 
   public Color getLeftBottom() {
     return leftBottom.color();
   }
 
-  public void setLeftBottom(MyPaint leftBottom) {
-    this.leftBottom = leftBottom;
-  }
-
   public Color getRightBottom() {
     return rightBottom.color();
   }
-
-  public void setRightBottom(MyPaint rightBottom) {
-    this.rightBottom = rightBottom;
-  }
-
+  
   public void updateColors(int c1) {
     leftTop = updateMyPaint(
       c1,
