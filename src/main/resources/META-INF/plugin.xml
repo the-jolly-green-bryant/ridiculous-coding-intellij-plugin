@@ -23,6 +23,10 @@
         <enterHandlerDelegate implementation="com.bryantjames.ridiculouscoding.listeners.EnterHandler"/>
         <typedHandler implementation="com.bryantjames.ridiculouscoding.listeners.TypingHandler"/>
         <postStartupActivity implementation="com.bryantjames.ridiculouscoding.Startup"/>
+        <notificationGroup
+                id="Ridiculous Coding"
+                displayType="BALLOON"
+                isLogByDefault="false"/>
     </extensions>
 
     <actions>
