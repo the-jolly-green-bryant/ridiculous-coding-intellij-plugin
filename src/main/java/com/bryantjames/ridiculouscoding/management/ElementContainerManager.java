@@ -22,15 +22,17 @@ public class ElementContainerManager implements EditorFactoryListener {
 
   private static final Map<Editor, ElementContainer> elementContainers
     = new HashMap<>();
-  private final ScheduledFuture<?> updateTask;
 
   public ElementContainerManager() {
     initializeExistingEditors();
-
-    ScheduledExecutorService executor
-      = AppExecutorUtil.getAppScheduledExecutorService();
-    updateTask = executor.scheduleWithFixedDelay(
-      () -> {
+    Timer updateTimer = new Timer(
+      1000 / Math.max(
+        1,
+        PowerMode
+          .getInstance()
+          .getFrameRate()
+      ),
+      e -> {
         try {
           PowerMode pm = PowerMode.getInstance();
           if (pm == null || !pm.isEnabled()) {
@@ -46,14 +48,9 @@ public class ElementContainerManager implements EditorFactoryListener {
 
         } catch (PluginDisabledException ignored) {
         }
-
-      },
-      0,
-      1000 / PowerMode
-        .getInstance()
-        .getFrameRate(),
-      TimeUnit.MILLISECONDS
+      }
     );
+    updateTimer.start();
   }
 
   public void initializeExistingEditors() {
@@ -120,9 +117,6 @@ public class ElementContainerManager implements EditorFactoryListener {
 
   // TODO - We should probably wire this up somewhere...
   public void dispose() {
-    if (updateTask != null) {
-      updateTask.cancel(true);
       elementContainers.clear();
-    }
   }
 }
