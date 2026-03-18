@@ -21,7 +21,10 @@ public class StringBaseElement extends BaseElement {
     float[] colors,
     String text
   ) {
-    this.origin = new Point2D.Float(x, y);
+    this.origin = new Point2D.Float(
+      x,
+      y
+    );
     this.driftX = 10f + (float) (Math.random() * 10f);
     this.riseHeight = 24f + (float) (Math.random() * 12f);
     this.size = size;
@@ -53,24 +56,41 @@ public class StringBaseElement extends BaseElement {
       );
 
       float p = progress();
-      float sizeProgress = (float) Math.pow(p, 0.8f);
+      float sizeProgress = (float) Math.pow(
+        p,
+        0.8f
+      );
       float scale = 0.35f + (1.35f * sizeProgress);
       float rawSize = size * scale;
       int quantizedSize = Math.round(rawSize / 2f) * 2; // 16, 18, 20, etc
       Font font = FontUtil.getPixelFont(quantizedSize);
       g2d.setFont(font);
 
-      String text = String.valueOf(this.text).toUpperCase();
+      String text = String
+        .valueOf(this.text)
+        .toUpperCase();
 
-      float riseProgress = (float) Math.pow(p, 0.9f);
+      float riseProgress = (float) Math.pow(
+        p,
+        0.9f
+      );
 
       float drawX = this.origin.x + driftX * riseProgress;
       float drawY = this.origin.y - riseHeight * riseProgress;
 
 
-      float fade = Math.min(1.0f, p * 6.0f);
+      float fade = Math.min(
+        1.0f,
+        p * 6.0f
+      );
       float alpha = colors[3] * fade;
-      alpha = Math.max(0f, Math.min(1f, alpha));
+      alpha = Math.max(
+        0f,
+        Math.min(
+          1f,
+          alpha
+        )
+      );
 
       Color mainColor = new Color(
         colors[0],
@@ -78,7 +98,10 @@ public class StringBaseElement extends BaseElement {
         colors[2],
         alpha
       );
-      float shadowAlpha = Math.max(0.15f, alpha * 0.35f);
+      float shadowAlpha = Math.max(
+        0.15f,
+        alpha * 0.35f
+      );
 
       Color shadowColor = new Color(
         colors[0] * 0.25f,
@@ -90,17 +113,53 @@ public class StringBaseElement extends BaseElement {
       int shadowSize = 2;
 
       g2d.setColor(shadowColor);
-      g2d.drawString(text, drawX - shadowSize, drawY - shadowSize);
-      g2d.drawString(text, drawX, drawY - shadowSize);
-      g2d.drawString(text, drawX + shadowSize, drawY - shadowSize);
-      g2d.drawString(text, drawX - shadowSize, drawY);
-      g2d.drawString(text, drawX + shadowSize, drawY);
-      g2d.drawString(text, drawX - shadowSize, drawY + shadowSize);
-      g2d.drawString(text, drawX,     drawY + shadowSize);
-      g2d.drawString(text, drawX + shadowSize, drawY + shadowSize);
+      g2d.drawString(
+        text,
+        drawX - shadowSize,
+        drawY - shadowSize
+      );
+      g2d.drawString(
+        text,
+        drawX,
+        drawY - shadowSize
+      );
+      g2d.drawString(
+        text,
+        drawX + shadowSize,
+        drawY - shadowSize
+      );
+      g2d.drawString(
+        text,
+        drawX - shadowSize,
+        drawY
+      );
+      g2d.drawString(
+        text,
+        drawX + shadowSize,
+        drawY
+      );
+      g2d.drawString(
+        text,
+        drawX - shadowSize,
+        drawY + shadowSize
+      );
+      g2d.drawString(
+        text,
+        drawX,
+        drawY + shadowSize
+      );
+      g2d.drawString(
+        text,
+        drawX + shadowSize,
+        drawY + shadowSize
+      );
 
       g2d.setColor(mainColor);
-      g2d.drawString(text, drawX, drawY);
+      g2d.drawString(
+        text,
+        drawX,
+        drawY
+      );
     } finally {
       g2d.dispose();
     }

@@ -16,14 +16,25 @@ public class BackspaceHandler extends EditorActionHandler {
   }
 
   @Override
-  protected void doExecute(@NotNull Editor editor, Caret caret, DataContext dataContext) {
+  protected void doExecute(
+    @NotNull Editor editor,
+    Caret caret,
+    DataContext dataContext
+  ) {
     PluginDisabledGuard.run(() -> {
 
       if (original != null) {
-        original.execute(editor, caret, dataContext);
+        original.execute(
+          editor,
+          caret,
+          dataContext
+        );
       }
 
-      TypingHandler.powerType(editor, "backspace");
+      TypingHandler.powerType(
+        editor,
+        "backspace"
+      );
 
     });
   }

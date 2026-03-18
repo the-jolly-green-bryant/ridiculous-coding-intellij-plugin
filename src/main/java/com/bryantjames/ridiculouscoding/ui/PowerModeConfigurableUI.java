@@ -1,14 +1,13 @@
 package com.bryantjames.ridiculouscoding.ui;
 
-import com.intellij.openapi.options.ConfigurableUi;
 import com.bryantjames.ridiculouscoding.PowerMode;
 import com.bryantjames.ridiculouscoding.color.MultiGradientPanel;
+import com.intellij.openapi.options.ConfigurableUi;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
 import java.util.Arrays;
 
 /**
@@ -28,7 +27,6 @@ public class PowerModeConfigurableUI implements ConfigurableUi<PowerMode> {
   private JLabel sparkCountValue;
   private JLabel sparkLifeValue;
   private JLabel shakeRangeValue;
-
 
 
   private JSlider keyStrokesPerMinute;

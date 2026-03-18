@@ -1,6 +1,5 @@
 package com.bryantjames.ridiculouscoding.element;
 
-import com.bryantjames.ridiculouscoding.Direction;
 import com.bryantjames.ridiculouscoding.PowerMode;
 import com.bryantjames.ridiculouscoding.util.ImageUtil;
 
@@ -15,13 +14,13 @@ import java.util.Map;
 public class AnimatedImageBaseElement extends BaseElement {
 
   private static final Map<String, List<BufferedImage>> IMAGE_CACHE = new HashMap<>();
-  private Point2D.Float renderAt;
-  private int renderWidth;
   private final int width;
-  private int renderHeight;
   private final int height;
   private final String cacheKey;
   private final File folder;
+  private Point2D.Float renderAt;
+  private int renderWidth;
+  private int renderHeight;
 
   public AnimatedImageBaseElement(
     String folderPath,

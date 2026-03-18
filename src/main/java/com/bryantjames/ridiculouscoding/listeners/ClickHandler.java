@@ -17,15 +17,20 @@ public class ClickHandler implements EditorMouseListener, Power {
     PluginDisabledGuard.run(() -> {
       Editor editor = event.getEditor();
 
-      if (!Util.isActualEditor(editor) || powerMode().getElementContainerManager() == null) {
+      if (!Util.isActualEditor(editor)
+        || powerMode().getElementContainerManager() == null) {
         return;
       }
 
-      Point click = event.getMouseEvent().getPoint();
+      Point click = event
+        .getMouseEvent()
+        .getPoint();
       var visual = editor.xyToVisualPosition(click);
       Point editorPoint = editor.visualPositionToXY(visual);
 
-      Rectangle visibleArea = editor.getScrollingModel().getVisibleArea();
+      Rectangle visibleArea = editor
+        .getScrollingModel()
+        .getVisibleArea();
       Point point = new Point(
         editorPoint.x - visibleArea.x,
         editorPoint.y - visibleArea.y
@@ -37,7 +42,8 @@ public class ClickHandler implements EditorMouseListener, Power {
           editor,
           "",
           point
-        );
+        )
+      ;
     });
   }
 }

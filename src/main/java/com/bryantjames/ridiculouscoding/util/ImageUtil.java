@@ -1,8 +1,8 @@
 package com.bryantjames.ridiculouscoding.util;
 
 
-import com.intellij.openapi.diagnostic.Logger;
 import com.bryantjames.ridiculouscoding.PowerMode;
+import com.intellij.openapi.diagnostic.Logger;
 import org.jetbrains.annotations.Nullable;
 
 import javax.imageio.ImageIO;

@@ -1,8 +1,8 @@
 package com.bryantjames.ridiculouscoding.listeners;
 
+import com.bryantjames.ridiculouscoding.Power;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.bryantjames.ridiculouscoding.Power;
 import org.jetbrains.annotations.NotNull;
 
 public class ToggleCaretPowerMode extends AnAction implements Power {

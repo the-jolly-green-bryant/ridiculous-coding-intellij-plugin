@@ -27,20 +27,22 @@ public final class Startup implements ProjectActivity {
     if (!started) {
       started = true;
 
-      PowerMode.getInstance().initialize();
+      PowerMode
+        .getInstance()
+        .initialize();
       HotkeyHandler.initialize();
       EditorActionManager manager = EditorActionManager.getInstance();
 
-      EditorActionHandler tabHandler =
-        manager.getActionHandler(IdeActions.ACTION_EDITOR_TAB);
+      EditorActionHandler tabHandler
+        = manager.getActionHandler(IdeActions.ACTION_EDITOR_TAB);
 
       manager.setActionHandler(
         IdeActions.ACTION_EDITOR_TAB,
         new TabHandler(tabHandler)
       );
 
-      EditorActionHandler backspaceHandler =
-        manager.getActionHandler(IdeActions.ACTION_EDITOR_BACKSPACE);
+      EditorActionHandler backspaceHandler
+        = manager.getActionHandler(IdeActions.ACTION_EDITOR_BACKSPACE);
 
       manager.setActionHandler(
         IdeActions.ACTION_EDITOR_BACKSPACE,
@@ -50,7 +52,12 @@ public final class Startup implements ProjectActivity {
       EditorFactory
         .getInstance()
         .getEventMulticaster()
-        .addEditorMouseListener(new ClickHandler(), () -> {});
+        .addEditorMouseListener(
+          new ClickHandler(),
+          () -> {
+          }
+        )
+      ;
     }
 
     return Unit.INSTANCE;

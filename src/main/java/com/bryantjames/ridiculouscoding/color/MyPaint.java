@@ -26,9 +26,17 @@ public class MyPaint {
     return this;
   }
 
+  public void setR(int r) {
+    this.r = r;
+  }
+
   public MyPaint withGreen(int g) {
     this.setG(g);
     return this;
+  }
+
+  public void setG(int g) {
+    this.g = g;
   }
 
   public MyPaint withBlue(int b) {
@@ -36,21 +44,13 @@ public class MyPaint {
     return this;
   }
 
+  public void setB(int b) {
+    this.b = b;
+  }
+
   public MyPaint withAlpha(int a) {
     this.setA(a);
     return this;
-  }
-
-  public void setR(int r) {
-    this.r = r;
-  }
-
-  public void setG(int g) {
-    this.g = g;
-  }
-
-  public void setB(int b) {
-    this.b = b;
   }
 
   public void setA(int a) {

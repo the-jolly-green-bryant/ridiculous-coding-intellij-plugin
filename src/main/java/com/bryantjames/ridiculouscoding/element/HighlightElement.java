@@ -2,7 +2,6 @@ package com.bryantjames.ridiculouscoding.element;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.awt.geom.RoundRectangle2D;
 
 public class HighlightElement extends BaseElement {
   private final int width;
@@ -17,7 +16,10 @@ public class HighlightElement extends BaseElement {
     long initLife,
     Color color
   ) {
-    this.origin = new Point2D.Float(x, y);
+    this.origin = new Point2D.Float(
+      x,
+      y
+    );
     this.width = width;
     this.height = height;
     this.initLife = initLife;

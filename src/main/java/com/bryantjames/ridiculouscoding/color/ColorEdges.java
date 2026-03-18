@@ -46,7 +46,7 @@ public class ColorEdges {
   public Color getRightBottom() {
     return rightBottom.color();
   }
-  
+
   public void updateColors(int c1) {
     leftTop = updateMyPaint(
       c1,

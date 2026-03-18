@@ -1,202 +1,202 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.bryantjames.ridiculouscoding.ui.PowerModeConfigurableUI">
-  <grid id="263a9" binding="mainPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-    <margin top="0" left="0" bottom="0" right="0"/>
-    <constraints>
-      <xy x="20" y="20" width="721" height="1142"/>
-    </constraints>
-    <properties/>
-    <border type="none"/>
-    <children>
-      <scrollpane id="59a36">
-        <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <verticalScrollBar>
-            <unitIncrement value="16" />
-          </verticalScrollBar>
-        </properties>
-        <border type="none"/>
-        <children>
-          <grid id="27dc6" layout-manager="GridLayoutManager" row-count="16" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="0" left="0" bottom="0" right="0"/>
-            <constraints/>
-            <properties/>
-            <border type="none"/>
-            <children>
-              <component id="c1982" class="javax.swing.JLabel">
-                <constraints>
-                  <grid row="15" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
-                    <preferred-size width="176" height="15"/>
-                  </grid>
-                </constraints>
-                <properties>
-                  <text value="framerate"/>
-                  <toolTipText value="particle &amp; flame updates per second"/>
-                </properties>
-              </component>
-              <component id="43211" class="javax.swing.JLabel" binding="frameRateValue">
-                <constraints>
-                  <grid row="15" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Label"/>
-                </properties>
-              </component>
-              <component id="ddd7e" class="javax.swing.JSlider" binding="frameRate">
-                <constraints>
-                  <grid row="15" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <maximum value="120"/>
-                  <minimum value="5"/>
-                  <value value="30"/>
-                </properties>
-              </component>
-              <component id="2467a" class="javax.swing.JCheckBox" binding="powerModeEnabled">
-                <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="ENABLE POWER MODE!"/>
-                </properties>
-              </component>
-              <component id="685dd" class="javax.swing.JCheckBox" binding="PARTICLESCheckBox" default-binding="true">
-                <constraints>
-                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="PARTICLES!"/>
-                </properties>
-              </component>
-              <component id="81466" class="javax.swing.JCheckBox" binding="shakeEnabled">
-                <constraints>
-                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="SHAKE!"/>
-                </properties>
-              </component>
-              <component id="2456b" class="javax.swing.JLabel">
-                <constraints>
-                  <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
-                    <preferred-size width="176" height="15"/>
-                  </grid>
-                </constraints>
-                <properties>
-                  <text value="shake range [px]"/>
-                  <toolTipText value="how many pixels should the shaking move?"/>
-                </properties>
-              </component>
-              <component id="a35ff" class="javax.swing.JLabel" binding="shakeRangeValue">
-                <constraints>
-                  <grid row="9" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Label"/>
-                </properties>
-              </component>
-              <component id="d66bd" class="javax.swing.JSlider" binding="shakeRange">
-                <constraints>
-                  <grid row="9" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties/>
-              </component>
-              <component id="ebfd1" class="javax.swing.JLabel">
-                <constraints>
-                  <grid row="14" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="image folder:"/>
-                </properties>
-              </component>
-              <component id="1304a" class="javax.swing.JCheckBox" binding="HOTKEYHEATUPCheckBox" default-binding="true">
-                <constraints>
-                  <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="HOTKEY HEATUP"/>
-                  <toolTipText value="Disable if having problems with hotkey visualization"/>
-                </properties>
-              </component>
-              <component id="37c99" class="javax.swing.JLabel">
-                <constraints>
-                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Add particles effects"/>
-                </properties>
-              </component>
-              <component id="6f9d0" class="javax.swing.JLabel">
-                <constraints>
-                  <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Shake view"/>
-                </properties>
-              </component>
-              <component id="a73ee" class="javax.swing.JLabel">
-                <constraints>
-                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Add powerful effects on keypress"/>
-                </properties>
-              </component>
-              <component id="97367" class="javax.swing.JCheckBox" binding="visualizeEveryCaretMovementCheckBox" default-binding="true">
-                <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="ENABLE POWER MODE ON CARET MOVEMENT"/>
-                  <toolTipText value="When disabled: only typing of letters will cause effects.&#10;When enabled: every caret movement will cause effects." noi18n="true"/>
-                </properties>
-              </component>
-              <component id="3f633" class="javax.swing.JLabel">
-                <constraints>
-                  <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Add powerful effects on caret movement too!"/>
-                </properties>
-              </component>
-              <component id="221d1" class="javax.swing.JCheckBox" binding="FLAMESCheckBox" default-binding="true">
-                <constraints>
-                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="FLAMES!"/>
-                </properties>
-              </component>
-              <component id="ea086" class="javax.swing.JLabel">
-                <constraints>
-                  <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Add flames effects"/>
-                </properties>
-              </component>
-              <component id="e286a" class="javax.swing.JLabel">
-                <constraints>
-                  <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Add BAM effect on some occasion&#10;(add line feeds, opening new file, etc..)"/>
-                </properties>
-              </component>
-              <component id="b622f" class="javax.swing.JLabel">
-                <constraints>
-                  <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Add flame on borders of editor when hotkeys are used"/>
-                </properties>
-              </component>
-            </children>
-          </grid>
-        </children>
-      </scrollpane>
-    </children>
-  </grid>
+<grid id="263a9" binding="mainPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+<margin top="0" left="0" bottom="0" right="0"/>
+<constraints>
+<xy x="20" y="20" width="721" height="1142"/>
+</constraints>
+<properties/>
+<border type="none"/>
+<children>
+<scrollpane id="59a36">
+<constraints>
+<grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+</constraints>
+<properties>
+<verticalScrollBar>
+<unitIncrement value="16" />
+</verticalScrollBar>
+</properties>
+<border type="none"/>
+<children>
+<grid id="27dc6" layout-manager="GridLayoutManager" row-count="16" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+<margin top="0" left="0" bottom="0" right="0"/>
+<constraints/>
+<properties/>
+<border type="none"/>
+<children>
+<component id="c1982" class="javax.swing.JLabel">
+<constraints>
+<grid row="15" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+<preferred-size width="176" height="15"/>
+</grid>
+</constraints>
+<properties>
+<text value="framerate"/>
+<toolTipText value="particle &amp; flame updates per second"/>
+</properties>
+</component>
+<component id="43211" class="javax.swing.JLabel" binding="frameRateValue">
+<constraints>
+<grid row="15" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+</constraints>
+<properties>
+<text value="Label"/>
+</properties>
+</component>
+<component id="ddd7e" class="javax.swing.JSlider" binding="frameRate">
+<constraints>
+<grid row="15" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+</constraints>
+<properties>
+<maximum value="120"/>
+<minimum value="5"/>
+<value value="30"/>
+</properties>
+</component>
+<component id="2467a" class="javax.swing.JCheckBox" binding="powerModeEnabled">
+<constraints>
+<grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+</constraints>
+<properties>
+<text value="ENABLE POWER MODE!"/>
+</properties>
+</component>
+<component id="685dd" class="javax.swing.JCheckBox" binding="PARTICLESCheckBox" default-binding="true">
+<constraints>
+<grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+</constraints>
+<properties>
+<text value="PARTICLES!"/>
+</properties>
+</component>
+<component id="81466" class="javax.swing.JCheckBox" binding="shakeEnabled">
+<constraints>
+<grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+</constraints>
+<properties>
+<text value="SHAKE!"/>
+</properties>
+</component>
+<component id="2456b" class="javax.swing.JLabel">
+<constraints>
+<grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+<preferred-size width="176" height="15"/>
+</grid>
+</constraints>
+<properties>
+<text value="shake range [px]"/>
+<toolTipText value="how many pixels should the shaking move?"/>
+</properties>
+</component>
+<component id="a35ff" class="javax.swing.JLabel" binding="shakeRangeValue">
+<constraints>
+<grid row="9" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+</constraints>
+<properties>
+<text value="Label"/>
+</properties>
+</component>
+<component id="d66bd" class="javax.swing.JSlider" binding="shakeRange">
+<constraints>
+<grid row="9" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+</constraints>
+<properties/>
+</component>
+<component id="ebfd1" class="javax.swing.JLabel">
+<constraints>
+<grid row="14" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+</constraints>
+<properties>
+<text value="image folder:"/>
+</properties>
+</component>
+<component id="1304a" class="javax.swing.JCheckBox" binding="HOTKEYHEATUPCheckBox" default-binding="true">
+<constraints>
+<grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+</constraints>
+<properties>
+<text value="HOTKEY HEATUP"/>
+<toolTipText value="Disable if having problems with hotkey visualization"/>
+</properties>
+</component>
+<component id="37c99" class="javax.swing.JLabel">
+<constraints>
+<grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+</constraints>
+<properties>
+<text value="Add particles effects"/>
+</properties>
+</component>
+<component id="6f9d0" class="javax.swing.JLabel">
+<constraints>
+<grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+</constraints>
+<properties>
+<text value="Shake view"/>
+</properties>
+</component>
+<component id="a73ee" class="javax.swing.JLabel">
+<constraints>
+<grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+</constraints>
+<properties>
+<text value="Add powerful effects on keypress"/>
+</properties>
+</component>
+<component id="97367" class="javax.swing.JCheckBox" binding="visualizeEveryCaretMovementCheckBox" default-binding="true">
+<constraints>
+<grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+</constraints>
+<properties>
+<text value="ENABLE POWER MODE ON CARET MOVEMENT"/>
+<toolTipText value="When disabled: only typing of letters will cause effects.&#10;When enabled: every caret movement will cause effects." noi18n="true"/>
+</properties>
+</component>
+<component id="3f633" class="javax.swing.JLabel">
+<constraints>
+<grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+</constraints>
+<properties>
+<text value="Add powerful effects on caret movement too!"/>
+</properties>
+</component>
+<component id="221d1" class="javax.swing.JCheckBox" binding="FLAMESCheckBox" default-binding="true">
+<constraints>
+<grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+</constraints>
+<properties>
+<text value="FLAMES!"/>
+</properties>
+</component>
+<component id="ea086" class="javax.swing.JLabel">
+<constraints>
+<grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+</constraints>
+<properties>
+<text value="Add flames effects"/>
+</properties>
+</component>
+<component id="e286a" class="javax.swing.JLabel">
+<constraints>
+<grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+</constraints>
+<properties>
+<text value="Add BAM effect on some occasion&#10;(add line feeds, opening new file, etc..)"/>
+</properties>
+</component>
+<component id="b622f" class="javax.swing.JLabel">
+<constraints>
+<grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+</constraints>
+<properties>
+<text value="Add flame on borders of editor when hotkeys are used"/>
+</properties>
+</component>
+</children>
+</grid>
+</children>
+</scrollpane>
+</children>
+</grid>
 </form>

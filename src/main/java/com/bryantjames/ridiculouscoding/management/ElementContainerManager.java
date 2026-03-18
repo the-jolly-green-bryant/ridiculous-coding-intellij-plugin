@@ -1,13 +1,13 @@
 package com.bryantjames.ridiculouscoding.management;
 
 import com.bryantjames.ridiculouscoding.PluginDisabledException;
+import com.bryantjames.ridiculouscoding.Power;
+import com.bryantjames.ridiculouscoding.PowerMode;
+import com.bryantjames.ridiculouscoding.util.Util;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.event.EditorFactoryEvent;
 import com.intellij.openapi.editor.event.EditorFactoryListener;
 import com.intellij.openapi.editor.impl.EditorImpl;
-import com.bryantjames.ridiculouscoding.Power;
-import com.bryantjames.ridiculouscoding.PowerMode;
-import com.bryantjames.ridiculouscoding.util.Util;
 import com.intellij.util.concurrency.AppExecutorUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,9 +23,44 @@ public class ElementContainerManager implements EditorFactoryListener, Power {
 
   private static final Map<Editor, ElementContainer> elementContainers
     = new HashMap<>();
+  private final ScheduledFuture<?> updateTask;
+
+  public ElementContainerManager() {
+    initializeExistingEditors();
+
+    ScheduledExecutorService executor
+      = AppExecutorUtil.getAppScheduledExecutorService();
+    updateTask = executor.scheduleWithFixedDelay(
+      () -> {
+        try {
+          PowerMode pm = PowerMode.getInstance();
+          if (pm == null || !pm.isEnabled()) {
+            return;
+          }
+
+          if (elementContainers.isEmpty()) {
+            return;
+          }
+
+          pm.reduceHeatup();
+          updateContainers();
+
+        } catch (PluginDisabledException ignored) {
+        }
+
+      },
+      0,
+      1000 / PowerMode
+        .getInstance()
+        .getFrameRate(),
+      TimeUnit.MILLISECONDS
+    );
+  }
 
   public void initializeExistingEditors() {
-    for (Editor editor : com.intellij.openapi.editor.EditorFactory.getInstance().getAllEditors()) {
+    for (Editor editor : com.intellij.openapi.editor.EditorFactory
+      .getInstance()
+      .getAllEditors()) {
       if (Util.isActualEditor(editor) && !elementContainers.containsKey(editor)) {
         elementContainers.put(
           editor,
@@ -34,34 +69,6 @@ public class ElementContainerManager implements EditorFactoryListener, Power {
       }
     }
   }
-
-  private final ScheduledFuture<?> updateTask;
-
-  public ElementContainerManager() {
-    initializeExistingEditors();
-
-    ScheduledExecutorService executor
-      = AppExecutorUtil.getAppScheduledExecutorService();
-    updateTask = executor.scheduleWithFixedDelay(() -> {
-      try {
-        PowerMode pm = PowerMode.getInstance();
-        if (pm == null || !pm.isEnabled()) {
-          return;
-        }
-
-        if (elementContainers.isEmpty()) {
-          return;
-        }
-
-        pm.reduceHeatup();
-        updateContainers();
-
-      } catch (PluginDisabledException ignored) {
-      }
-
-    }, 0, 1000 / PowerMode.getInstance().getFrameRate(), TimeUnit.MILLISECONDS);
-  }
-
 
   void updateContainers() {
     elementContainers

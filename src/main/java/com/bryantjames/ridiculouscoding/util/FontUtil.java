@@ -2,8 +2,7 @@ package com.bryantjames.ridiculouscoding.util;
 
 import com.intellij.openapi.diagnostic.Logger;
 
-import java.awt.Font;
-import java.awt.GraphicsEnvironment;
+import java.awt.*;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,12 +16,21 @@ public final class FontUtil {
   private static volatile Font basePopupFont;
 
   public static Font getPixelFont(int size) {
-    int safeSize = Math.max(8, size);
+    int safeSize = Math.max(
+      8,
+      size
+    );
 
-    return FONT_CACHE.computeIfAbsent(safeSize, s -> {
-      Font base = getBasePopupFont();
-      return base.deriveFont(Font.PLAIN, (float) s);
-    });
+    return FONT_CACHE.computeIfAbsent(
+      safeSize,
+      s -> {
+        Font base = getBasePopupFont();
+        return base.deriveFont(
+          Font.PLAIN,
+          (float) s
+        );
+      }
+    );
   }
 
   private static Font getBasePopupFont() {
@@ -35,20 +43,38 @@ public final class FontUtil {
         return basePopupFont;
       }
 
-      try (InputStream in = FontUtil.class.getClassLoader().getResourceAsStream(FONT_PATH)) {
+      try (InputStream in = FontUtil.class
+        .getClassLoader()
+        .getResourceAsStream(FONT_PATH)) {
         if (in == null) {
           LOG.warn("Popup font not found at " + FONT_PATH + ", falling back to Dialog");
-          basePopupFont = new Font("Dialog", Font.BOLD, 16);
+          basePopupFont = new Font(
+            "Dialog",
+            Font.BOLD,
+            16
+          );
           return basePopupFont;
         }
 
-        Font loaded = Font.createFont(Font.TRUETYPE_FONT, in);
-        GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(loaded);
+        Font loaded = Font.createFont(
+          Font.TRUETYPE_FONT,
+          in
+        );
+        GraphicsEnvironment
+          .getLocalGraphicsEnvironment()
+          .registerFont(loaded);
         basePopupFont = loaded;
         return basePopupFont;
       } catch (Exception e) {
-        LOG.warn("Failed to load popup font, falling back to Dialog", e);
-        basePopupFont = new Font("Dialog", Font.BOLD, 16);
+        LOG.warn(
+          "Failed to load popup font, falling back to Dialog",
+          e
+        );
+        basePopupFont = new Font(
+          "Dialog",
+          Font.BOLD,
+          16
+        );
         return basePopupFont;
       }
     }

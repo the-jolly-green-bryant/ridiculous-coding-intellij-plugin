@@ -1,19 +1,21 @@
 package com.bryantjames.ridiculouscoding;
 
+import com.bryantjames.ridiculouscoding.color.ColorEdges;
+import com.bryantjames.ridiculouscoding.management.ElementContainerManager;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.util.xmlb.XmlSerializerUtil;
-import com.bryantjames.ridiculouscoding.color.ColorEdges;
-import com.bryantjames.ridiculouscoding.management.ElementContainerManager;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.event.InputEvent;
-import java.io.File;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -25,6 +27,9 @@ public class PowerMode implements PersistentStateComponent<PowerMode> {
     InputEvent.ALT_DOWN_MASK,
     InputEvent.SHIFT_DOWN_MASK
   );
+  private static PowerMode instance;
+  public long xp = 0;
+  public int level = 1;
   private boolean hotkeyHeatup = true;
   private double gravityFactor = 21.21;
   private double sparkVelocityFactor = 4.36;
@@ -32,7 +37,6 @@ public class PowerMode implements PersistentStateComponent<PowerMode> {
   private int frameRate = 30;
   private int heatupTime = 10000;
   private Map<KeyStroke, Long> lastKeys = new HashMap<>();
-
   private int keyStrokesPerMinute = 300;
   private final double hotkeyWeight = keyStrokesPerMinute * 0.05;
   private double heatupFactor = 1.0;
@@ -53,11 +57,6 @@ public class PowerMode implements PersistentStateComponent<PowerMode> {
   private int colorAlpha = 164;
   private double heatupThreshold = 0.0;
   private ElementContainerManager elementContainerManager;
-
-  public long xp = 0;
-  public int level = 1;
-
-  private static PowerMode instance;
 
   public static PowerMode getInstance() {
     if (instance == null) {

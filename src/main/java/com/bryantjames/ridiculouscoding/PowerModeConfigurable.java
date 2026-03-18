@@ -1,9 +1,9 @@
 package com.bryantjames.ridiculouscoding;
 
 
+import com.bryantjames.ridiculouscoding.ui.PowerModeConfigurableUI;
 import com.intellij.openapi.options.ConfigurableBase;
 import com.intellij.openapi.options.ConfigurableUi;
-import com.bryantjames.ridiculouscoding.ui.PowerModeConfigurableUI;
 import org.jetbrains.annotations.NotNull;
 
 public class PowerModeConfigurable extends ConfigurableBase {

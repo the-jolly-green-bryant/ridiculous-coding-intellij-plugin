@@ -12,18 +12,17 @@ public abstract class BaseElement implements Power {
   protected long life;
   protected Point2D.Float origin;
 
-  public void update(double delta) {}
+  public void update(double delta) {
+  }
 
   public void render(
     Graphics g,
     int dxx,
     int dyy
   ) {
-    PowerMode.logger().warn("Calling base `render` method on Element.");
-  }
-
-  protected long life() {
-    return this.life;
+    PowerMode
+      .logger()
+      .warn("Calling base `render` method on Element.");
   }
 
   protected float progress() {
@@ -33,10 +32,20 @@ public abstract class BaseElement implements Power {
     }
 
     float p = 1f - ((float) remaining / (float) this.initLife);
-    return Math.max(0f, Math.min(1f, p));
+    return Math.max(
+      0f,
+      Math.min(
+        1f,
+        p
+      )
+    );
   }
 
   public boolean isAlive() {
     return life() > System.currentTimeMillis() && powerMode().isEnabled();
+  }
+
+  protected long life() {
+    return this.life;
   }
 }

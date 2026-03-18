@@ -12,7 +12,9 @@ public class PluginDisabledException extends RuntimeException {
   }
 
   public static void requirePluginEnabled() {
-    if (!PowerMode.getInstance().isEnabled()) {
+    if (!PowerMode
+      .getInstance()
+      .isEnabled()) {
       throw new PluginDisabledException();
     }
   }

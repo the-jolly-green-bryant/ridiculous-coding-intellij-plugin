@@ -1,12 +1,15 @@
 package com.bryantjames.ridiculouscoding.management;
 
-import com.bryantjames.ridiculouscoding.*;
+import com.bryantjames.ridiculouscoding.PluginDisabledException;
+import com.bryantjames.ridiculouscoding.PluginDisabledGuard;
+import com.bryantjames.ridiculouscoding.Power;
+import com.bryantjames.ridiculouscoding.PowerMode;
 import com.bryantjames.ridiculouscoding.element.*;
-import com.intellij.openapi.editor.ScrollingModel;
-import com.intellij.openapi.editor.impl.EditorImpl;
 import com.bryantjames.ridiculouscoding.listeners.CaretHandler;
 import com.bryantjames.ridiculouscoding.util.Pair;
 import com.bryantjames.ridiculouscoding.util.Util;
+import com.intellij.openapi.editor.ScrollingModel;
+import com.intellij.openapi.editor.impl.EditorImpl;
 import com.intellij.ui.JBColor;
 
 import javax.swing.*;
@@ -23,8 +26,8 @@ public class ElementContainer extends JComponent implements ComponentListener, P
   private final EditorImpl editor;
 
   private final List<JComponent> shakeComponents;
-  private List<Pair<BaseElement, Point>> elements;
   private final List<Point> shakeData;
+  private List<Pair<BaseElement, Point>> elements;
   private long lastShake;
   private long lastUpdate;
 
@@ -68,7 +71,12 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     }
   }
 
-  private void renderImageAtCharacter(String imagePath, Point point, float base, int maxSize) {
+  private void renderImageAtCharacter(
+    String imagePath,
+    Point point,
+    float base,
+    int maxSize
+  ) {
     int wh = (int) (
       (
         maxSize * base + (
@@ -79,7 +87,9 @@ public class ElementContainer extends JComponent implements ComponentListener, P
       )
     );
 
-    float mod_fontSize = (float) this.editor.getColorsScheme().getEditorFontSize();
+    float mod_fontSize = (float) this.editor
+      .getColorsScheme()
+      .getEditorFontSize();
     float mod_centerReticule = (float) wh / 2;
     FontMetrics metrics = this.editor.getFontMetrics(Font.PLAIN);
     float mod_fontWidth = metrics.charWidth(' ');
@@ -100,13 +110,23 @@ public class ElementContainer extends JComponent implements ComponentListener, P
   private void addReticule(Point point) {
     float base = 1.0f;
     int maxSize = 96;
-    renderImageAtCharacter("reticule", point, base, maxSize);
+    renderImageAtCharacter(
+      "reticule",
+      point,
+      base,
+      maxSize
+    );
   }
 
   private void addExplosion(Point point) {
     float base = 1.0f;
     int maxSize = 32;
-    renderImageAtCharacter("explosion", point, base, maxSize);
+    renderImageAtCharacter(
+      "explosion",
+      point,
+      base,
+      maxSize
+    );
   }
 
   private Point getScrollPosition() {
@@ -125,7 +145,9 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     int x,
     int y
   ) {
-    float mod_fontSize = (float) this.editor.getColorsScheme().getEditorFontSize() / 2;
+    float mod_fontSize = (float) this.editor
+      .getColorsScheme()
+      .getEditorFontSize() / 2;
 
     float dx = (float) (
       ((Math.random() * 2) - 1) * powerMode().getSparkVelocityFactor() * 1.2
@@ -155,37 +177,74 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     int lineHeight = this.editor.getLineHeight();
     int width = 8;
 
-    elements.add(new Pair<>(new HighlightElement(
-      position.x,
-      position.y - lineHeight + 2,
-      width,
-      lineHeight,
-      1200,
-      new Color(
-        214,
-        74,
-        252
-      )
-    ), getScrollPosition()));
+    elements.add(new Pair<>(
+      new HighlightElement(
+        position.x,
+        position.y - lineHeight + 2,
+        width,
+        lineHeight,
+        1200,
+        new Color(
+          214,
+          74,
+          252
+        )
+      ),
+      getScrollPosition()
+    ));
   }
 
   private float[] getBrightColor() {
-    Color[] palette = new Color[] {
-      new JBColor(new Color(80, 255, 255), new Color(80, 255, 255)),
-      new JBColor(new Color(255, 80, 220), new Color(255, 80, 220)),
-      new JBColor(new Color(255, 240, 80), new Color(255, 240, 80)),
-      new JBColor(new Color(120, 255, 120), new Color(120, 255, 120)),
-      JBColor.WHITE
-    };
+    Color[] palette = new Color[]{new JBColor(
+      new Color(
+        80,
+        255,
+        255
+      ),
+      new Color(
+        80,
+        255,
+        255
+      )
+    ), new JBColor(
+      new Color(
+        255,
+        80,
+        220
+      ),
+      new Color(
+        255,
+        80,
+        220
+      )
+    ), new JBColor(
+      new Color(
+        255,
+        240,
+        80
+      ),
+      new Color(
+        255,
+        240,
+        80
+      )
+    ), new JBColor(
+      new Color(
+        120,
+        255,
+        120
+      ),
+      new Color(
+        120,
+        255,
+        120
+      )
+    ), JBColor.WHITE};
 
     Color color = palette[(int) (Math.random() * palette.length)];
 
-    return new float[] {
-      color.getRed() / 255f,
-      color.getGreen() / 255f,
-      color.getBlue() / 255f,
-      1.0f
-    };
+    return new float[]{color.getRed() / 255f, color.getGreen() / 255f, color.getBlue()
+      / 255f, 1.0f};
   }
 
   public void updateElementsOfPower() {
@@ -268,7 +327,11 @@ public class ElementContainer extends JComponent implements ComponentListener, P
       return;
     }
 
-    addCharacter(point.x, point.y, text);
+    addCharacter(
+      point.x,
+      point.y,
+      text
+    );
   }
 
   private void addCharacter(
@@ -299,12 +362,16 @@ public class ElementContainer extends JComponent implements ComponentListener, P
 
   public void componentResized(ComponentEvent e) {
     setBounds(getMyBounds());
-    PowerMode.logger().debug("Resized");
+    PowerMode
+      .logger()
+      .debug("Resized");
   }
 
   public void componentMoved(ComponentEvent e) {
     setBounds(getMyBounds());
-    PowerMode.logger().debug("Moved");
+    PowerMode
+      .logger()
+      .debug("Moved");
   }
 
   @Override
@@ -351,7 +418,10 @@ public class ElementContainer extends JComponent implements ComponentListener, P
       return;
     }
 
-    if (!Util.editorOk(editor, 100)) {
+    if (!Util.editorOk(
+      editor,
+      100
+    )) {
       return;
     }
 

@@ -1,11 +1,11 @@
 package com.bryantjames.ridiculouscoding.listeners;
 
 import com.bryantjames.ridiculouscoding.PluginDisabledGuard;
+import com.bryantjames.ridiculouscoding.Power;
+import com.bryantjames.ridiculouscoding.util.Util;
 import com.intellij.openapi.editor.Caret;
 import com.intellij.openapi.editor.event.CaretEvent;
 import com.intellij.openapi.editor.event.CaretListener;
-import com.bryantjames.ridiculouscoding.Power;
-import com.bryantjames.ridiculouscoding.util.Util;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;

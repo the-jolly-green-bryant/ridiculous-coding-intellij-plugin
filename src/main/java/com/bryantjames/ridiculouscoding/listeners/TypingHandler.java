@@ -2,11 +2,11 @@ package com.bryantjames.ridiculouscoding.listeners;
 
 import com.bryantjames.ridiculouscoding.PluginDisabledException;
 import com.bryantjames.ridiculouscoding.PluginDisabledGuard;
+import com.bryantjames.ridiculouscoding.PowerMode;
 import com.bryantjames.ridiculouscoding.gamification.Experience;
+import com.bryantjames.ridiculouscoding.util.Util;
 import com.intellij.codeInsight.editorActions.TypedHandlerDelegate;
 import com.intellij.openapi.editor.Editor;
-import com.bryantjames.ridiculouscoding.PowerMode;
-import com.bryantjames.ridiculouscoding.util.Util;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
@@ -41,9 +41,14 @@ public class TypingHandler extends TypedHandlerDelegate {
   ) {
     PluginDisabledException.requirePluginEnabled();
     PluginDisabledException.requireNotNull(editor);
-    PowerMode.getInstance().increaseHeatup(null);
+    PowerMode
+      .getInstance()
+      .increaseHeatup(null);
     if (text != null && !text.isEmpty()) {
-      Experience.modExperience(editor, 1);
+      Experience.modExperience(
+        editor,
+        1
+      );
     }
 
     initializeAnimationByTypedAction(
@@ -58,12 +63,16 @@ public class TypingHandler extends TypedHandlerDelegate {
   ) {
     // TODO - Same as above.
     boolean isActualEditor = Util.isActualEditor(editor);
-    if (!isActualEditor || PowerMode.getInstance().getElementContainerManager() == null) {
+    if (!isActualEditor
+      || PowerMode
+      .getInstance()
+      .getElementContainerManager() == null) {
       return;
     }
 
     Set<Point> positions = getEditorCaretPositions(editor);
-    positions.forEach(pos -> PowerMode.getInstance()
+    positions.forEach(pos -> PowerMode
+      .getInstance()
       .getElementContainerManager()
       .initializeAnimation(
         editor,

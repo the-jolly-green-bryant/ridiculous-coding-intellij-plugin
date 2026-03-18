@@ -18,12 +18,50 @@ public class ParticleBaseElement extends BaseElement {
     long initLife,
     float[] colors
   ) {
-    this.origin = new Point2D.Float(x, y);
-    this.direction = new Point2D.Float(dx, dy);
+    this.origin = new Point2D.Float(
+      x,
+      y
+    );
+    this.direction = new Point2D.Float(
+      dx,
+      dy
+    );
     this.size = size;
     this.initLife = initLife;
     this.colors = colors;
     this.life = System.currentTimeMillis() + initLife;
+  }
+
+  public static float[] getColor() {
+    float base = 0.75f + (float) Math.random() * 0.25f;
+
+    float r = base + ((float) Math.random() - 0.5f) * 0.05f;
+    float g = base + ((float) Math.random() - 0.5f) * 0.05f;
+    float b = base + ((float) Math.random() - 0.5f) * 0.05f;
+
+    r = Math.min(
+      1f,
+      Math.max(
+        0f,
+        r
+      )
+    );
+    g = Math.min(
+      1f,
+      Math.max(
+        0f,
+        g
+      )
+    );
+    b = Math.min(
+      1f,
+      Math.max(
+        0f,
+        b
+      )
+    );
+
+    return new float[]{r, g, b, 1.0f};
   }
 
   @Override
@@ -44,9 +82,18 @@ public class ParticleBaseElement extends BaseElement {
 
     float p = progress();
     float alpha = colors[3] * (1.0f - p);
-    alpha = Math.max(0f, Math.min(1f, alpha));
+    alpha = Math.max(
+      0f,
+      Math.min(
+        1f,
+        alpha
+      )
+    );
     float scale = 1.0f - (p * 0.6f);
-    int scaledSize = Math.max(1, Math.round(size * scale));
+    int scaledSize = Math.max(
+      1,
+      Math.round(size * scale)
+    );
 
     Graphics2D g2d = (Graphics2D) g.create();
     g2d.setColor(new Color(
@@ -62,19 +109,5 @@ public class ParticleBaseElement extends BaseElement {
       size
     );
     g2d.dispose();
-  }
-
-  public static float[] getColor() {
-    float base = 0.75f + (float) Math.random() * 0.25f;
-
-    float r = base + ((float) Math.random() - 0.5f) * 0.05f;
-    float g = base + ((float) Math.random() - 0.5f) * 0.05f;
-    float b = base + ((float) Math.random() - 0.5f) * 0.05f;
-
-    r = Math.min(1f, Math.max(0f, r));
-    g = Math.min(1f, Math.max(0f, g));
-    b = Math.min(1f, Math.max(0f, b));
-
-    return new float[] { r, g, b, 1.0f };
   }
 }
