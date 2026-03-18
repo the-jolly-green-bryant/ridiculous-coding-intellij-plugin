@@ -2,6 +2,7 @@ package com.bryantjames.ridiculouscoding.element;
 
 
 import com.bryantjames.ridiculouscoding.Power;
+import com.bryantjames.ridiculouscoding.PowerMode;
 import org.apache.commons.lang3.NotImplementedException;
 
 import java.awt.*;
@@ -13,7 +14,7 @@ public abstract class BaseElement implements Power {
   protected Point2D.Float origin;
 
   public void update(double delta) {
-    throw new NotImplementedException("Calling base `update` method on Element.");
+    PowerMode.logger().warn("Calling base `update` method on Element.");
   }
 
   public void render(
@@ -21,7 +22,7 @@ public abstract class BaseElement implements Power {
     int dxx,
     int dyy
   ) {
-    throw new NotImplementedException("Calling base `render` method on Element.");
+    PowerMode.logger().warn("Calling base `render` method on Element.");
   }
 
   protected float lifeFactor() {
