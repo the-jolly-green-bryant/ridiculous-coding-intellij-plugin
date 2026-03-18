@@ -45,7 +45,7 @@ public class CaretHandler implements CaretListener, Power {
       .getElementContainerManager()
       .initializeAnimation(
         caret.getEditor(),
-        "",
+        "highlight",
         position
       )
     ;

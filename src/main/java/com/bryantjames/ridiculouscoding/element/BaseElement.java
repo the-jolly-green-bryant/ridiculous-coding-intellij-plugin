@@ -26,10 +26,6 @@ public abstract class BaseElement implements Power {
     return this.life;
   }
 
-  protected long initLife() {
-    return this.initLife;
-  }
-
   protected float progress() {
     long remaining = this.life - System.currentTimeMillis();
     if (this.initLife <= 0) {

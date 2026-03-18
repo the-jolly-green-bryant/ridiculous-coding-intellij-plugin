@@ -128,15 +128,15 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     float mod_fontSize = (float) this.editor.getColorsScheme().getEditorFontSize() / 2;
 
     float dx = (float) (
-      ((Math.random() * 2) - 1) * powerMode().getSparkVelocityFactor() * 2.2
+      ((Math.random() * 2) - 1) * powerMode().getSparkVelocityFactor() * 1.2
     );
 
     float dy = (float) (
-      ((Math.random() * 2) - 1) * powerMode().getSparkVelocityFactor() * 1.6
+      ((Math.random() * 2) - 1) * powerMode().getSparkVelocityFactor() * 0.8
     );
 
     int size = (int) ((Math.random() * powerMode().getSparkSize()) + 3);
-    int life = 1500;
+    int life = 3000;
     elements.add(new Pair<>(
       new ParticleBaseElement(
         x,
@@ -149,6 +149,24 @@ public class ElementContainer extends JComponent implements ComponentListener, P
       ),
       getScrollPosition()
     ));
+  }
+
+  public void addHighlight(Point position) {
+    int lineHeight = this.editor.getLineHeight();
+    int width = 8;
+
+    elements.add(new Pair<>(new HighlightElement(
+      position.x,
+      position.y - lineHeight + 2,
+      width,
+      lineHeight,
+      1200,
+      new Color(
+        214,
+        74,
+        252
+      )
+    ), getScrollPosition()));
   }
 
   private float[] getBrightColor() {
@@ -201,6 +219,11 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     Point point
   ) {
     this.setBounds(getMyBounds());
+
+    if (text.equalsIgnoreCase("highlight")) {
+      addHighlight(point);
+      return;
+    }
 
     // Add our character falling.
     if (!text.isEmpty()) {
