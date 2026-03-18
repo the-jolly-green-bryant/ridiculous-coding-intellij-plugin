@@ -1,7 +1,5 @@
 package com.bryantjames.ridiculouscoding;
 
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
@@ -20,8 +18,7 @@ import java.util.stream.Collectors;
 
 
 @State(name = "RidiculousCoding", storages = @Storage("ridiculous.coding.xml"))
-public class PowerMode implements PersistentStateComponent<PowerMode>,
-  ApplicationComponent {
+public class PowerMode implements PersistentStateComponent<PowerMode> {
   private static final List<Integer> HOT_INPUTS = Arrays.asList(
     InputEvent.CTRL_DOWN_MASK,
     InputEvent.ALT_DOWN_MASK,
@@ -68,19 +65,14 @@ public class PowerMode implements PersistentStateComponent<PowerMode>,
   public long xp = 0;
   public int level = 1;
 
+  private static PowerMode instance;
+
   public static PowerMode getInstance() {
-    try {
-      return ApplicationManager
-        .getApplication()
-        .getComponent(PowerMode.class);
-    } catch (Throwable e) {
-      logger().error(
-        "error getting component: " + e.getMessage(),
-        e
-      );
+    if (instance == null) {
+      instance = new PowerMode();
     }
 
-    throw new PluginDisabledException("Plugin instance is null!");
+    return instance;
   }
 
   public static Logger logger() {
@@ -234,9 +226,6 @@ public class PowerMode implements PersistentStateComponent<PowerMode>,
     ) / d;
   }
 
-  @Override
-  public void initComponent() {}
-
   public void initialize() {
     EditorFactory editorFactory = EditorFactory.getInstance();
     elementContainerManager = new ElementContainerManager();
@@ -245,20 +234,6 @@ public class PowerMode implements PersistentStateComponent<PowerMode>,
       () -> {
       }
     );
-  }
-
-  @Override
-  public void disposeComponent() {
-    if (elementContainerManager == null) {
-      return;
-    }
-
-    elementContainerManager.dispose();
-  }
-
-  @Override
-  public @NotNull String getComponentName() {
-    return "RidiculousCoding";
   }
 
   @Override

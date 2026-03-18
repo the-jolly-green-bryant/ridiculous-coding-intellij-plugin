@@ -14,12 +14,6 @@
 
     <depends>com.intellij.modules.platform</depends>
 
-    <application-components>
-        <component>
-            <implementation-class>com.bryantjames.ridiculouscoding.PowerMode</implementation-class>
-        </component>
-    </application-components>
-
     <extensions defaultExtensionNs="com.intellij">
         <applicationConfigurable groupId="appearance" groupWeight="20" id="ridiculous.coding"
                                  displayName="Ridiculous Coding"

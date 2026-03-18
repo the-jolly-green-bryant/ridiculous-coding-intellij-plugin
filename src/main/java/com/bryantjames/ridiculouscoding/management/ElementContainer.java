@@ -332,8 +332,8 @@ public class ElementContainer extends JComponent implements ComponentListener, P
 
     int x, y;
     if (!shakeData.isEmpty()) {
-      x = shakeData.get(0).x;
-      y = shakeData.get(0).y;
+      x = shakeData.getFirst().x;
+      y = shakeData.getFirst().y;
       shakeData.clear();
     } else {
       x = generateShakeOffset();
