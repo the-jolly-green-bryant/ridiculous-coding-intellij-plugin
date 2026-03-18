@@ -34,24 +34,36 @@ public class ElementContainerManager implements EditorFactoryListener, Power {
 
   public ElementContainerManager() {
     this.initializeExistingEditors();
+
     elementsOfPowerUpdateThread = new Thread(() -> {
-      while (true) {
+      while (!Thread.currentThread().isInterrupted()) {
         try {
-          powerMode().reduceHeatup();
+          PowerMode pm = PowerMode.getInstance();
+          if (pm == null || !pm.isEnabled()) {
+            Thread.sleep(100);
+            continue;
+          }
+
+          if (elementContainers.isEmpty()) {
+            Thread.sleep(100);
+            continue;
+          }
+
+          pm.reduceHeatup();
           updateContainers();
-          Thread.sleep(1000 / powerMode().getFrameRate());
-        } catch (InterruptedException | PluginDisabledException ignored) {
+
+          Thread.sleep(1000 / pm.getFrameRate());
+        } catch (InterruptedException ignored) {
+          Thread.currentThread().interrupt();
+        } catch (PluginDisabledException ignored) {
         } catch (Exception e) {
-          PowerMode
-            .logger()
-            .error(
-              e.getMessage(),
-              e
-            );
+          PowerMode.logger().error(e.getMessage(), e);
         }
       }
     });
 
+    elementsOfPowerUpdateThread.setName("RidiculousCoding-UpdateThread");
+    elementsOfPowerUpdateThread.setDaemon(true);
     elementsOfPowerUpdateThread.start();
   }
 

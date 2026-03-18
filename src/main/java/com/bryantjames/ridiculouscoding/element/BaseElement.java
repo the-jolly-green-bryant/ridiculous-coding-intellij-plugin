@@ -13,9 +13,7 @@ public abstract class BaseElement implements Power {
   protected long life;
   protected Point2D.Float origin;
 
-  public void update(double delta) {
-    PowerMode.logger().warn("Calling base `update` method on Element.");
-  }
+  public void update(double delta) {}
 
   public void render(
     Graphics g,

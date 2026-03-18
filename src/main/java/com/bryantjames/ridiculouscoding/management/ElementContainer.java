@@ -23,7 +23,7 @@ public class ElementContainer extends JComponent implements ComponentListener, P
   private final EditorImpl editor;
 
   private final List<JComponent> shakeComponents;
-  private final List<Pair<BaseElement, Point>> elements;
+  private List<Pair<BaseElement, Point>> elements;
   private final List<Point> shakeData;
   private long lastShake;
   private long lastUpdate;
@@ -183,12 +183,18 @@ public class ElementContainer extends JComponent implements ComponentListener, P
       return;
     }
 
-    elements.removeIf(p -> {
-      p.first().update((deltaa / db));
-      return !p
-        .first()
-        .isAlive();
-    });
+    List<Pair<BaseElement, Point>> next = new ArrayList<>(elements.size());
+
+    for (Pair<BaseElement, Point> p : elements) {
+      BaseElement element = p.first();
+      element.update(delta);
+
+      if (element.isAlive()) {
+        next.add(p);
+      }
+    }
+
+    elements = next;
     repaint();
   }
 
@@ -231,7 +237,6 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     }
 
     doShake(shakeComponents);
-    repaint();
   }
 
   private void addCharacter(
