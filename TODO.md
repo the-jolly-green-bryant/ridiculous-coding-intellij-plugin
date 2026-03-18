@@ -1,3 +1,2 @@
 - create startup animation
-- add experience (needs to display somewhere)
 - spark explosion on highlight? something on highlight. maybe lasers
