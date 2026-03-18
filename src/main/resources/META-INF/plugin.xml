@@ -8,7 +8,8 @@
         <h1>Ridiculous Coding</h1>
         <div>Make your coding experience in IntelliJ 1000x more ridiculous.</div>
         <div>Source available here: https://github.com/the-jolly-green-bryant/ridiculous-coding-intellij-plugin</div>
-        ]]></description>
+        <img src="https://github.com/jotson/ridiculous_coding/raw/main/readme-example.gif" />
+    ]]></description>
 
     <idea-version since-build="143.0"/>
 
