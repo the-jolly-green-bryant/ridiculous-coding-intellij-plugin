@@ -1,9 +1,11 @@
 package com.bryantjames.ridiculouscoding;
 
 import com.bryantjames.ridiculouscoding.listeners.BackspaceHandler;
+import com.bryantjames.ridiculouscoding.listeners.ClickHandler;
 import com.bryantjames.ridiculouscoding.listeners.HotkeyHandler;
 import com.bryantjames.ridiculouscoding.listeners.TabHandler;
 import com.intellij.openapi.actionSystem.IdeActions;
+import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
 import com.intellij.openapi.editor.actionSystem.EditorActionManager;
 import com.intellij.openapi.project.Project;
@@ -44,6 +46,11 @@ public final class Startup implements ProjectActivity {
         IdeActions.ACTION_EDITOR_BACKSPACE,
         new BackspaceHandler(backspaceHandler)
       );
+
+      EditorFactory
+        .getInstance()
+        .getEventMulticaster()
+        .addEditorMouseListener(new ClickHandler(), () -> {});
     }
 
     return Unit.INSTANCE;
