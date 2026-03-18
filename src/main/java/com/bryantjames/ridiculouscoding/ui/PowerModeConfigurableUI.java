@@ -1,7 +1,6 @@
 package com.bryantjames.ridiculouscoding.ui;
 
 import com.intellij.openapi.options.ConfigurableUi;
-import com.intellij.openapi.options.ConfigurationException;
 import com.bryantjames.ridiculouscoding.PowerMode;
 import com.bryantjames.ridiculouscoding.color.MultiGradientPanel;
 import org.jetbrains.annotations.NotNull;
@@ -31,12 +30,9 @@ public class PowerModeConfigurableUI implements ConfigurableUi<PowerMode> {
   private JLabel sparkCountValue;
   private JLabel sparkLifeValue;
   private JLabel shakeRangeValue;
-  private JLabel heatupValue;
-  private JLabel heatupTimeValue;
-  private JSlider maxFlameSize;
-  private JLabel maxFlameSizeValue;
-  private JSlider flameLife;
-  private JLabel flameLifeValue;
+
+
+
   private JSlider keyStrokesPerMinute;
   private JLabel keyStrokesPerMinuteValue;
   private JCheckBox FLAMESCheckBox;
@@ -49,34 +45,13 @@ public class PowerModeConfigurableUI implements ConfigurableUi<PowerMode> {
   private JSlider gravityFactor;
   private JLabel frameRateValue;
   private JSlider frameRate;
-  private JSlider sparkColorRedTo;
-  private JSlider sparkColorRedFrom;
-  private JSlider sparkColorGreenFrom;
-  private JSlider sparkColorGreenTo;
-  private JSlider sparkColorBlueFrom;
-  private JSlider sparkColorBlueTo;
-  private JLabel sparkColorRedFromValue;
-  private JLabel sparkColorRedToValue;
-  private JLabel sparkColorGreenFromValue;
-  private JLabel sparkColorGreenToValue;
-  private JLabel sparkColorBlueFromValue;
-  private JLabel sparkColorBlueToValue;
-  private JLabel sparkColorAlphaValue;
-  private JSlider sparkColorAlpha;
   private JPanel colorView = new MultiGradientPanel(
     200,
     null
   );
   private JCheckBox visualizeEveryCaretMovementCheckBox;
-  private JCheckBox BAMCheckBox;
-  private JLabel bamLifeValue;
-  private JSlider bamLife;
   private JLabel heatupThresholdValue;
   private JSlider heatupThreshold;
-  private JTextField flameImagesFolder;
-  private JTextField bamImagesFolder;
-  private JCheckBox customFlameImages;
-  private JCheckBox customBamImages;
   private JCheckBox HOTKEYHEATUPCheckBox;
 
 
@@ -93,8 +68,6 @@ public class PowerModeConfigurableUI implements ConfigurableUi<PowerMode> {
     FLAMESCheckBox.addChangeListener(e -> powerMode.setFlamesEnabled(FLAMESCheckBox.isSelected()));
     PARTICLESCheckBox.setSelected(powerMode.isSparksEnabled());
     PARTICLESCheckBox.addChangeListener(e -> powerMode.setSparksEnabled(PARTICLESCheckBox.isSelected()));
-    BAMCheckBox.setSelected(powerMode.isBamEnabled());
-    BAMCheckBox.addChangeListener(e -> powerMode.setBamEnabled(BAMCheckBox.isSelected()));
     visualizeEveryCaretMovementCheckBox.setSelected(powerMode.isCaretActionEnabled());
     visualizeEveryCaretMovementCheckBox.addChangeListener(e -> powerMode.setCaretActionEnabled(visualizeEveryCaretMovementCheckBox.isSelected()));
     HOTKEYHEATUPCheckBox.setSelected(powerMode.isHotkeyHeatup());
@@ -141,40 +114,10 @@ public class PowerModeConfigurableUI implements ConfigurableUi<PowerMode> {
       slider -> powerMode.setShakeRange(slider.getValue())
     );
     initValues(
-      powerMode.getHeatup(),
-      heatup,
-      heatupValue,
-      slider -> powerMode.setHeatup(slider.getValue())
-    );
-    initValues(
-      powerMode.getHeatupTime(),
-      heatupTime,
-      heatupTimeValue,
-      slider -> powerMode.setHeatupTime(slider.getValue())
-    );
-    initValues(
       powerMode.getHeatupThreshold(),
       heatupThreshold,
       heatupThresholdValue,
       slider -> powerMode.setHeatupThreshold(slider.getValue())
-    );
-    initValues(
-      powerMode.getMaxFlameLife(),
-      flameLife,
-      flameLifeValue,
-      slider -> powerMode.setMaxFlameLife(slider.getValue())
-    );
-    initValues(
-      (int) powerMode.getBamLife(),
-      bamLife,
-      bamLifeValue,
-      slider -> powerMode.setBamLife(slider.getValue())
-    );
-    initValues(
-      powerMode.getMaxFlameSize(),
-      maxFlameSize,
-      maxFlameSizeValue,
-      slider -> powerMode.setMaxFlameSize(slider.getValue())
     );
     initValues(
       powerMode.getKeyStrokesPerMinute(),
@@ -189,73 +132,7 @@ public class PowerModeConfigurableUI implements ConfigurableUi<PowerMode> {
       slider -> powerMode.setFrameRate(slider.getValue())
     );
 
-    initValuesColor(
-      powerMode.getRedFrom(),
-      sparkColorRedFrom,
-      sparkColorRedFromValue,
-      powerMode,
-      slider -> powerMode.setRedFrom(slider.getValue())
-    );
-    initValuesColor(
-      powerMode.getRedTo(),
-      sparkColorRedTo,
-      sparkColorRedToValue,
-      powerMode,
-      slider -> powerMode.setRedTo(slider.getValue())
-    );
-    bindSliders(
-      sparkColorRedFrom,
-      sparkColorRedTo
-    );
 
-    initValuesColor(
-      powerMode.getGreenFrom(),
-      sparkColorGreenFrom,
-      sparkColorGreenFromValue,
-      powerMode,
-      slider -> powerMode.setGreenFrom(slider.getValue())
-    );
-    initValuesColor(
-      powerMode.getGreenTo(),
-      sparkColorGreenTo,
-      sparkColorGreenToValue,
-      powerMode,
-      slider -> powerMode.setGreenTo(slider.getValue())
-    );
-    bindSliders(
-      sparkColorGreenFrom,
-      sparkColorGreenTo
-    );
-
-    initValuesColor(
-      powerMode.getBlueFrom(),
-      sparkColorBlueFrom,
-      sparkColorBlueFromValue,
-      powerMode,
-      slider -> powerMode.setBlueFrom(slider.getValue())
-    );
-    initValuesColor(
-      powerMode.getBlueTo(),
-      sparkColorBlueTo,
-      sparkColorBlueToValue,
-      powerMode,
-      slider -> powerMode.setBlueTo(slider.getValue())
-    );
-    bindSliders(
-      sparkColorBlueFrom,
-      sparkColorBlueTo
-    );
-
-    initValuesColor(
-      powerMode.getColorAlpha(),
-      sparkColorAlpha,
-      sparkColorAlphaValue,
-      powerMode,
-      slider -> powerMode.setColorAlpha(slider.getValue())
-    );
-
-    customFlameImages.setSelected(powerMode.isCustomFlameImages());
-    customFlameImages.addChangeListener(e -> powerMode.setCustomFlameImages(customFlameImages.isSelected()));
     Arrays
       .stream(mainPanel.getComponents())
       .filter(c -> c instanceof JScrollPane)
@@ -264,54 +141,6 @@ public class PowerModeConfigurableUI implements ConfigurableUi<PowerMode> {
         .getVerticalScrollBar()
         .setUnitIncrement(16))
     ;
-    {
-      flameImagesFolder.setText(powerMode.getCustomFlameImageFolder());
-
-      flameImagesFolder
-        .getDocument()
-        .addDocumentListener(new DocumentListener() {
-          @Override
-          public void insertUpdate(DocumentEvent e) {
-            powerMode.setCustomFlameImageFolder(flameImagesFolder.getText());
-          }
-
-          @Override
-          public void removeUpdate(DocumentEvent e) {
-            powerMode.setCustomFlameImageFolder(flameImagesFolder.getText());
-          }
-
-          @Override
-          public void changedUpdate(DocumentEvent e) {
-            powerMode.setCustomFlameImageFolder(flameImagesFolder.getText());
-          }
-        });
-    }
-
-    customBamImages.setSelected(powerMode.isCustomBamImages());
-    customBamImages.addChangeListener(e -> powerMode.setCustomBamImages(customBamImages.isSelected()));
-
-    {
-      bamImagesFolder.setText(powerMode.getCustomBamImageFolder());
-
-      bamImagesFolder
-        .getDocument()
-        .addDocumentListener(new DocumentListener() {
-          @Override
-          public void insertUpdate(DocumentEvent e) {
-            powerMode.setCustomBamImageFolder(bamImagesFolder.getText());
-          }
-
-          @Override
-          public void removeUpdate(DocumentEvent e) {
-            powerMode.setCustomBamImageFolder(bamImagesFolder.getText());
-          }
-
-          @Override
-          public void changedUpdate(DocumentEvent e) {
-            powerMode.setCustomBamImageFolder(bamImagesFolder.getText());
-          }
-        });
-    }
   }
 
   private void initValues(
