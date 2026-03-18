@@ -1,4 +1,5 @@
-- we should replace bam with something
+- create startup animation
 - Update to new addon style (it hates the components)
 - Remove unneeded settings
 - add experience
+- spark explosion on highlight? something on highlight. maybe lasers

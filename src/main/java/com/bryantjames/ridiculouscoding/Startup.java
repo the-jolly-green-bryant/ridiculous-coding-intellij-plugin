@@ -1,6 +1,7 @@
 package com.bryantjames.ridiculouscoding;
 
 import com.bryantjames.ridiculouscoding.listeners.BackspaceHandler;
+import com.bryantjames.ridiculouscoding.listeners.HotkeyHandler;
 import com.bryantjames.ridiculouscoding.listeners.TabHandler;
 import com.intellij.openapi.actionSystem.IdeActions;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
@@ -24,6 +25,8 @@ public final class Startup implements ProjectActivity {
     if (!started) {
       started = true;
 
+      PowerMode.getInstance().initialize();
+      HotkeyHandler.initialize();
       EditorActionManager manager = EditorActionManager.getInstance();
 
       EditorActionHandler tabHandler =

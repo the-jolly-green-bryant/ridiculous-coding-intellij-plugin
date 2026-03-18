@@ -2,7 +2,6 @@ package com.bryantjames.ridiculouscoding.management;
 
 import com.bryantjames.ridiculouscoding.*;
 import com.bryantjames.ridiculouscoding.element.*;
-import com.bryantjames.ridiculouscoding.gamification.Experience;
 import com.intellij.openapi.editor.ScrollingModel;
 import com.intellij.openapi.editor.impl.EditorImpl;
 import com.bryantjames.ridiculouscoding.listeners.CaretHandler;
@@ -53,65 +52,7 @@ public class ElementContainer extends JComponent implements ComponentListener, P
   }
 
   private void onOpenEditor() {
-    int dim = editor
-      .getScrollPane()
-      .getHeight() / 2;
-    int w = editor
-      .getScrollPane()
-      .getWidth();
-    int h = editor
-      .getScrollPane()
-      .getHeight();
-
-    addBam(new Point(w / 2, h / 2 - (dim / 2)));
-    addSparks(new Point(w / 4, h / 4));
-    addSparks(new Point(w * 3 / 4, h * 3 / 4));
-    addSparks(new Point(w / 4, h * 3 / 4));
-    addSparks(new Point(w * 3 / 4, h / 4));
-
-    // TODO - Probably an easier way to do this.
-    for (
-      int i = 0;
-      i < h;
-      i += 15
-    ) {
-      addFlames(
-        new Point(
-          0,
-          i
-        ),
-        Direction.RIGHT
-      );
-      addFlames(
-        new Point(
-          w - 75,
-          i
-        ),
-        Direction.LEFT
-      );
-    }
-  }
-
-  private void addBam(Point point) {
-    if (!powerMode().isBamEnabled()) {
-      return;
-    }
-
-    int dim = editor
-      .getScrollPane()
-      .getHeight() / 2;
-    int x = point.x - (dim / 2);
-    int y = point.y - (dim / 2);
-    elements.add(new Pair<>(
-      new PowerBam(
-        x,
-        y,
-        dim,
-        dim,
-        (long) (powerMode().getBamLife() * powerMode().valueFactor())
-      ),
-      getScrollPosition()
-    ));
+    // TODO - I like this concept but didn't like the effects. Come back to this.
   }
 
   private void addSparks(Point point) {
@@ -127,63 +68,7 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     }
   }
 
-  private void addFlames(
-    Point point,
-    Direction direction
-  ) {
-    if (!powerMode().isFlamesEnabled()) {
-      return;
-    }
-
-    float base = 0.3f;
-    int wh = (int) (
-      (
-        powerMode().getMaxFlameSize() * base + (
-          (
-            Math.random() * powerMode().getMaxFlameSize() * (1 - base)
-          ) * powerMode().valueFactor()
-        )
-      )
-    );
-    int initLife = (int) (powerMode().getMaxFlameLife() * powerMode().valueFactor());
-    if (initLife <= 100) {
-      return;
-    }
-
-    elements.add(new Pair<>(
-      new AnimatedImageBaseElement(
-        "fire/animated/256",
-        point.x + 5,
-        point.y - 1,
-        wh,
-        wh,
-        initLife,
-        direction != null ? direction : Direction.UP
-      ),
-      getScrollPosition()
-    ));
-
-    if (direction != null) {
-      return;
-    }
-
-    elements.add(new Pair<>(
-      new AnimatedImageBaseElement(
-        "fire/animated/256",
-        point.x + 5,
-        point.y + 15,
-        wh,
-        wh,
-        initLife,
-        Direction.DOWN
-      ),
-      getScrollPosition()
-    ));
-  }
-
-  private void addReticule(Point point) {
-    float base = 1.0f;
-    int maxSize = 96;
+  private void renderImageAtCharacter(String imagePath, Point point, float base, int maxSize) {
     int wh = (int) (
       (
         maxSize * base + (
@@ -201,7 +86,7 @@ public class ElementContainer extends JComponent implements ComponentListener, P
 
     elements.add(new Pair<>(
       new AnimatedImageBaseElement(
-        "reticule",
+        imagePath,
         point.x - mod_centerReticule + mod_fontWidth,
         point.y + mod_fontSize - mod_centerReticule,
         wh,
@@ -213,36 +98,16 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     ));
   }
 
+  private void addReticule(Point point) {
+    float base = 1.0f;
+    int maxSize = 96;
+    renderImageAtCharacter("reticule", point, base, maxSize);
+  }
+
   private void addExplosion(Point point) {
     float base = 1.0f;
     int maxSize = 32;
-    int wh = (int) (
-      (
-        maxSize * base + (
-          (
-            Math.random() * maxSize * (1 - base)
-          ) * powerMode().valueFactor()
-        )
-      )
-    );
-
-    float mod_fontSize = (float) this.editor.getColorsScheme().getEditorFontSize();
-    float mod_sprintCenter = (float) wh / 2;
-    FontMetrics metrics = this.editor.getFontMetrics(Font.PLAIN);
-    float mod_fontWidth = metrics.charWidth(' ');
-
-    elements.add(new Pair<>(
-      new AnimatedImageBaseElement(
-        "explosion",
-        point.x - mod_sprintCenter + mod_fontWidth,
-        point.y + mod_fontSize - mod_sprintCenter,
-        wh,
-        wh,
-        375,
-        null
-      ),
-      getScrollPosition()
-    ));
+    renderImageAtCharacter("explosion", point, base, maxSize);
   }
 
   private Point getScrollPosition() {

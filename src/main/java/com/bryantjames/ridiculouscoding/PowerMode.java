@@ -7,10 +7,8 @@ import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.EditorFactory;
-import com.intellij.openapi.editor.actionSystem.EditorActionManager;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import com.bryantjames.ridiculouscoding.color.ColorEdges;
-import com.bryantjames.ridiculouscoding.listeners.TypingHandler;
 import com.bryantjames.ridiculouscoding.management.ElementContainerManager;
 import org.jetbrains.annotations.NotNull;
 
@@ -237,11 +235,9 @@ public class PowerMode implements PersistentStateComponent<PowerMode>,
   }
 
   @Override
-  public void initComponent() {
-    PowerMode
-      .logger()
-      .debug("initComponent...");
+  public void initComponent() {}
 
+  public void initialize() {
     EditorFactory editorFactory = EditorFactory.getInstance();
     elementContainerManager = new ElementContainerManager();
     editorFactory.addEditorFactoryListener(
@@ -249,16 +245,6 @@ public class PowerMode implements PersistentStateComponent<PowerMode>,
       () -> {
       }
     );
-    EditorActionManager manager = EditorActionManager.getInstance();
-    manager
-      .getTypedAction()
-      .setupRawHandler(new TypingHandler(manager
-        .getTypedAction()
-        .getRawHandler()));
-
-    PowerMode
-      .logger()
-      .debug("initComponent done");
   }
 
   @Override

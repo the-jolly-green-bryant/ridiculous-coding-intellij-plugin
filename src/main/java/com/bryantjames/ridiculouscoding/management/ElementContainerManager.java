@@ -21,7 +21,19 @@ public class ElementContainerManager implements EditorFactoryListener, Power {
     = new HashMap<>();
   private final Thread elementsOfPowerUpdateThread;
 
+  public void initializeExistingEditors() {
+    for (Editor editor : com.intellij.openapi.editor.EditorFactory.getInstance().getAllEditors()) {
+      if (Util.isActualEditor(editor) && !elementContainers.containsKey(editor)) {
+        elementContainers.put(
+          editor,
+          new ElementContainer((EditorImpl) editor)
+        );
+      }
+    }
+  }
+
   public ElementContainerManager() {
+    this.initializeExistingEditors();
     elementsOfPowerUpdateThread = new Thread(() -> {
       while (true) {
         try {

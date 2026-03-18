@@ -18,9 +18,6 @@
         <component>
             <implementation-class>com.bryantjames.ridiculouscoding.PowerMode</implementation-class>
         </component>
-        <component>
-            <implementation-class>com.bryantjames.ridiculouscoding.listeners.HotkeyHandler</implementation-class>
-        </component>
     </application-components>
 
     <extensions defaultExtensionNs="com.intellij">
@@ -28,6 +25,7 @@
                                  displayName="Ridiculous Coding"
                                  instance="com.bryantjames.ridiculouscoding.PowerModeConfigurable"/>
         <enterHandlerDelegate implementation="com.bryantjames.ridiculouscoding.listeners.EnterHandler"/>
+        <typedHandler implementation="com.bryantjames.ridiculouscoding.listeners.TypingHandler"/>
         <postStartupActivity implementation="com.bryantjames.ridiculouscoding.Startup"/>
     </extensions>
 
@@ -35,13 +33,13 @@
 
         <action id="togglePowerModeIII" class="com.bryantjames.ridiculouscoding.listeners.TogglePowerMode"
                 text="Toggle Ridiculous Coding"
-                description="Toggle Ridiculous Coding">
+                description="Toggle ridiculous mode for Ridiculous Coding">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt O"/>
         </action>
         <action id="toggleCaretPowerModeIII" class="com.bryantjames.ridiculouscoding.listeners.ToggleCaretPowerMode"
                 text="Toggle Caret Power Mode"
-                description="Toggle Caret Mode for Ridiculous Coding">
+                description="Toggle caret mode for Ridiculous Coding">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
         </action>
     </actions>

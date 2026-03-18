@@ -4,6 +4,7 @@ import com.intellij.openapi.options.ConfigurableUi;
 import com.intellij.openapi.options.ConfigurationException;
 import com.bryantjames.ridiculouscoding.PowerMode;
 import com.bryantjames.ridiculouscoding.color.MultiGradientPanel;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -255,18 +256,14 @@ public class PowerModeConfigurableUI implements ConfigurableUi<PowerMode> {
 
     customFlameImages.setSelected(powerMode.isCustomFlameImages());
     customFlameImages.addChangeListener(e -> powerMode.setCustomFlameImages(customFlameImages.isSelected()));
-    Component scrollPane = Arrays
-      .asList(mainPanel.getComponents())
-      .stream()
+    Arrays
+      .stream(mainPanel.getComponents())
       .filter(c -> c instanceof JScrollPane)
       .findFirst()
-      .orElse(null)
-      ;
-    if (scrollPane != null) {
-      ((JScrollPane) scrollPane)
+      .ifPresent(scrollPane -> ((JScrollPane) scrollPane)
         .getVerticalScrollBar()
-        .setUnitIncrement(16);
-    }
+        .setUnitIncrement(16))
+    ;
     {
       flameImagesFolder.setText(powerMode.getCustomFlameImageFolder());
 
@@ -359,20 +356,14 @@ public class PowerModeConfigurableUI implements ConfigurableUi<PowerMode> {
     JSlider from,
     JSlider to
   ) {
-    from.addChangeListener(new ChangeListener() {
-      @Override
-      public void stateChanged(ChangeEvent e) {
-        if (from.getValue() > to.getValue()) {
-          to.setValue(from.getValue());
-        }
+    from.addChangeListener(e -> {
+      if (from.getValue() > to.getValue()) {
+        to.setValue(from.getValue());
       }
     });
-    to.addChangeListener(new ChangeListener() {
-      @Override
-      public void stateChanged(ChangeEvent e) {
-        if (to.getValue() < from.getValue()) {
-          from.setValue(to.getValue());
-        }
+    to.addChangeListener(e -> {
+      if (to.getValue() < from.getValue()) {
+        from.setValue(to.getValue());
       }
     });
   }
@@ -388,13 +379,13 @@ public class PowerModeConfigurableUI implements ConfigurableUi<PowerMode> {
   }
 
   @Override
-  public void apply(PowerMode powerMode) throws ConfigurationException {
+  public void apply(PowerMode powerMode) {
     powerMode.setEnabled(powerModeEnabled.isSelected());
   }
 
 
   @Override
-  public JComponent getComponent() {
+  public @NotNull JComponent getComponent() {
     return mainPanel;
   }
 

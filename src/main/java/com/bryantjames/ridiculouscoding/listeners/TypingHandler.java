@@ -3,12 +3,12 @@ package com.bryantjames.ridiculouscoding.listeners;
 import com.bryantjames.ridiculouscoding.PluginDisabledException;
 import com.bryantjames.ridiculouscoding.PluginDisabledGuard;
 import com.bryantjames.ridiculouscoding.gamification.Experience;
-import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.codeInsight.editorActions.TypedHandlerDelegate;
 import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.editor.actionSystem.TypedActionHandler;
-import com.bryantjames.ridiculouscoding.Power;
 import com.bryantjames.ridiculouscoding.PowerMode;
 import com.bryantjames.ridiculouscoding.util.Util;
+import com.intellij.openapi.project.Project;
+import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,41 +17,22 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 
-public class TypingHandler implements TypedActionHandler, Power {
-
-  private final TypedActionHandler typedActionHandler;
-
-  public TypingHandler(TypedActionHandler typedActionHandler) {
-    this.typedActionHandler = typedActionHandler;
-  }
+public class TypingHandler extends TypedHandlerDelegate {
 
   @Override
-  public void execute(
-    @NotNull Editor editor,
+  public @NotNull Result charTyped(
     char c,
-    @NotNull DataContext dataContext
+    @NotNull Project project,
+    @NotNull Editor editor,
+    @NotNull PsiFile file
   ) {
-    PluginDisabledGuard.run(() -> {
-      try {
-        typedActionHandler.execute(
-          editor,
-          c,
-          dataContext
-        );
-      } catch (IllegalStateException | IndexOutOfBoundsException x) {
-        PowerMode
-          .logger()
-          .info(
-            x.getMessage(),
-            x
-          );
-      }
 
-      powerType(
-        editor,
-        "" + c
-      );
-    });
+    PluginDisabledGuard.run(() -> powerType(
+      editor,
+      "" + c
+    ));
+
+    return Result.CONTINUE;
   }
 
   public static void powerType(
