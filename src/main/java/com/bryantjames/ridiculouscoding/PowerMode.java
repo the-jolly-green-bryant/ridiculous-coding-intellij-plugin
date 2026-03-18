@@ -2,7 +2,9 @@ package com.bryantjames.ridiculouscoding;
 
 import com.bryantjames.ridiculouscoding.color.ColorEdges;
 import com.bryantjames.ridiculouscoding.management.ElementContainerManager;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.PersistentStateComponent;
+import com.intellij.openapi.components.Service;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.diagnostic.Logger;
@@ -19,8 +21,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 
+@Service
 @State(name = "RidiculousCoding", storages = @Storage("ridiculous.coding.xml"))
-public class PowerMode implements PersistentStateComponent<PowerMode> {
+public final class PowerMode implements PersistentStateComponent<PowerMode> {
   // TODO - A lot of these values are no longer used.
   private static final List<Integer> HOT_INPUTS = Arrays.asList(
     InputEvent.CTRL_DOWN_MASK,
@@ -53,7 +56,9 @@ public class PowerMode implements PersistentStateComponent<PowerMode> {
 
   public static PowerMode getInstance() {
     if (instance == null) {
-      instance = new PowerMode();
+      instance = ApplicationManager
+        .getApplication()
+        .getService(PowerMode.class);
     }
 
     return instance;

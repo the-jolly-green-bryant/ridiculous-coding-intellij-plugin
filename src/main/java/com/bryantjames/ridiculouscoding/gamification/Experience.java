@@ -87,7 +87,7 @@ public class Experience extends BaseElement {
     }
 
     String bar = "▓".repeat(filled) + "░".repeat(blocks - filled);
-    return "⚡ Lv" + (level + 1) + " " + bar + " " + into + "/" + needed;
+    return "⚡ Lv" + (level + 1) + " " + bar + " " + into + "/" + diff;
   }
 
   public static long deriveExperience(int level) {
