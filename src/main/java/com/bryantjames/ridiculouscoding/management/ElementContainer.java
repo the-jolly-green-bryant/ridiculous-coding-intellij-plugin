@@ -177,8 +177,6 @@ public class ElementContainer extends JComponent implements ComponentListener, P
     }
 
     lastUpdate = System.currentTimeMillis();
-    double db = 1000.0 / 16;
-    long deltaa = delta;
     if (elements.isEmpty()) {
       return;
     }

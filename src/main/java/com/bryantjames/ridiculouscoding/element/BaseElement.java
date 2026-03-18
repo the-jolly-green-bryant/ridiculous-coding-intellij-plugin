@@ -3,7 +3,6 @@ package com.bryantjames.ridiculouscoding.element;
 
 import com.bryantjames.ridiculouscoding.Power;
 import com.bryantjames.ridiculouscoding.PowerMode;
-import org.apache.commons.lang3.NotImplementedException;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -21,10 +20,6 @@ public abstract class BaseElement implements Power {
     int dyy
   ) {
     PowerMode.logger().warn("Calling base `render` method on Element.");
-  }
-
-  protected float lifeFactor() {
-    return 1 - ((life() - System.currentTimeMillis()) / (float) initLife());
   }
 
   protected long life() {

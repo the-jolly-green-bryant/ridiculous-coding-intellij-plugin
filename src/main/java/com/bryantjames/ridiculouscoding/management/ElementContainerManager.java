@@ -8,18 +8,21 @@ import com.intellij.openapi.editor.impl.EditorImpl;
 import com.bryantjames.ridiculouscoding.Power;
 import com.bryantjames.ridiculouscoding.PowerMode;
 import com.bryantjames.ridiculouscoding.util.Util;
+import com.intellij.util.concurrency.AppExecutorUtil;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 public class ElementContainerManager implements EditorFactoryListener, Power {
 
   private static final Map<Editor, ElementContainer> elementContainers
     = new HashMap<>();
-  private final Thread elementsOfPowerUpdateThread;
 
   public void initializeExistingEditors() {
     for (Editor editor : com.intellij.openapi.editor.EditorFactory.getInstance().getAllEditors()) {
@@ -32,39 +35,31 @@ public class ElementContainerManager implements EditorFactoryListener, Power {
     }
   }
 
+  private final ScheduledFuture<?> updateTask;
+
   public ElementContainerManager() {
-    this.initializeExistingEditors();
+    initializeExistingEditors();
 
-    elementsOfPowerUpdateThread = new Thread(() -> {
-      while (!Thread.currentThread().isInterrupted()) {
-        try {
-          PowerMode pm = PowerMode.getInstance();
-          if (pm == null || !pm.isEnabled()) {
-            Thread.sleep(100);
-            continue;
-          }
-
-          if (elementContainers.isEmpty()) {
-            Thread.sleep(100);
-            continue;
-          }
-
-          pm.reduceHeatup();
-          updateContainers();
-
-          Thread.sleep(1000 / pm.getFrameRate());
-        } catch (InterruptedException ignored) {
-          Thread.currentThread().interrupt();
-        } catch (PluginDisabledException ignored) {
-        } catch (Exception e) {
-          PowerMode.logger().error(e.getMessage(), e);
+    ScheduledExecutorService executor
+      = AppExecutorUtil.getAppScheduledExecutorService();
+    updateTask = executor.scheduleWithFixedDelay(() -> {
+      try {
+        PowerMode pm = PowerMode.getInstance();
+        if (pm == null || !pm.isEnabled()) {
+          return;
         }
-      }
-    });
 
-    elementsOfPowerUpdateThread.setName("RidiculousCoding-UpdateThread");
-    elementsOfPowerUpdateThread.setDaemon(true);
-    elementsOfPowerUpdateThread.start();
+        if (elementContainers.isEmpty()) {
+          return;
+        }
+
+        pm.reduceHeatup();
+        updateContainers();
+
+      } catch (PluginDisabledException ignored) {
+      }
+
+    }, 0, 1000 / PowerMode.getInstance().getFrameRate(), TimeUnit.MILLISECONDS);
   }
 
 
@@ -119,7 +114,9 @@ public class ElementContainerManager implements EditorFactoryListener, Power {
 
   // TODO - We should probably wire this up somewhere...
   public void dispose() {
-    elementsOfPowerUpdateThread.interrupt();
-    elementContainers.clear();
+    if (updateTask != null) {
+      updateTask.cancel(true);
+      elementContainers.clear();
+    }
   }
 }
