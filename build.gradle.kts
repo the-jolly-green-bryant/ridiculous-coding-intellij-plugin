@@ -3,7 +3,7 @@ import org.gradle.api.plugins.quality.PmdExtension
 
 plugins {
     id("java")
-    id("org.jetbrains.intellij.platform") version "2.2.1"
+    id("org.jetbrains.intellij.platform") version "2.10.4"
     id("checkstyle")
     id("pmd")
 }
@@ -50,7 +50,7 @@ intellijPlatform {
 
 dependencies {
     intellijPlatform {
-        intellijIdeaCommunity("2024.3")
+        intellijIdea("2025.3")
     }
 }
 
