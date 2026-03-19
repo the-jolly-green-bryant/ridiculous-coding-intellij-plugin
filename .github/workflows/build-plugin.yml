@@ -9,17 +9,17 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: read
+      contents: write
 
     steps:
       - name: Check out
         uses: actions/checkout@v4
 
-      - name: Set up Java 17
+      - name: Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: '21'
           cache: gradle
 
       - name: Set up Gradle
@@ -44,6 +44,29 @@ jobs:
           JETBRAINS_CERTIFICATE_CHAIN: ${{ secrets.JETBRAINS_CERTIFICATE_CHAIN }}
           JETBRAINS_PRIVATE_KEY: ${{ secrets.JETBRAINS_PRIVATE_KEY }}
           JETBRAINS_PRIVATE_KEY_PASSWORD: ${{ secrets.JETBRAINS_PRIVATE_KEY_PASSWORD }}
+
+      - name: Find plugin zip
+        id: plugin_zip
+        run: |
+          FILE=$(ls build/distributions/*.zip | head -n 1)
+          echo "file=$FILE" >> "$GITHUB_OUTPUT"
+          echo "name=$(basename "$FILE")" >> "$GITHUB_OUTPUT"
+
+      - name: Create tag
+        run: |
+          TAG="v${BUILD_SEMVER_DATE}+${GITHUB_SHA::7}"
+          git tag "$TAG"
+          git push origin "$TAG"
+          echo "TAG=$TAG" >> "$GITHUB_ENV"
+
+      - name: Create GitHub release and upload asset
+        run: |
+          gh release create "$TAG" \
+            "${{ steps.plugin_zip.outputs.file }}" \
+            --title "$TAG" \
+            --notes "Automated release for $TAG"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload plugin artifact
         uses: actions/upload-artifact@v4
